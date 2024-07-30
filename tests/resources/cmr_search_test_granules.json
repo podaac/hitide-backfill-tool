@@ -1,0 +1,218 @@
+{
+  "granule_with_bounding_rectangle": {
+    "meta": {
+      "native-id": "granule_with_bounding_rectangle",
+      "concpet-id": "G123456781-pocloud"
+    },
+    "umm": {
+      "SpatialExtent": {
+        "HorizontalSpatialDomain": {
+          "Geometry": {
+            "BoundingRectangles": [
+              {
+                "WestBoundingCoordinate": -88.774,
+                "SouthBoundingCoordinate": 25.771,
+                "EastBoundingCoordinate": -55.776,
+                "NorthBoundingCoordinate": 35.468
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "granule_with_bounding_rectangle_and_gpolygon": {
+    "meta": {
+      "native-id": "granule_with_bounding_rectangle_and_gpolygon",
+      "concpet-id": "G123456782-pocloud"
+    },
+    "umm": {
+      "SpatialExtent": {
+        "HorizontalSpatialDomain": {
+          "Geometry": {
+            "BoundingRectangles": [
+              {
+                "WestBoundingCoordinate": -14.674,
+                "NorthBoundingCoordinate": 77.987,
+                "EastBoundingCoordinate": 54.857,
+                "SouthBoundingCoordinate": 64.723
+              }
+            ],
+            "GPolygons": [
+              {
+                "Boundary": {
+                  "Points": [
+                    {
+                      "Longitude": -14.67424,
+                      "Latitude": 77.78664
+                    },
+                    {
+                      "Longitude": -11.99126,
+                      "Latitude": 72.94187
+                    },
+                    {
+                      "Longitude": 4.94667,
+                      "Latitude": 72.85591
+                    },
+                    {
+                      "Longitude": 20.62164,
+                      "Latitude": 71.40012
+                    },
+                    {
+                      "Longitude": 33.87885,
+                      "Latitude": 68.6993
+                    },
+                    {
+                      "Longitude": 44.94336,
+                      "Latitude": 64.72443
+                    },
+                    {
+                      "Longitude": 54.85408,
+                      "Latitude": 67.76934
+                    },
+                    {
+                      "Longitude": -14.67424,
+                      "Latitude": 77.78664
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "granule_with_no_spatial_extent_or_related_urls": {
+    "meta": {
+      "native-id": "granule_with_no_spatial_extent_or_related_urls",
+      "concpet-id": "G123456783-pocloud"
+    },
+    "umm": {}
+  },
+  "granule_with_related_urls_but_no_image": {
+    "meta": {
+      "native-id": "granule_with_related_urls_but_no_image",
+      "concpet-id": "G123456784-pocloud"
+    },
+    "umm": {
+      "RelatedUrls": [
+        {
+          "URL": "https://archive.podaac.uat.earthdata.nasa.gov/podaac-uat-cumulus-public/MODIS_T-JPL-L2P-v2019.0/20211007103009-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.nc.md5",
+          "Description": "Download 20211007103009-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.nc.md5",
+          "Type": "EXTENDED METADATA"
+        },
+        {
+          "URL": "https://archive.podaac.uat.earthdata.nasa.gov/podaac-uat-cumulus-protected/MODIS_T-JPL-L2P-v2019.0/20211007103009-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.nc",
+          "Description": "Download 20211007103009-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.nc",
+          "Type": "GET DATA"
+        }
+      ]
+    }
+  },
+  "granule_with_related_urls_and_one_is_image": {
+    "meta": {
+      "native-id": "granule_with_related_urls_and_one_is_image"
+    },
+    "umm": {
+      "RelatedUrls": [
+        {
+          "URL": "https://archive.podaac.uat.earthdata.nasa.gov/podaac-uat-cumulus-public/MODIS_T-JPL-L2P-v2019.0/20211007103009-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.nc.md5",
+          "Description": "Download 20211007103009-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.nc.md5",
+          "Type": "EXTENDED METADATA"
+        },
+        {
+          "URL": "https://archive.podaac.uat.earthdata.nasa.gov/podaac-uat-cumulus-protected/MODIS_T-JPL-L2P-v2019.0/20211007103009-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.nc",
+          "Description": "Download 20211007103009-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.nc",
+          "Type": "GET DATA"
+        },
+        {
+          "URL": "https://archive.podaac.uat.earthdata.nasa.gov/podaac-uat-cumulus-public/MODIS_T-JPL-L2P-v2019.0/20211007103009-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.sea_surface_temperature.png",
+          "Type": "GET RELATED VISUALIZATION",
+          "Subtype": "DIRECT DOWNLOAD",
+          "MimeType": "image/png"
+        }
+      ]
+    }
+  },
+  "granule_that_has_s3_url_with_one_directory": {
+    "meta": {
+      "concept-id": "G1966131201-POCLOUD",
+      "native-id": "granule_that_has_s3_url_with_one_directory"
+    },
+    "umm": {
+      "RelatedUrls": [
+        {
+          "URL": "s3://bucket-name/directory1/filename.nc",
+          "Type": "GET DATA VIA DIRECT ACCESS",
+          "Description": "This link provides direct download access via S3 to the granule."
+        }
+      ]
+    }
+  },
+  "granule_that_has_s3_url_with_two_directories": {
+    "meta": {
+      "concept-id": "G1966131201-POCLOUD",
+      "native-id": "granule_that_has_s3_url_with_two_directories"
+    },
+    "umm": {
+      "RelatedUrls": [
+        {
+          "URL": "s3://bucket-name/directory1/directory2/filename.nc",
+          "Type": "GET DATA VIA DIRECT ACCESS",
+          "Description": "This link provides direct download access via S3 to the granule."
+        }
+      ]
+    }
+  },
+  "granule_that_has_data_url_with_one_directory": {
+    "meta": {
+      "concept-id": "G1966131201-POCLOUD",
+      "native-id": "granule_that_has_data_url_with_one_directory"
+    },
+    "umm": {
+      "RelatedUrls": [
+        {
+          "URL": "https://server-name.com/bucket-name/directory1/filename.nc",
+          "Description": "Download 20020704000015-JPL-L2P_GHRSST-SSTskin-MODIS_A-N-v02.0-fv01.0.nc",
+          "Type": "GET DATA"
+        }
+      ]
+    }
+  },
+  "granule_that_has_data_url_with_two_directories": {
+    "meta": {
+      "concept-id": "G1966131201-POCLOUD",
+      "native-id": "granule_that_has_data_url_with_two_directories"
+    },
+    "umm": {
+      "RelatedUrls": [
+        {
+          "URL": "https://server-name.com/bucket-name/directory1/directory2/filename.nc",
+          "Description": "Download 20020704000015-JPL-L2P_GHRSST-SSTskin-MODIS_A-N-v02.0-fv01.0.nc",
+          "Type": "GET DATA"
+        }
+      ]
+    }
+  },
+  "granule_that_has_opendap_url": {
+    "meta": {
+      "concept-id": "G1966131201-POCLOUD",
+      "native-id": "granule_that_has_data_url_with_one_directory"
+    },
+    "umm": {
+      "RelatedUrls": [
+        {
+          "URL": "s3://bucket-name/directory1/filename.nc",
+          "Type": "GET DATA VIA DIRECT ACCESS",
+          "Description": "This link provides direct download access via S3 to the granule."
+        },{
+          "URL": "https://opendap.uat.earthdata.nasa.gov/providers/POCLOUD/collections/GHRSST%20Level%202P%20Global%20Sea%20Surface%20Skin%20Temperature%20from%20the%20Moderate%20Resolution%20Imaging%20Spectroradiometer%20(MODIS)%20on%20the%20NASA%20Terra%20satellite%20(GDS2)/granules/20000709202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0",
+          "Type": "GET DATA",
+          "Subtype": "OPENDAP DATA",
+          "Description": "OPeNDAP request URL"
+        }
+      ]
+    }
+  }
+}
