@@ -10,8 +10,8 @@ resource "aws_lambda_function" "post_to_cmr_task" {
   layers = [aws_lambda_layer_version.cumulus_message_adapter.arn]
 
   vpc_config {
-    subnet_ids = var.subnet_ids
-    security_group_ids = var.security_group_ids
+    subnet_ids = data.aws_subnets.private.ids
+    security_group_ids = [aws_security_group.lambda_sg.id]
   }
 
   environment {

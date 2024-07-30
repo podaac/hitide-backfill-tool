@@ -1,7 +1,7 @@
 resource "aws_security_group" "db" {
   description = "controls access to the database"
 
-  vpc_id = var.vpc_id
+  vpc_id = data.aws_vpc.default.id
   name   = "${local.resources_name}-db-sg"
   tags   = local.default_tags
 }
@@ -28,7 +28,7 @@ resource "aws_security_group_rule" "allow_all_out" {
 
 resource "aws_db_subnet_group" "default" {
   name       = "${local.resources_name}-subnet"
-  subnet_ids = var.subnet_ids
+  subnet_ids = data.aws_subnets.private.ids
 
   tags = local.default_tags
 }

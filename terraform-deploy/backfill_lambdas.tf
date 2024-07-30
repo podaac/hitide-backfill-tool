@@ -10,8 +10,8 @@ module backfill_lambdas{
   sqs_url = aws_sqs_queue.sqs-queue.url
   region = var.region
   aws_profile = var.profile
-  subnet_ids = var.subnet_ids
-  security_group_ids = concat(var.security_group_ids,[aws_security_group.db.id])
+  subnet_ids = data.aws_subnets.private.ids
+  security_group_ids = [aws_security_group.lambda_sg.id]
   step_retry = var.step_retry
   message_visibility_timeout = var.message_visibility_timeout
   reserved_concurrent_executions = 1

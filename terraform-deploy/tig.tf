@@ -6,8 +6,8 @@ module "tig" {
   lambda_container_image_uri = "ghcr.io/podaac/tig:0.11.0"
   role = aws_iam_role.iam_execution.arn
   cmr_environment = "OPS"
-  subnet_ids = var.subnet_ids
-  security_group_ids = var.security_group_ids
+  subnet_ids = data.aws_subnets.private.ids
+  security_group_ids = [aws_security_group.lambda_sg.id]
   task_logs_retention_in_days = "7"
   config_url = "https://hitide.podaac.earthdatacloud.nasa.gov/dataset-configs"
   palette_url = "https://hitide.podaac.earthdatacloud.nasa.gov/palettes"
