@@ -1,0 +1,3173 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<Dataset xmlns="http://xml.opendap.org/ns/DAP/4.0#" xmlns:dmrpp="http://xml.opendap.org/dap/dmrpp/1.0.0#" dapVersion="4.0" dmrVersion="1.0" name="RSS_SMAP_SSS_L2C_r00870_20150401T004312_2015091_FNL_V05.0.nc" dmrpp:href="OPeNDAP_DMRpp_DATA_ACCESS_URL" dmrpp:version="3.20.9-91">
+    <Dimension name="polarization_2" size="2"/>
+    <Dimension name="ydim_grid" size="720"/>
+    <Dimension name="xdim_grid" size="1560"/>
+    <Dimension name="look" size="2"/>
+    <Dimension name="polarization_3" size="3"/>
+    <Dimension name="iceflag_components" size="3"/>
+    <Dimension name="polarization_4" size="4"/>
+    <Dimension name="uncertainty_components" size="9"/>
+    <Float32 name="temp_ant">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Dim name="/polarization_2"/>
+        <Attribute name="long_name" type="String">
+            <Value>Physical temperature of reflector from L1B files. Pol basis V,H</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>Kelvin</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>physicalMeasurement</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="45029122" nBytes="12160" chunkPositionInArray="[0,0,0,0]"/>
+            <dmrpp:chunk offset="45041282" nBytes="12134" chunkPositionInArray="[0,0,0,1]"/>
+            <dmrpp:chunk offset="45053416" nBytes="10727" chunkPositionInArray="[0,0,1,0]"/>
+            <dmrpp:chunk offset="45064143" nBytes="10737" chunkPositionInArray="[0,0,1,1]"/>
+            <dmrpp:chunk offset="45074880" nBytes="11279" chunkPositionInArray="[0,780,0,0]"/>
+            <dmrpp:chunk offset="45086159" nBytes="11276" chunkPositionInArray="[0,780,0,1]"/>
+            <dmrpp:chunk offset="45097435" nBytes="12283" chunkPositionInArray="[0,780,1,0]"/>
+            <dmrpp:chunk offset="45109718" nBytes="12281" chunkPositionInArray="[0,780,1,1]"/>
+            <dmrpp:chunk offset="45121999" nBytes="13096" chunkPositionInArray="[360,0,0,0]"/>
+            <dmrpp:chunk offset="45135095" nBytes="13117" chunkPositionInArray="[360,0,0,1]"/>
+            <dmrpp:chunk offset="45148212" nBytes="10386" chunkPositionInArray="[360,0,1,0]"/>
+            <dmrpp:chunk offset="45158598" nBytes="10389" chunkPositionInArray="[360,0,1,1]"/>
+            <dmrpp:chunk offset="45168987" nBytes="10991" chunkPositionInArray="[360,780,0,0]"/>
+            <dmrpp:chunk offset="55708828" nBytes="10976" chunkPositionInArray="[360,780,0,1]"/>
+            <dmrpp:chunk offset="55719804" nBytes="13432" chunkPositionInArray="[360,780,1,0]"/>
+            <dmrpp:chunk offset="55733236" nBytes="13418" chunkPositionInArray="[360,780,1,1]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="ta_gal_ref">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Dim name="/polarization_3"/>
+        <Attribute name="long_name" type="String">
+            <Value>TA of reflected galaxy intrusion. Pol basis I,Q,S3</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>Kelvin</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>physicalMeasurement</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="42751668" nBytes="106868" chunkPositionInArray="[0,0,0,0]"/>
+            <dmrpp:chunk offset="42858536" nBytes="107195" chunkPositionInArray="[0,0,0,1]"/>
+            <dmrpp:chunk offset="42965731" nBytes="112844" chunkPositionInArray="[0,0,0,2]"/>
+            <dmrpp:chunk offset="43078575" nBytes="108139" chunkPositionInArray="[0,0,1,0]"/>
+            <dmrpp:chunk offset="43186714" nBytes="108000" chunkPositionInArray="[0,0,1,1]"/>
+            <dmrpp:chunk offset="43294714" nBytes="109851" chunkPositionInArray="[0,0,1,2]"/>
+            <dmrpp:chunk offset="43404565" nBytes="106672" chunkPositionInArray="[0,780,0,0]"/>
+            <dmrpp:chunk offset="43511237" nBytes="107009" chunkPositionInArray="[0,780,0,1]"/>
+            <dmrpp:chunk offset="43618246" nBytes="113701" chunkPositionInArray="[0,780,0,2]"/>
+            <dmrpp:chunk offset="43731947" nBytes="109927" chunkPositionInArray="[0,780,1,0]"/>
+            <dmrpp:chunk offset="43841874" nBytes="110007" chunkPositionInArray="[0,780,1,1]"/>
+            <dmrpp:chunk offset="43951881" nBytes="115002" chunkPositionInArray="[0,780,1,2]"/>
+            <dmrpp:chunk offset="44066883" nBytes="107924" chunkPositionInArray="[360,0,0,0]"/>
+            <dmrpp:chunk offset="44174807" nBytes="108083" chunkPositionInArray="[360,0,0,1]"/>
+            <dmrpp:chunk offset="44282890" nBytes="109722" chunkPositionInArray="[360,0,0,2]"/>
+            <dmrpp:chunk offset="44392612" nBytes="106772" chunkPositionInArray="[360,0,1,0]"/>
+            <dmrpp:chunk offset="44499384" nBytes="106205" chunkPositionInArray="[360,0,1,1]"/>
+            <dmrpp:chunk offset="44605589" nBytes="109225" chunkPositionInArray="[360,0,1,2]"/>
+            <dmrpp:chunk offset="44714814" nBytes="102936" chunkPositionInArray="[360,780,0,0]"/>
+            <dmrpp:chunk offset="44817750" nBytes="102606" chunkPositionInArray="[360,780,0,1]"/>
+            <dmrpp:chunk offset="44920356" nBytes="105110" chunkPositionInArray="[360,780,0,2]"/>
+            <dmrpp:chunk offset="59463877" nBytes="103134" chunkPositionInArray="[360,780,1,0]"/>
+            <dmrpp:chunk offset="59567011" nBytes="102725" chunkPositionInArray="[360,780,1,1]"/>
+            <dmrpp:chunk offset="59669736" nBytes="104933" chunkPositionInArray="[360,780,1,2]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="gice_est">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Attribute name="long_name" type="String">
+            <Value>estimated sea ice fraction weighted by antenna gain</Value>
+        </Attribute>
+        <Attribute name="standard_name" type="String">
+            <Value>sea_ice_area_fraction</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>1</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>referenceInformation</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="8011193" nBytes="4940" chunkPositionInArray="[0,0]"/>
+            <dmrpp:chunk offset="53847083" nBytes="5391" chunkPositionInArray="[0,780]"/>
+            <dmrpp:chunk offset="53852474" nBytes="2949" chunkPositionInArray="[360,0]"/>
+            <dmrpp:chunk offset="53855423" nBytes="3310" chunkPositionInArray="[360,780]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="sun_beta">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Attribute name="long_name" type="String">
+            <Value>Sun zenith angle in S/C coordinate system</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>degree</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>180.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>physicalMeasurement</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="50745277" nBytes="15886" chunkPositionInArray="[0,0,0]"/>
+            <dmrpp:chunk offset="50761163" nBytes="14672" chunkPositionInArray="[0,0,1]"/>
+            <dmrpp:chunk offset="50775835" nBytes="15389" chunkPositionInArray="[0,780,0]"/>
+            <dmrpp:chunk offset="50791224" nBytes="16056" chunkPositionInArray="[0,780,1]"/>
+            <dmrpp:chunk offset="50807280" nBytes="16812" chunkPositionInArray="[360,0,0]"/>
+            <dmrpp:chunk offset="58125724" nBytes="13959" chunkPositionInArray="[360,0,1]"/>
+            <dmrpp:chunk offset="58139683" nBytes="14351" chunkPositionInArray="[360,780,0]"/>
+            <dmrpp:chunk offset="58154034" nBytes="16939" chunkPositionInArray="[360,780,1]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="gallat">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Attribute name="long_name" type="String">
+            <Value>Latitudinal (polar) angle of specular reflection ray in ECI2000</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>degree</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>-90.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>90.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>physicalMeasurement</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="49688162" nBytes="106136" chunkPositionInArray="[0,0,0]"/>
+            <dmrpp:chunk offset="49794298" nBytes="103692" chunkPositionInArray="[0,0,1]"/>
+            <dmrpp:chunk offset="49897990" nBytes="103855" chunkPositionInArray="[0,780,0]"/>
+            <dmrpp:chunk offset="50001845" nBytes="106360" chunkPositionInArray="[0,780,1]"/>
+            <dmrpp:chunk offset="50108205" nBytes="102983" chunkPositionInArray="[360,0,0]"/>
+            <dmrpp:chunk offset="57524070" nBytes="103016" chunkPositionInArray="[360,0,1]"/>
+            <dmrpp:chunk offset="57627086" nBytes="98251" chunkPositionInArray="[360,780,0]"/>
+            <dmrpp:chunk offset="57725337" nBytes="98181" chunkPositionInArray="[360,780,1]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="tb_sur">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Dim name="/polarization_4"/>
+        <Attribute name="long_name" type="String">
+            <Value>Brightness temperature at rough ocean surface BEFORE applying roughness correction. Pol basis V,H,S3,S4</Value>
+        </Attribute>
+        <Attribute name="standard_name" type="String">
+            <Value>brightness_temperature</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>Kelvin</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>330.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>physicalMeasurement</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="29767245" nBytes="99770" chunkPositionInArray="[0,0,0,0]"/>
+            <dmrpp:chunk offset="29867015" nBytes="100111" chunkPositionInArray="[0,0,0,1]"/>
+            <dmrpp:chunk offset="29967126" nBytes="114957" chunkPositionInArray="[0,0,0,2]"/>
+            <dmrpp:chunk offset="30082083" nBytes="115077" chunkPositionInArray="[0,0,0,3]"/>
+            <dmrpp:chunk offset="30197160" nBytes="98851" chunkPositionInArray="[0,0,1,0]"/>
+            <dmrpp:chunk offset="30296011" nBytes="99090" chunkPositionInArray="[0,0,1,1]"/>
+            <dmrpp:chunk offset="30395101" nBytes="113723" chunkPositionInArray="[0,0,1,2]"/>
+            <dmrpp:chunk offset="30508824" nBytes="113609" chunkPositionInArray="[0,0,1,3]"/>
+            <dmrpp:chunk offset="30622433" nBytes="99047" chunkPositionInArray="[0,780,0,0]"/>
+            <dmrpp:chunk offset="30721480" nBytes="98952" chunkPositionInArray="[0,780,0,1]"/>
+            <dmrpp:chunk offset="30820432" nBytes="113884" chunkPositionInArray="[0,780,0,2]"/>
+            <dmrpp:chunk offset="30934316" nBytes="113943" chunkPositionInArray="[0,780,0,3]"/>
+            <dmrpp:chunk offset="31048259" nBytes="99912" chunkPositionInArray="[0,780,1,0]"/>
+            <dmrpp:chunk offset="31148171" nBytes="99827" chunkPositionInArray="[0,780,1,1]"/>
+            <dmrpp:chunk offset="31247998" nBytes="115227" chunkPositionInArray="[0,780,1,2]"/>
+            <dmrpp:chunk offset="31363225" nBytes="114698" chunkPositionInArray="[0,780,1,3]"/>
+            <dmrpp:chunk offset="31477923" nBytes="97439" chunkPositionInArray="[360,0,0,0]"/>
+            <dmrpp:chunk offset="31575362" nBytes="98384" chunkPositionInArray="[360,0,0,1]"/>
+            <dmrpp:chunk offset="31673746" nBytes="112567" chunkPositionInArray="[360,0,0,2]"/>
+            <dmrpp:chunk offset="31786313" nBytes="113083" chunkPositionInArray="[360,0,0,3]"/>
+            <dmrpp:chunk offset="31899396" nBytes="96590" chunkPositionInArray="[360,0,1,0]"/>
+            <dmrpp:chunk offset="31995986" nBytes="97586" chunkPositionInArray="[360,0,1,1]"/>
+            <dmrpp:chunk offset="32093572" nBytes="111152" chunkPositionInArray="[360,0,1,2]"/>
+            <dmrpp:chunk offset="32204724" nBytes="112216" chunkPositionInArray="[360,0,1,3]"/>
+            <dmrpp:chunk offset="32316940" nBytes="92332" chunkPositionInArray="[360,780,0,0]"/>
+            <dmrpp:chunk offset="32409272" nBytes="93610" chunkPositionInArray="[360,780,0,1]"/>
+            <dmrpp:chunk offset="32502882" nBytes="106194" chunkPositionInArray="[360,780,0,2]"/>
+            <dmrpp:chunk offset="32609076" nBytes="106797" chunkPositionInArray="[360,780,0,3]"/>
+            <dmrpp:chunk offset="32715873" nBytes="92890" chunkPositionInArray="[360,780,1,0]"/>
+            <dmrpp:chunk offset="61461407" nBytes="94213" chunkPositionInArray="[360,780,1,1]"/>
+            <dmrpp:chunk offset="61555620" nBytes="107245" chunkPositionInArray="[360,780,1,2]"/>
+            <dmrpp:chunk offset="61662865" nBytes="107549" chunkPositionInArray="[360,780,1,3]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="dtb_land_correction">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Dim name="/polarization_2"/>
+        <Attribute name="long_name" type="String">
+            <Value>TA land correction applied at TOA. Pol basis V,H</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>Kelvin</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>physicalMeasurement</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="29209552" nBytes="31368" chunkPositionInArray="[0,0,0,0]"/>
+            <dmrpp:chunk offset="29240920" nBytes="31643" chunkPositionInArray="[0,0,0,1]"/>
+            <dmrpp:chunk offset="29272563" nBytes="30449" chunkPositionInArray="[0,0,1,0]"/>
+            <dmrpp:chunk offset="29303012" nBytes="30663" chunkPositionInArray="[0,0,1,1]"/>
+            <dmrpp:chunk offset="29333675" nBytes="34202" chunkPositionInArray="[0,780,0,0]"/>
+            <dmrpp:chunk offset="29367877" nBytes="34328" chunkPositionInArray="[0,780,0,1]"/>
+            <dmrpp:chunk offset="29402205" nBytes="36053" chunkPositionInArray="[0,780,1,0]"/>
+            <dmrpp:chunk offset="29438258" nBytes="36174" chunkPositionInArray="[0,780,1,1]"/>
+            <dmrpp:chunk offset="29474432" nBytes="53875" chunkPositionInArray="[360,0,0,0]"/>
+            <dmrpp:chunk offset="29528307" nBytes="54280" chunkPositionInArray="[360,0,0,1]"/>
+            <dmrpp:chunk offset="29582587" nBytes="52933" chunkPositionInArray="[360,0,1,0]"/>
+            <dmrpp:chunk offset="29635520" nBytes="53565" chunkPositionInArray="[360,0,1,1]"/>
+            <dmrpp:chunk offset="29689085" nBytes="47785" chunkPositionInArray="[360,780,0,0]"/>
+            <dmrpp:chunk offset="61306361" nBytes="48028" chunkPositionInArray="[360,780,0,1]"/>
+            <dmrpp:chunk offset="61354389" nBytes="48650" chunkPositionInArray="[360,780,1,0]"/>
+            <dmrpp:chunk offset="61403039" nBytes="48799" chunkPositionInArray="[360,780,1,1]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="winspd">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Attribute name="long_name" type="String">
+            <Value>Ancillary sea surface wind speed from CCMP NRT that is used in surface roughness correction</Value>
+        </Attribute>
+        <Attribute name="standard_name" type="String">
+            <Value>wind_speed</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>m s-1</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>100.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>auxiliaryInformation</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="7901036" nBytes="107541" chunkPositionInArray="[0,0]"/>
+            <dmrpp:chunk offset="54034567" nBytes="106540" chunkPositionInArray="[0,780]"/>
+            <dmrpp:chunk offset="54141107" nBytes="104839" chunkPositionInArray="[360,0]"/>
+            <dmrpp:chunk offset="54245946" nBytes="99895" chunkPositionInArray="[360,780]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="sss_smap_unc">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Attribute name="long_name" type="String">
+            <Value>total formal uncertainty estimate of SMAP sea surface salinity smoothed to approx 70km resolution</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>1e-3</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>45.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>qualityInformation</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="4092619" nBytes="55987" chunkPositionInArray="[0,0,0]"/>
+            <dmrpp:chunk offset="4148606" nBytes="54706" chunkPositionInArray="[0,0,1]"/>
+            <dmrpp:chunk offset="4203312" nBytes="49237" chunkPositionInArray="[0,780,0]"/>
+            <dmrpp:chunk offset="4252549" nBytes="46443" chunkPositionInArray="[0,780,1]"/>
+            <dmrpp:chunk offset="4298992" nBytes="15390" chunkPositionInArray="[360,0,0]"/>
+            <dmrpp:chunk offset="63107745" nBytes="16301" chunkPositionInArray="[360,0,1]"/>
+            <dmrpp:chunk offset="63124046" nBytes="11780" chunkPositionInArray="[360,780,0]"/>
+            <dmrpp:chunk offset="63135826" nBytes="14547" chunkPositionInArray="[360,780,1]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="sss_smap">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Attribute name="long_name" type="String">
+            <Value>SMAP sea surface salinity smoothed to approx 70km resolution</Value>
+        </Attribute>
+        <Attribute name="standard_name" type="String">
+            <Value>sea_surface_salinity</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>1e-3</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>45.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>physicalMeasurement</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="1903543" nBytes="51906" chunkPositionInArray="[0,0,0]"/>
+            <dmrpp:chunk offset="1955449" nBytes="51179" chunkPositionInArray="[0,0,1]"/>
+            <dmrpp:chunk offset="2006628" nBytes="45181" chunkPositionInArray="[0,780,0]"/>
+            <dmrpp:chunk offset="2051809" nBytes="42774" chunkPositionInArray="[0,780,1]"/>
+            <dmrpp:chunk offset="2094583" nBytes="14400" chunkPositionInArray="[360,0,0]"/>
+            <dmrpp:chunk offset="61971902" nBytes="15061" chunkPositionInArray="[360,0,1]"/>
+            <dmrpp:chunk offset="61986963" nBytes="11004" chunkPositionInArray="[360,780,0]"/>
+            <dmrpp:chunk offset="61997967" nBytes="13630" chunkPositionInArray="[360,780,1]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="tb_sur0_sic">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Dim name="/polarization_4"/>
+        <Attribute name="long_name" type="String">
+            <Value>Brightness temperature at flat ocean surface after applying roughness correction and sea-ice correction. Pol basis V,H,S3,S4</Value>
+        </Attribute>
+        <Attribute name="standard_name" type="String">
+            <Value>brightness_temperature</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>Kelvin</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>330.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>physicalMeasurement</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="34316411" nBytes="99470" chunkPositionInArray="[0,0,0,0]"/>
+            <dmrpp:chunk offset="34415881" nBytes="99626" chunkPositionInArray="[0,0,0,1]"/>
+            <dmrpp:chunk offset="34515507" nBytes="2712" chunkPositionInArray="[0,0,0,2]"/>
+            <dmrpp:chunk offset="34518219" nBytes="2712" chunkPositionInArray="[0,0,0,3]"/>
+            <dmrpp:chunk offset="34520931" nBytes="98688" chunkPositionInArray="[0,0,1,0]"/>
+            <dmrpp:chunk offset="34619619" nBytes="98669" chunkPositionInArray="[0,0,1,1]"/>
+            <dmrpp:chunk offset="34718288" nBytes="2778" chunkPositionInArray="[0,0,1,2]"/>
+            <dmrpp:chunk offset="34721066" nBytes="2778" chunkPositionInArray="[0,0,1,3]"/>
+            <dmrpp:chunk offset="34723844" nBytes="98696" chunkPositionInArray="[0,780,0,0]"/>
+            <dmrpp:chunk offset="34822540" nBytes="98306" chunkPositionInArray="[0,780,0,1]"/>
+            <dmrpp:chunk offset="34920846" nBytes="2785" chunkPositionInArray="[0,780,0,2]"/>
+            <dmrpp:chunk offset="34923631" nBytes="2785" chunkPositionInArray="[0,780,0,3]"/>
+            <dmrpp:chunk offset="34926416" nBytes="99541" chunkPositionInArray="[0,780,1,0]"/>
+            <dmrpp:chunk offset="35025957" nBytes="99217" chunkPositionInArray="[0,780,1,1]"/>
+            <dmrpp:chunk offset="35125174" nBytes="2719" chunkPositionInArray="[0,780,1,2]"/>
+            <dmrpp:chunk offset="35127893" nBytes="2719" chunkPositionInArray="[0,780,1,3]"/>
+            <dmrpp:chunk offset="35130612" nBytes="97388" chunkPositionInArray="[360,0,0,0]"/>
+            <dmrpp:chunk offset="35228000" nBytes="98323" chunkPositionInArray="[360,0,0,1]"/>
+            <dmrpp:chunk offset="35326323" nBytes="2911" chunkPositionInArray="[360,0,0,2]"/>
+            <dmrpp:chunk offset="35329234" nBytes="2911" chunkPositionInArray="[360,0,0,3]"/>
+            <dmrpp:chunk offset="35332145" nBytes="96588" chunkPositionInArray="[360,0,1,0]"/>
+            <dmrpp:chunk offset="35428733" nBytes="97488" chunkPositionInArray="[360,0,1,1]"/>
+            <dmrpp:chunk offset="35526221" nBytes="2848" chunkPositionInArray="[360,0,1,2]"/>
+            <dmrpp:chunk offset="35529069" nBytes="2848" chunkPositionInArray="[360,0,1,3]"/>
+            <dmrpp:chunk offset="35531917" nBytes="92294" chunkPositionInArray="[360,780,0,0]"/>
+            <dmrpp:chunk offset="35624211" nBytes="93525" chunkPositionInArray="[360,780,0,1]"/>
+            <dmrpp:chunk offset="35717736" nBytes="3226" chunkPositionInArray="[360,780,0,2]"/>
+            <dmrpp:chunk offset="35720962" nBytes="3226" chunkPositionInArray="[360,780,0,3]"/>
+            <dmrpp:chunk offset="35724188" nBytes="92841" chunkPositionInArray="[360,780,1,0]"/>
+            <dmrpp:chunk offset="61871158" nBytes="94108" chunkPositionInArray="[360,780,1,1]"/>
+            <dmrpp:chunk offset="61965266" nBytes="3318" chunkPositionInArray="[360,780,1,2]"/>
+            <dmrpp:chunk offset="61968584" nBytes="3318" chunkPositionInArray="[360,780,1,3]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="tb_toa_lc">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Dim name="/polarization_4"/>
+        <Attribute name="long_name" type="String">
+            <Value>Brightness temperature at top of atmosphere AFTER applying land correction. Pol basis V,H,S3,S4</Value>
+        </Attribute>
+        <Attribute name="standard_name" type="String">
+            <Value>toa_brightness_temperature</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>Kelvin</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>330.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>physicalMeasurement</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="26165395" nBytes="99720" chunkPositionInArray="[0,0,0,0]"/>
+            <dmrpp:chunk offset="26265115" nBytes="100140" chunkPositionInArray="[0,0,0,1]"/>
+            <dmrpp:chunk offset="26365255" nBytes="115038" chunkPositionInArray="[0,0,0,2]"/>
+            <dmrpp:chunk offset="26480293" nBytes="115070" chunkPositionInArray="[0,0,0,3]"/>
+            <dmrpp:chunk offset="26595363" nBytes="98731" chunkPositionInArray="[0,0,1,0]"/>
+            <dmrpp:chunk offset="26694094" nBytes="99090" chunkPositionInArray="[0,0,1,1]"/>
+            <dmrpp:chunk offset="26793184" nBytes="113708" chunkPositionInArray="[0,0,1,2]"/>
+            <dmrpp:chunk offset="26906892" nBytes="113609" chunkPositionInArray="[0,0,1,3]"/>
+            <dmrpp:chunk offset="27020501" nBytes="98959" chunkPositionInArray="[0,780,0,0]"/>
+            <dmrpp:chunk offset="27119460" nBytes="98917" chunkPositionInArray="[0,780,0,1]"/>
+            <dmrpp:chunk offset="27218377" nBytes="113902" chunkPositionInArray="[0,780,0,2]"/>
+            <dmrpp:chunk offset="27332279" nBytes="113985" chunkPositionInArray="[0,780,0,3]"/>
+            <dmrpp:chunk offset="27446264" nBytes="99799" chunkPositionInArray="[0,780,1,0]"/>
+            <dmrpp:chunk offset="27546063" nBytes="99810" chunkPositionInArray="[0,780,1,1]"/>
+            <dmrpp:chunk offset="27645873" nBytes="115212" chunkPositionInArray="[0,780,1,2]"/>
+            <dmrpp:chunk offset="27761085" nBytes="114700" chunkPositionInArray="[0,780,1,3]"/>
+            <dmrpp:chunk offset="27875785" nBytes="97244" chunkPositionInArray="[360,0,0,0]"/>
+            <dmrpp:chunk offset="27973029" nBytes="98325" chunkPositionInArray="[360,0,0,1]"/>
+            <dmrpp:chunk offset="28071354" nBytes="112566" chunkPositionInArray="[360,0,0,2]"/>
+            <dmrpp:chunk offset="28183920" nBytes="113130" chunkPositionInArray="[360,0,0,3]"/>
+            <dmrpp:chunk offset="28297050" nBytes="96444" chunkPositionInArray="[360,0,1,0]"/>
+            <dmrpp:chunk offset="28393494" nBytes="97484" chunkPositionInArray="[360,0,1,1]"/>
+            <dmrpp:chunk offset="28490978" nBytes="111149" chunkPositionInArray="[360,0,1,2]"/>
+            <dmrpp:chunk offset="28602127" nBytes="112157" chunkPositionInArray="[360,0,1,3]"/>
+            <dmrpp:chunk offset="28714284" nBytes="92244" chunkPositionInArray="[360,780,0,0]"/>
+            <dmrpp:chunk offset="28806528" nBytes="93601" chunkPositionInArray="[360,780,0,1]"/>
+            <dmrpp:chunk offset="28900129" nBytes="106248" chunkPositionInArray="[360,780,0,2]"/>
+            <dmrpp:chunk offset="29006377" nBytes="106810" chunkPositionInArray="[360,780,0,3]"/>
+            <dmrpp:chunk offset="29113187" nBytes="92709" chunkPositionInArray="[360,780,1,0]"/>
+            <dmrpp:chunk offset="60997570" nBytes="94099" chunkPositionInArray="[360,780,1,1]"/>
+            <dmrpp:chunk offset="61091669" nBytes="107194" chunkPositionInArray="[360,780,1,2]"/>
+            <dmrpp:chunk offset="61198863" nBytes="107498" chunkPositionInArray="[360,780,1,3]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="ta_sun_ref">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Dim name="/polarization_3"/>
+        <Attribute name="long_name" type="String">
+            <Value>TA of reflected sun intrusion. Pol basis I,Q,S3</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>Kelvin</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>physicalMeasurement</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="40519826" nBytes="2712" chunkPositionInArray="[0,0,0,0]"/>
+            <dmrpp:chunk offset="40522538" nBytes="2712" chunkPositionInArray="[0,0,0,1]"/>
+            <dmrpp:chunk offset="40525250" nBytes="2712" chunkPositionInArray="[0,0,0,2]"/>
+            <dmrpp:chunk offset="40527962" nBytes="2778" chunkPositionInArray="[0,0,1,0]"/>
+            <dmrpp:chunk offset="40530740" nBytes="2778" chunkPositionInArray="[0,0,1,1]"/>
+            <dmrpp:chunk offset="40533518" nBytes="2778" chunkPositionInArray="[0,0,1,2]"/>
+            <dmrpp:chunk offset="40536296" nBytes="2785" chunkPositionInArray="[0,780,0,0]"/>
+            <dmrpp:chunk offset="40539081" nBytes="2785" chunkPositionInArray="[0,780,0,1]"/>
+            <dmrpp:chunk offset="40541866" nBytes="2785" chunkPositionInArray="[0,780,0,2]"/>
+            <dmrpp:chunk offset="40544651" nBytes="2719" chunkPositionInArray="[0,780,1,0]"/>
+            <dmrpp:chunk offset="40547370" nBytes="2719" chunkPositionInArray="[0,780,1,1]"/>
+            <dmrpp:chunk offset="40550089" nBytes="2719" chunkPositionInArray="[0,780,1,2]"/>
+            <dmrpp:chunk offset="40552808" nBytes="3434" chunkPositionInArray="[360,0,0,0]"/>
+            <dmrpp:chunk offset="40556242" nBytes="3441" chunkPositionInArray="[360,0,0,1]"/>
+            <dmrpp:chunk offset="40559683" nBytes="3443" chunkPositionInArray="[360,0,0,2]"/>
+            <dmrpp:chunk offset="40563126" nBytes="3360" chunkPositionInArray="[360,0,1,0]"/>
+            <dmrpp:chunk offset="40566486" nBytes="3353" chunkPositionInArray="[360,0,1,1]"/>
+            <dmrpp:chunk offset="40569839" nBytes="3359" chunkPositionInArray="[360,0,1,2]"/>
+            <dmrpp:chunk offset="40573198" nBytes="3226" chunkPositionInArray="[360,780,0,0]"/>
+            <dmrpp:chunk offset="40576424" nBytes="3226" chunkPositionInArray="[360,780,0,1]"/>
+            <dmrpp:chunk offset="40579650" nBytes="3226" chunkPositionInArray="[360,780,0,2]"/>
+            <dmrpp:chunk offset="59158118" nBytes="3318" chunkPositionInArray="[360,780,1,0]"/>
+            <dmrpp:chunk offset="59161436" nBytes="3318" chunkPositionInArray="[360,780,1,1]"/>
+            <dmrpp:chunk offset="59164754" nBytes="3318" chunkPositionInArray="[360,780,1,2]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="alpha">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Attribute name="long_name" type="String">
+            <Value>Scan angle: +90 is left of forward. +270 is right of forward.</Value>
+        </Attribute>
+        <Attribute name="standard_name" type="String">
+            <Value>platform_azimuth_angle</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>degree</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>360.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>physicalMeasurement</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="47032825" nBytes="22947" chunkPositionInArray="[0,0,0]"/>
+            <dmrpp:chunk offset="47055772" nBytes="23436" chunkPositionInArray="[0,0,1]"/>
+            <dmrpp:chunk offset="47079208" nBytes="23699" chunkPositionInArray="[0,780,0]"/>
+            <dmrpp:chunk offset="47102907" nBytes="23923" chunkPositionInArray="[0,780,1]"/>
+            <dmrpp:chunk offset="47126830" nBytes="23920" chunkPositionInArray="[360,0,0]"/>
+            <dmrpp:chunk offset="56016169" nBytes="23742" chunkPositionInArray="[360,0,1]"/>
+            <dmrpp:chunk offset="56039911" nBytes="23840" chunkPositionInArray="[360,780,0]"/>
+            <dmrpp:chunk offset="56063751" nBytes="25105" chunkPositionInArray="[360,780,1]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="pratot_exp">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Attribute name="long_name" type="String">
+            <Value>Expected total polarization basis rotation angle: Faraday rotation (from external TEC) + geometric</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>degree</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>-90.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>90.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>referenceInformation</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="50909147" nBytes="110140" chunkPositionInArray="[0,0,0]"/>
+            <dmrpp:chunk offset="51019287" nBytes="106238" chunkPositionInArray="[0,0,1]"/>
+            <dmrpp:chunk offset="51125525" nBytes="105959" chunkPositionInArray="[0,780,0]"/>
+            <dmrpp:chunk offset="51231484" nBytes="107233" chunkPositionInArray="[0,780,1]"/>
+            <dmrpp:chunk offset="51338717" nBytes="101528" chunkPositionInArray="[360,0,0]"/>
+            <dmrpp:chunk offset="62524871" nBytes="101206" chunkPositionInArray="[360,0,1]"/>
+            <dmrpp:chunk offset="62626077" nBytes="96446" chunkPositionInArray="[360,780,0]"/>
+            <dmrpp:chunk offset="62722523" nBytes="96259" chunkPositionInArray="[360,780,1]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="ta_gal_dir">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Dim name="/polarization_3"/>
+        <Attribute name="long_name" type="String">
+            <Value>TA of direct galaxy intrusion. Pol basis I,Q,S3</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>Kelvin</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>physicalMeasurement</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="40586532" nBytes="95183" chunkPositionInArray="[0,0,0,0]"/>
+            <dmrpp:chunk offset="40681715" nBytes="106091" chunkPositionInArray="[0,0,0,1]"/>
+            <dmrpp:chunk offset="40787806" nBytes="109121" chunkPositionInArray="[0,0,0,2]"/>
+            <dmrpp:chunk offset="40896927" nBytes="96716" chunkPositionInArray="[0,0,1,0]"/>
+            <dmrpp:chunk offset="40993643" nBytes="109481" chunkPositionInArray="[0,0,1,1]"/>
+            <dmrpp:chunk offset="41103124" nBytes="109363" chunkPositionInArray="[0,0,1,2]"/>
+            <dmrpp:chunk offset="41212487" nBytes="94496" chunkPositionInArray="[0,780,0,0]"/>
+            <dmrpp:chunk offset="41306983" nBytes="108710" chunkPositionInArray="[0,780,0,1]"/>
+            <dmrpp:chunk offset="41415693" nBytes="108536" chunkPositionInArray="[0,780,0,2]"/>
+            <dmrpp:chunk offset="41524229" nBytes="97330" chunkPositionInArray="[0,780,1,0]"/>
+            <dmrpp:chunk offset="41621559" nBytes="111876" chunkPositionInArray="[0,780,1,1]"/>
+            <dmrpp:chunk offset="41733435" nBytes="112324" chunkPositionInArray="[0,780,1,2]"/>
+            <dmrpp:chunk offset="41845759" nBytes="94891" chunkPositionInArray="[360,0,0,0]"/>
+            <dmrpp:chunk offset="41940650" nBytes="105017" chunkPositionInArray="[360,0,0,1]"/>
+            <dmrpp:chunk offset="42045667" nBytes="107652" chunkPositionInArray="[360,0,0,2]"/>
+            <dmrpp:chunk offset="42153319" nBytes="92217" chunkPositionInArray="[360,0,1,0]"/>
+            <dmrpp:chunk offset="42245536" nBytes="105176" chunkPositionInArray="[360,0,1,1]"/>
+            <dmrpp:chunk offset="42350712" nBytes="101191" chunkPositionInArray="[360,0,1,2]"/>
+            <dmrpp:chunk offset="42451903" nBytes="89887" chunkPositionInArray="[360,780,0,0]"/>
+            <dmrpp:chunk offset="42541790" nBytes="103124" chunkPositionInArray="[360,780,0,1]"/>
+            <dmrpp:chunk offset="42644914" nBytes="103098" chunkPositionInArray="[360,780,0,2]"/>
+            <dmrpp:chunk offset="59168072" nBytes="88706" chunkPositionInArray="[360,780,1,0]"/>
+            <dmrpp:chunk offset="59256778" nBytes="103545" chunkPositionInArray="[360,780,1,1]"/>
+            <dmrpp:chunk offset="59360323" nBytes="103554" chunkPositionInArray="[360,780,1,2]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="ta_ant">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Dim name="/polarization_4"/>
+        <Attribute name="long_name" type="String">
+            <Value>unfiltered antenna temperature. Pol basis V,H,S3,S4</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>Kelvin</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>330.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>physicalMeasurement</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="11038850" nBytes="99252" chunkPositionInArray="[0,0,0,0]"/>
+            <dmrpp:chunk offset="11138102" nBytes="99498" chunkPositionInArray="[0,0,0,1]"/>
+            <dmrpp:chunk offset="11237600" nBytes="112384" chunkPositionInArray="[0,0,0,2]"/>
+            <dmrpp:chunk offset="11349984" nBytes="114301" chunkPositionInArray="[0,0,0,3]"/>
+            <dmrpp:chunk offset="11464285" nBytes="98657" chunkPositionInArray="[0,0,1,0]"/>
+            <dmrpp:chunk offset="11562942" nBytes="98571" chunkPositionInArray="[0,0,1,1]"/>
+            <dmrpp:chunk offset="11661513" nBytes="107970" chunkPositionInArray="[0,0,1,2]"/>
+            <dmrpp:chunk offset="11769483" nBytes="112793" chunkPositionInArray="[0,0,1,3]"/>
+            <dmrpp:chunk offset="11882276" nBytes="98472" chunkPositionInArray="[0,780,0,0]"/>
+            <dmrpp:chunk offset="11980748" nBytes="99106" chunkPositionInArray="[0,780,0,1]"/>
+            <dmrpp:chunk offset="12079854" nBytes="112777" chunkPositionInArray="[0,780,0,2]"/>
+            <dmrpp:chunk offset="12192631" nBytes="113302" chunkPositionInArray="[0,780,0,3]"/>
+            <dmrpp:chunk offset="12305933" nBytes="99275" chunkPositionInArray="[0,780,1,0]"/>
+            <dmrpp:chunk offset="12405208" nBytes="99980" chunkPositionInArray="[0,780,1,1]"/>
+            <dmrpp:chunk offset="12505188" nBytes="113743" chunkPositionInArray="[0,780,1,2]"/>
+            <dmrpp:chunk offset="12618931" nBytes="113886" chunkPositionInArray="[0,780,1,3]"/>
+            <dmrpp:chunk offset="12732817" nBytes="97182" chunkPositionInArray="[360,0,0,0]"/>
+            <dmrpp:chunk offset="12829999" nBytes="98115" chunkPositionInArray="[360,0,0,1]"/>
+            <dmrpp:chunk offset="12928114" nBytes="108299" chunkPositionInArray="[360,0,0,2]"/>
+            <dmrpp:chunk offset="13036413" nBytes="112661" chunkPositionInArray="[360,0,0,3]"/>
+            <dmrpp:chunk offset="13149074" nBytes="96323" chunkPositionInArray="[360,0,1,0]"/>
+            <dmrpp:chunk offset="13245397" nBytes="97174" chunkPositionInArray="[360,0,1,1]"/>
+            <dmrpp:chunk offset="13342571" nBytes="108575" chunkPositionInArray="[360,0,1,2]"/>
+            <dmrpp:chunk offset="13451146" nBytes="111638" chunkPositionInArray="[360,0,1,3]"/>
+            <dmrpp:chunk offset="13562784" nBytes="92326" chunkPositionInArray="[360,780,0,0]"/>
+            <dmrpp:chunk offset="13655110" nBytes="93466" chunkPositionInArray="[360,780,0,1]"/>
+            <dmrpp:chunk offset="13748576" nBytes="103964" chunkPositionInArray="[360,780,0,2]"/>
+            <dmrpp:chunk offset="13852540" nBytes="106233" chunkPositionInArray="[360,780,0,3]"/>
+            <dmrpp:chunk offset="13958773" nBytes="92806" chunkPositionInArray="[360,780,1,0]"/>
+            <dmrpp:chunk offset="58521331" nBytes="93819" chunkPositionInArray="[360,780,1,1]"/>
+            <dmrpp:chunk offset="58615150" nBytes="104051" chunkPositionInArray="[360,780,1,2]"/>
+            <dmrpp:chunk offset="58719201" nBytes="106920" chunkPositionInArray="[360,780,1,3]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="dtemp_ant">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Dim name="/polarization_2"/>
+        <Attribute name="long_name" type="String">
+            <Value>Empirical correction to physical temperature of reflector. Pol basis V,H</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>Kelvin</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>physicalMeasurement</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="45183634" nBytes="104200" chunkPositionInArray="[0,0,0,0]"/>
+            <dmrpp:chunk offset="45287834" nBytes="104200" chunkPositionInArray="[0,0,0,1]"/>
+            <dmrpp:chunk offset="45392034" nBytes="101675" chunkPositionInArray="[0,0,1,0]"/>
+            <dmrpp:chunk offset="45493709" nBytes="101675" chunkPositionInArray="[0,0,1,1]"/>
+            <dmrpp:chunk offset="45595384" nBytes="108029" chunkPositionInArray="[0,780,0,0]"/>
+            <dmrpp:chunk offset="45703413" nBytes="108029" chunkPositionInArray="[0,780,0,1]"/>
+            <dmrpp:chunk offset="45811442" nBytes="108819" chunkPositionInArray="[0,780,1,0]"/>
+            <dmrpp:chunk offset="45920261" nBytes="108819" chunkPositionInArray="[0,780,1,1]"/>
+            <dmrpp:chunk offset="46029080" nBytes="102828" chunkPositionInArray="[360,0,0,0]"/>
+            <dmrpp:chunk offset="46131908" nBytes="102828" chunkPositionInArray="[360,0,0,1]"/>
+            <dmrpp:chunk offset="46234736" nBytes="102809" chunkPositionInArray="[360,0,1,0]"/>
+            <dmrpp:chunk offset="46337545" nBytes="102809" chunkPositionInArray="[360,0,1,1]"/>
+            <dmrpp:chunk offset="46440354" nBytes="96402" chunkPositionInArray="[360,780,0,0]"/>
+            <dmrpp:chunk offset="58826121" nBytes="96402" chunkPositionInArray="[360,780,0,1]"/>
+            <dmrpp:chunk offset="58922523" nBytes="93431" chunkPositionInArray="[360,780,1,0]"/>
+            <dmrpp:chunk offset="59015954" nBytes="93431" chunkPositionInArray="[360,780,1,1]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float64 name="time">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Attribute name="long_name" type="String">
+            <Value>Time of observation</Value>
+        </Attribute>
+        <Attribute name="standard_name" type="String">
+            <Value>time</Value>
+        </Attribute>
+        <Attribute name="Axis" type="String">
+            <Value>T</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>seconds since 2000-1-1 0:0:0 0</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float64">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float64">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float64">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="calendar" type="String">
+            <Value>standard</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>coordinate</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="186582" nBytes="119505" chunkPositionInArray="[0,0,0]"/>
+            <dmrpp:chunk offset="306087" nBytes="115891" chunkPositionInArray="[0,0,1]"/>
+            <dmrpp:chunk offset="421978" nBytes="106674" chunkPositionInArray="[0,780,0]"/>
+            <dmrpp:chunk offset="528652" nBytes="110085" chunkPositionInArray="[0,780,1]"/>
+            <dmrpp:chunk offset="638737" nBytes="112033" chunkPositionInArray="[360,0,0]"/>
+            <dmrpp:chunk offset="750770" nBytes="109138" chunkPositionInArray="[360,0,1]"/>
+            <dmrpp:chunk offset="859908" nBytes="103250" chunkPositionInArray="[360,780,0]"/>
+            <dmrpp:chunk offset="52642961" nBytes="106585" chunkPositionInArray="[360,780,1]"/>
+        </dmrpp:chunks>
+    </Float64>
+    <Float32 name="tran">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Attribute name="long_name" type="String">
+            <Value>Total atmospheric transmittance</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>1</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>auxiliaryInformation</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="51694504" nBytes="68343" chunkPositionInArray="[0,0]"/>
+            <dmrpp:chunk offset="54507743" nBytes="69696" chunkPositionInArray="[0,780]"/>
+            <dmrpp:chunk offset="54577439" nBytes="68065" chunkPositionInArray="[360,0]"/>
+            <dmrpp:chunk offset="54645504" nBytes="66115" chunkPositionInArray="[360,780]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="dtb_sea_ice_correction">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/polarization_2"/>
+        <Attribute name="long_name" type="String">
+            <Value>TB sea-ice correction applied at TB SUR 0. Pol basis V,H</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>Kelvin</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>physicalMeasurement</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="29740006" nBytes="4940" chunkPositionInArray="[0,0,0]"/>
+            <dmrpp:chunk offset="29744946" nBytes="4941" chunkPositionInArray="[0,0,1]"/>
+            <dmrpp:chunk offset="29749887" nBytes="5373" chunkPositionInArray="[0,780,0]"/>
+            <dmrpp:chunk offset="29755260" nBytes="5380" chunkPositionInArray="[0,780,1]"/>
+            <dmrpp:chunk offset="29760640" nBytes="2949" chunkPositionInArray="[360,0,0]"/>
+            <dmrpp:chunk offset="61451838" nBytes="2949" chunkPositionInArray="[360,0,1]"/>
+            <dmrpp:chunk offset="61454787" nBytes="3310" chunkPositionInArray="[360,780,0]"/>
+            <dmrpp:chunk offset="61458097" nBytes="3310" chunkPositionInArray="[360,780,1]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="eia">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Attribute name="long_name" type="String">
+            <Value>Earth incidence angle</Value>
+        </Attribute>
+        <Attribute name="standard_name" type="String">
+            <Value>angle_of_incidence</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>degree</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>90.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>physicalMeasurement</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="47693076" nBytes="79958" chunkPositionInArray="[0,0,0]"/>
+            <dmrpp:chunk offset="47773034" nBytes="78612" chunkPositionInArray="[0,0,1]"/>
+            <dmrpp:chunk offset="47851646" nBytes="80034" chunkPositionInArray="[0,780,0]"/>
+            <dmrpp:chunk offset="47931680" nBytes="80439" chunkPositionInArray="[0,780,1]"/>
+            <dmrpp:chunk offset="48012119" nBytes="77084" chunkPositionInArray="[360,0,0]"/>
+            <dmrpp:chunk offset="56393931" nBytes="77587" chunkPositionInArray="[360,0,1]"/>
+            <dmrpp:chunk offset="56471518" nBytes="73318" chunkPositionInArray="[360,780,0]"/>
+            <dmrpp:chunk offset="56544836" nBytes="75376" chunkPositionInArray="[360,780,1]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="windir">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Attribute name="long_name" type="String">
+            <Value>Ancillary wind direction relative to North (from NCEP, meteorological convention) that is used in surface roughness correction</Value>
+        </Attribute>
+        <Attribute name="standard_name" type="String">
+            <Value>wind_from_direction</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>degree</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>360.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>auxiliaryInformation</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="51986311" nBytes="106601" chunkPositionInArray="[0,0]"/>
+            <dmrpp:chunk offset="55273465" nBytes="107466" chunkPositionInArray="[0,780]"/>
+            <dmrpp:chunk offset="55380931" nBytes="104581" chunkPositionInArray="[360,0]"/>
+            <dmrpp:chunk offset="55485512" nBytes="100694" chunkPositionInArray="[360,780]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="ta_ant_calibrated">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Dim name="/polarization_4"/>
+        <Attribute name="long_name" type="String">
+            <Value>Antenna temperature after correcting for emissive reflector and TND adjustment. Pol basis V,H,S3,S4</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>Kelvin</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>330.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>physicalMeasurement</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="14055235" nBytes="99395" chunkPositionInArray="[0,0,0,0]"/>
+            <dmrpp:chunk offset="14154630" nBytes="99717" chunkPositionInArray="[0,0,0,1]"/>
+            <dmrpp:chunk offset="14254347" nBytes="113010" chunkPositionInArray="[0,0,0,2]"/>
+            <dmrpp:chunk offset="14367357" nBytes="114820" chunkPositionInArray="[0,0,0,3]"/>
+            <dmrpp:chunk offset="14482177" nBytes="98649" chunkPositionInArray="[0,0,1,0]"/>
+            <dmrpp:chunk offset="14580826" nBytes="98650" chunkPositionInArray="[0,0,1,1]"/>
+            <dmrpp:chunk offset="14679476" nBytes="108796" chunkPositionInArray="[0,0,1,2]"/>
+            <dmrpp:chunk offset="14788272" nBytes="113314" chunkPositionInArray="[0,0,1,3]"/>
+            <dmrpp:chunk offset="14901586" nBytes="98520" chunkPositionInArray="[0,780,0,0]"/>
+            <dmrpp:chunk offset="15000106" nBytes="99164" chunkPositionInArray="[0,780,0,1]"/>
+            <dmrpp:chunk offset="15099270" nBytes="113195" chunkPositionInArray="[0,780,0,2]"/>
+            <dmrpp:chunk offset="15212465" nBytes="113766" chunkPositionInArray="[0,780,0,3]"/>
+            <dmrpp:chunk offset="15326231" nBytes="99321" chunkPositionInArray="[0,780,1,0]"/>
+            <dmrpp:chunk offset="15425552" nBytes="99978" chunkPositionInArray="[0,780,1,1]"/>
+            <dmrpp:chunk offset="15525530" nBytes="114291" chunkPositionInArray="[0,780,1,2]"/>
+            <dmrpp:chunk offset="15639821" nBytes="114453" chunkPositionInArray="[0,780,1,3]"/>
+            <dmrpp:chunk offset="15754274" nBytes="97349" chunkPositionInArray="[360,0,0,0]"/>
+            <dmrpp:chunk offset="15851623" nBytes="98229" chunkPositionInArray="[360,0,0,1]"/>
+            <dmrpp:chunk offset="15949852" nBytes="107669" chunkPositionInArray="[360,0,0,2]"/>
+            <dmrpp:chunk offset="16057521" nBytes="112993" chunkPositionInArray="[360,0,0,3]"/>
+            <dmrpp:chunk offset="16170514" nBytes="96507" chunkPositionInArray="[360,0,1,0]"/>
+            <dmrpp:chunk offset="16267021" nBytes="97177" chunkPositionInArray="[360,0,1,1]"/>
+            <dmrpp:chunk offset="16364198" nBytes="107718" chunkPositionInArray="[360,0,1,2]"/>
+            <dmrpp:chunk offset="16471916" nBytes="112011" chunkPositionInArray="[360,0,1,3]"/>
+            <dmrpp:chunk offset="16583927" nBytes="92456" chunkPositionInArray="[360,780,0,0]"/>
+            <dmrpp:chunk offset="16676383" nBytes="93454" chunkPositionInArray="[360,780,0,1]"/>
+            <dmrpp:chunk offset="16769837" nBytes="103243" chunkPositionInArray="[360,780,0,2]"/>
+            <dmrpp:chunk offset="16873080" nBytes="106705" chunkPositionInArray="[360,780,0,3]"/>
+            <dmrpp:chunk offset="16979785" nBytes="92890" chunkPositionInArray="[360,780,1,0]"/>
+            <dmrpp:chunk offset="59774669" nBytes="93888" chunkPositionInArray="[360,780,1,1]"/>
+            <dmrpp:chunk offset="59868557" nBytes="103063" chunkPositionInArray="[360,780,1,2]"/>
+            <dmrpp:chunk offset="59971620" nBytes="107333" chunkPositionInArray="[360,780,1,3]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="surtep">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Attribute name="long_name" type="String">
+            <Value>Ancillary sea surface temperature (from CMC)</Value>
+        </Attribute>
+        <Attribute name="standard_name" type="String">
+            <Value>sea_surface_temperature</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>Kelvin</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>313.1499939</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>auxiliaryInformation</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="7827061" nBytes="71359" chunkPositionInArray="[0,0]"/>
+            <dmrpp:chunk offset="53858733" nBytes="73980" chunkPositionInArray="[0,780]"/>
+            <dmrpp:chunk offset="53932713" nBytes="49203" chunkPositionInArray="[360,0]"/>
+            <dmrpp:chunk offset="53981916" nBytes="52651" chunkPositionInArray="[360,780]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="eaa">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Attribute name="long_name" type="String">
+            <Value>Azimuthal look angle relative to North</Value>
+        </Attribute>
+        <Attribute name="standard_name" type="String">
+            <Value>sensor_azimuth_angle</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>degree</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>360.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>physicalMeasurement</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="47153886" nBytes="106392" chunkPositionInArray="[0,0,0]"/>
+            <dmrpp:chunk offset="47260278" nBytes="107341" chunkPositionInArray="[0,0,1]"/>
+            <dmrpp:chunk offset="47367619" nBytes="104941" chunkPositionInArray="[0,780,0]"/>
+            <dmrpp:chunk offset="47472560" nBytes="110231" chunkPositionInArray="[0,780,1]"/>
+            <dmrpp:chunk offset="47582791" nBytes="107149" chunkPositionInArray="[360,0,0]"/>
+            <dmrpp:chunk offset="56088856" nBytes="104157" chunkPositionInArray="[360,0,1]"/>
+            <dmrpp:chunk offset="56193013" nBytes="96871" chunkPositionInArray="[360,780,0]"/>
+            <dmrpp:chunk offset="56289884" nBytes="104047" chunkPositionInArray="[360,780,1]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="sun_alpha">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Attribute name="long_name" type="String">
+            <Value>Sun azimuth angle in S/C coordinate system</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>degree</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>360.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>physicalMeasurement</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="50827228" nBytes="15869" chunkPositionInArray="[0,0,0]"/>
+            <dmrpp:chunk offset="50843097" nBytes="14634" chunkPositionInArray="[0,0,1]"/>
+            <dmrpp:chunk offset="50857731" nBytes="15389" chunkPositionInArray="[0,780,0]"/>
+            <dmrpp:chunk offset="50873120" nBytes="16068" chunkPositionInArray="[0,780,1]"/>
+            <dmrpp:chunk offset="50889188" nBytes="16823" chunkPositionInArray="[360,0,0]"/>
+            <dmrpp:chunk offset="58170973" nBytes="13966" chunkPositionInArray="[360,0,1]"/>
+            <dmrpp:chunk offset="58184939" nBytes="14336" chunkPositionInArray="[360,780,0]"/>
+            <dmrpp:chunk offset="58199275" nBytes="16883" chunkPositionInArray="[360,780,1]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Int8 name="anc_sea_ice_flag">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/iceflag_components"/>
+        <Attribute name="long_name" type="String">
+            <Value>ancillary sea-ice detection indicator</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>1</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Int8">
+            <Value>0</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>qualityInformation</Value>
+        </Attribute>
+        <Attribute name="flag_meaning" type="String">
+            <Value>component 1 of anc_sea_ice_flag: climatological sea-ice flag. component 2 of anc_sea_ice_flag: sea-ice flag from AMSR2 RSS AS-ECV V8.2 3-day map. component 3 of anc_sea_ice_flag: sea-ice flag from Meissner and Manaster.</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>720 1560 2</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="52116148" nBytes="4644" chunkPositionInArray="[0,0,0]"/>
+            <dmrpp:chunk offset="62071051" nBytes="3579" chunkPositionInArray="[0,0,2]"/>
+        </dmrpp:chunks>
+    </Int8>
+    <Float32 name="sss_smap_unc_comp">
+        <Dim name="/uncertainty_components"/>
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Attribute name="long_name" type="String">
+            <Value>formal uncertainty components of SMAP sea surface salinity smoothed to approx 70km resolution</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>1e-3</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>45.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>qualityInformation</Value>
+        </Attribute>
+        <Attribute name="components" type="String">
+            <Value>1: ancillary wind speed random. 2: NEDT v-pol. 3: NEDT h-pol. 4: ancillary SST. 5: ancillary wind direction. 6: reflected galaxy. 7: land contamination. 8: sea ice contamination. 9: ancillary wind speed systematic.</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>3 240 520 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="2112639" nBytes="110672" chunkPositionInArray="[0,0,0,0]"/>
+            <dmrpp:chunk offset="2223311" nBytes="107409" chunkPositionInArray="[0,0,0,1]"/>
+            <dmrpp:chunk offset="2330720" nBytes="1480" chunkPositionInArray="[0,0,520,0]"/>
+            <dmrpp:chunk offset="2332200" nBytes="1480" chunkPositionInArray="[0,0,520,1]"/>
+            <dmrpp:chunk offset="2333680" nBytes="99766" chunkPositionInArray="[0,0,1040,0]"/>
+            <dmrpp:chunk offset="2433446" nBytes="81790" chunkPositionInArray="[0,0,1040,1]"/>
+            <dmrpp:chunk offset="2515236" nBytes="90595" chunkPositionInArray="[0,240,0,0]"/>
+            <dmrpp:chunk offset="2605831" nBytes="92253" chunkPositionInArray="[0,240,0,1]"/>
+            <dmrpp:chunk offset="2698084" nBytes="1480" chunkPositionInArray="[0,240,520,0]"/>
+            <dmrpp:chunk offset="2699564" nBytes="1480" chunkPositionInArray="[0,240,520,1]"/>
+            <dmrpp:chunk offset="2701044" nBytes="69950" chunkPositionInArray="[0,240,1040,0]"/>
+            <dmrpp:chunk offset="2770994" nBytes="88116" chunkPositionInArray="[0,240,1040,1]"/>
+            <dmrpp:chunk offset="2859110" nBytes="2368" chunkPositionInArray="[0,480,0,0]"/>
+            <dmrpp:chunk offset="2861478" nBytes="3427" chunkPositionInArray="[0,480,0,1]"/>
+            <dmrpp:chunk offset="2864905" nBytes="1480" chunkPositionInArray="[0,480,520,0]"/>
+            <dmrpp:chunk offset="2866385" nBytes="1480" chunkPositionInArray="[0,480,520,1]"/>
+            <dmrpp:chunk offset="2867865" nBytes="1480" chunkPositionInArray="[0,480,1040,0]"/>
+            <dmrpp:chunk offset="2869345" nBytes="1480" chunkPositionInArray="[0,480,1040,1]"/>
+            <dmrpp:chunk offset="2870825" nBytes="113760" chunkPositionInArray="[3,0,0,0]"/>
+            <dmrpp:chunk offset="2984585" nBytes="110824" chunkPositionInArray="[3,0,0,1]"/>
+            <dmrpp:chunk offset="3095409" nBytes="1480" chunkPositionInArray="[3,0,520,0]"/>
+            <dmrpp:chunk offset="3096889" nBytes="1480" chunkPositionInArray="[3,0,520,1]"/>
+            <dmrpp:chunk offset="3098369" nBytes="103031" chunkPositionInArray="[3,0,1040,0]"/>
+            <dmrpp:chunk offset="3201400" nBytes="84483" chunkPositionInArray="[3,0,1040,1]"/>
+            <dmrpp:chunk offset="3285883" nBytes="94487" chunkPositionInArray="[3,240,0,0]"/>
+            <dmrpp:chunk offset="3380370" nBytes="96060" chunkPositionInArray="[3,240,0,1]"/>
+            <dmrpp:chunk offset="3476430" nBytes="1480" chunkPositionInArray="[3,240,520,0]"/>
+            <dmrpp:chunk offset="3477910" nBytes="1480" chunkPositionInArray="[3,240,520,1]"/>
+            <dmrpp:chunk offset="3479390" nBytes="72095" chunkPositionInArray="[3,240,1040,0]"/>
+            <dmrpp:chunk offset="3551485" nBytes="91217" chunkPositionInArray="[3,240,1040,1]"/>
+            <dmrpp:chunk offset="3642702" nBytes="2398" chunkPositionInArray="[3,480,0,0]"/>
+            <dmrpp:chunk offset="3645100" nBytes="3467" chunkPositionInArray="[3,480,0,1]"/>
+            <dmrpp:chunk offset="3648567" nBytes="1480" chunkPositionInArray="[3,480,520,0]"/>
+            <dmrpp:chunk offset="3650047" nBytes="1480" chunkPositionInArray="[3,480,520,1]"/>
+            <dmrpp:chunk offset="3651527" nBytes="1480" chunkPositionInArray="[3,480,1040,0]"/>
+            <dmrpp:chunk offset="3653007" nBytes="1480" chunkPositionInArray="[3,480,1040,1]"/>
+            <dmrpp:chunk offset="3654487" nBytes="62701" chunkPositionInArray="[6,0,0,0]"/>
+            <dmrpp:chunk offset="3717188" nBytes="59434" chunkPositionInArray="[6,0,0,1]"/>
+            <dmrpp:chunk offset="3776622" nBytes="1480" chunkPositionInArray="[6,0,520,0]"/>
+            <dmrpp:chunk offset="3778102" nBytes="1480" chunkPositionInArray="[6,0,520,1]"/>
+            <dmrpp:chunk offset="3779582" nBytes="55618" chunkPositionInArray="[6,0,1040,0]"/>
+            <dmrpp:chunk offset="3835200" nBytes="46353" chunkPositionInArray="[6,0,1040,1]"/>
+            <dmrpp:chunk offset="3881553" nBytes="45949" chunkPositionInArray="[6,240,0,0]"/>
+            <dmrpp:chunk offset="3927502" nBytes="46996" chunkPositionInArray="[6,240,0,1]"/>
+            <dmrpp:chunk offset="3974498" nBytes="1480" chunkPositionInArray="[6,240,520,0]"/>
+            <dmrpp:chunk offset="3975978" nBytes="1480" chunkPositionInArray="[6,240,520,1]"/>
+            <dmrpp:chunk offset="3977458" nBytes="46336" chunkPositionInArray="[6,240,1040,0]"/>
+            <dmrpp:chunk offset="4023794" nBytes="57648" chunkPositionInArray="[6,240,1040,1]"/>
+            <dmrpp:chunk offset="4081442" nBytes="2154" chunkPositionInArray="[6,480,0,0]"/>
+            <dmrpp:chunk offset="4083596" nBytes="2927" chunkPositionInArray="[6,480,0,1]"/>
+            <dmrpp:chunk offset="4086523" nBytes="1480" chunkPositionInArray="[6,480,520,0]"/>
+            <dmrpp:chunk offset="4088003" nBytes="1480" chunkPositionInArray="[6,480,520,1]"/>
+            <dmrpp:chunk offset="63197115" nBytes="1480" chunkPositionInArray="[6,480,1040,0]"/>
+            <dmrpp:chunk offset="63198595" nBytes="1480" chunkPositionInArray="[6,480,1040,1]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="gland">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Attribute name="long_name" type="String">
+            <Value>land fraction weighted by antenna gain</Value>
+        </Attribute>
+        <Attribute name="standard_name" type="String">
+            <Value>land_area_fraction</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>1</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>auxiliaryInformation</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="6872003" nBytes="97659" chunkPositionInArray="[0,0,0]"/>
+            <dmrpp:chunk offset="6969662" nBytes="96600" chunkPositionInArray="[0,0,1]"/>
+            <dmrpp:chunk offset="7066262" nBytes="89861" chunkPositionInArray="[0,780,0]"/>
+            <dmrpp:chunk offset="7156123" nBytes="91213" chunkPositionInArray="[0,780,1]"/>
+            <dmrpp:chunk offset="7247336" nBytes="103510" chunkPositionInArray="[360,0,0]"/>
+            <dmrpp:chunk offset="53283431" nBytes="102445" chunkPositionInArray="[360,0,1]"/>
+            <dmrpp:chunk offset="53385876" nBytes="93925" chunkPositionInArray="[360,780,0]"/>
+            <dmrpp:chunk offset="53479801" nBytes="94704" chunkPositionInArray="[360,780,1]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="tb_sur0">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Dim name="/polarization_4"/>
+        <Attribute name="long_name" type="String">
+            <Value>Brightness temperature at flat ocean surface AFTER applying roughness correction. Pol basis V,H,S3,S4</Value>
+        </Attribute>
+        <Attribute name="standard_name" type="String">
+            <Value>brightness_temperature</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>Kelvin</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>330.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>physicalMeasurement</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="32812419" nBytes="99414" chunkPositionInArray="[0,0,0,0]"/>
+            <dmrpp:chunk offset="32911833" nBytes="99573" chunkPositionInArray="[0,0,0,1]"/>
+            <dmrpp:chunk offset="33011406" nBytes="2712" chunkPositionInArray="[0,0,0,2]"/>
+            <dmrpp:chunk offset="33014118" nBytes="2712" chunkPositionInArray="[0,0,0,3]"/>
+            <dmrpp:chunk offset="33016830" nBytes="98637" chunkPositionInArray="[0,0,1,0]"/>
+            <dmrpp:chunk offset="33115467" nBytes="98602" chunkPositionInArray="[0,0,1,1]"/>
+            <dmrpp:chunk offset="33214069" nBytes="2778" chunkPositionInArray="[0,0,1,2]"/>
+            <dmrpp:chunk offset="33216847" nBytes="2778" chunkPositionInArray="[0,0,1,3]"/>
+            <dmrpp:chunk offset="33219625" nBytes="98679" chunkPositionInArray="[0,780,0,0]"/>
+            <dmrpp:chunk offset="33318304" nBytes="98303" chunkPositionInArray="[0,780,0,1]"/>
+            <dmrpp:chunk offset="33416607" nBytes="2785" chunkPositionInArray="[0,780,0,2]"/>
+            <dmrpp:chunk offset="33419392" nBytes="2785" chunkPositionInArray="[0,780,0,3]"/>
+            <dmrpp:chunk offset="33422177" nBytes="99519" chunkPositionInArray="[0,780,1,0]"/>
+            <dmrpp:chunk offset="33521696" nBytes="99204" chunkPositionInArray="[0,780,1,1]"/>
+            <dmrpp:chunk offset="33620900" nBytes="2719" chunkPositionInArray="[0,780,1,2]"/>
+            <dmrpp:chunk offset="33623619" nBytes="2719" chunkPositionInArray="[0,780,1,3]"/>
+            <dmrpp:chunk offset="33626338" nBytes="97388" chunkPositionInArray="[360,0,0,0]"/>
+            <dmrpp:chunk offset="33723726" nBytes="98323" chunkPositionInArray="[360,0,0,1]"/>
+            <dmrpp:chunk offset="33822049" nBytes="2911" chunkPositionInArray="[360,0,0,2]"/>
+            <dmrpp:chunk offset="33824960" nBytes="2911" chunkPositionInArray="[360,0,0,3]"/>
+            <dmrpp:chunk offset="33827871" nBytes="96588" chunkPositionInArray="[360,0,1,0]"/>
+            <dmrpp:chunk offset="33924459" nBytes="97488" chunkPositionInArray="[360,0,1,1]"/>
+            <dmrpp:chunk offset="34021947" nBytes="2848" chunkPositionInArray="[360,0,1,2]"/>
+            <dmrpp:chunk offset="34024795" nBytes="2848" chunkPositionInArray="[360,0,1,3]"/>
+            <dmrpp:chunk offset="34027643" nBytes="92294" chunkPositionInArray="[360,780,0,0]"/>
+            <dmrpp:chunk offset="34119937" nBytes="93525" chunkPositionInArray="[360,780,0,1]"/>
+            <dmrpp:chunk offset="34213462" nBytes="3226" chunkPositionInArray="[360,780,0,2]"/>
+            <dmrpp:chunk offset="34216688" nBytes="3226" chunkPositionInArray="[360,780,0,3]"/>
+            <dmrpp:chunk offset="34219914" nBytes="92841" chunkPositionInArray="[360,780,1,0]"/>
+            <dmrpp:chunk offset="61770414" nBytes="94108" chunkPositionInArray="[360,780,1,1]"/>
+            <dmrpp:chunk offset="61864522" nBytes="3318" chunkPositionInArray="[360,780,1,2]"/>
+            <dmrpp:chunk offset="61867840" nBytes="3318" chunkPositionInArray="[360,780,1,3]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="tbdw">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Attribute name="long_name" type="String">
+            <Value>Atmospheric downwelling brightness temperature</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>Kelvin</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>auxiliaryInformation</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="51865629" nBytes="97573" chunkPositionInArray="[0,0]"/>
+            <dmrpp:chunk offset="54992532" nBytes="100434" chunkPositionInArray="[0,780]"/>
+            <dmrpp:chunk offset="55092966" nBytes="93349" chunkPositionInArray="[360,0]"/>
+            <dmrpp:chunk offset="55186315" nBytes="87150" chunkPositionInArray="[360,780]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="sss_smap_40km_unc_comp">
+        <Dim name="/uncertainty_components"/>
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Attribute name="long_name" type="String">
+            <Value>formal uncertainty components of SMAP sea surface salinity at original 40km resolution</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>1e-3</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>45.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>qualityInformation</Value>
+        </Attribute>
+        <Attribute name="components" type="String">
+            <Value>1: ancillary wind speed random. 2: NEDT v-pol. 3: NEDT h-pol. 4: ancillary SST. 5: ancillary wind direction. 6: reflected galaxy. 7: land contamination. 8: sea ice contamination. 9: ancillary wind speed systematic.</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>3 240 520 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="4545556" nBytes="108384" chunkPositionInArray="[0,0,0,0]"/>
+            <dmrpp:chunk offset="4653940" nBytes="107166" chunkPositionInArray="[0,0,0,1]"/>
+            <dmrpp:chunk offset="4761106" nBytes="1480" chunkPositionInArray="[0,0,520,0]"/>
+            <dmrpp:chunk offset="4762586" nBytes="1480" chunkPositionInArray="[0,0,520,1]"/>
+            <dmrpp:chunk offset="4764066" nBytes="99976" chunkPositionInArray="[0,0,1040,0]"/>
+            <dmrpp:chunk offset="4864042" nBytes="101368" chunkPositionInArray="[0,0,1040,1]"/>
+            <dmrpp:chunk offset="4965410" nBytes="89537" chunkPositionInArray="[0,240,0,0]"/>
+            <dmrpp:chunk offset="5054947" nBytes="87650" chunkPositionInArray="[0,240,0,1]"/>
+            <dmrpp:chunk offset="5142597" nBytes="1480" chunkPositionInArray="[0,240,520,0]"/>
+            <dmrpp:chunk offset="5144077" nBytes="1480" chunkPositionInArray="[0,240,520,1]"/>
+            <dmrpp:chunk offset="5145557" nBytes="82127" chunkPositionInArray="[0,240,1040,0]"/>
+            <dmrpp:chunk offset="5227684" nBytes="84150" chunkPositionInArray="[0,240,1040,1]"/>
+            <dmrpp:chunk offset="5311834" nBytes="4649" chunkPositionInArray="[0,480,0,0]"/>
+            <dmrpp:chunk offset="5316483" nBytes="4734" chunkPositionInArray="[0,480,0,1]"/>
+            <dmrpp:chunk offset="5321217" nBytes="1480" chunkPositionInArray="[0,480,520,0]"/>
+            <dmrpp:chunk offset="5322697" nBytes="1480" chunkPositionInArray="[0,480,520,1]"/>
+            <dmrpp:chunk offset="5324177" nBytes="1480" chunkPositionInArray="[0,480,1040,0]"/>
+            <dmrpp:chunk offset="5325657" nBytes="1480" chunkPositionInArray="[0,480,1040,1]"/>
+            <dmrpp:chunk offset="5327137" nBytes="112585" chunkPositionInArray="[3,0,0,0]"/>
+            <dmrpp:chunk offset="5439722" nBytes="111591" chunkPositionInArray="[3,0,0,1]"/>
+            <dmrpp:chunk offset="5551313" nBytes="1480" chunkPositionInArray="[3,0,520,0]"/>
+            <dmrpp:chunk offset="5552793" nBytes="1480" chunkPositionInArray="[3,0,520,1]"/>
+            <dmrpp:chunk offset="5554273" nBytes="104023" chunkPositionInArray="[3,0,1040,0]"/>
+            <dmrpp:chunk offset="5658296" nBytes="105719" chunkPositionInArray="[3,0,1040,1]"/>
+            <dmrpp:chunk offset="5764015" nBytes="96472" chunkPositionInArray="[3,240,0,0]"/>
+            <dmrpp:chunk offset="5860487" nBytes="94541" chunkPositionInArray="[3,240,0,1]"/>
+            <dmrpp:chunk offset="5955028" nBytes="1480" chunkPositionInArray="[3,240,520,0]"/>
+            <dmrpp:chunk offset="5956508" nBytes="1480" chunkPositionInArray="[3,240,520,1]"/>
+            <dmrpp:chunk offset="5957988" nBytes="88686" chunkPositionInArray="[3,240,1040,0]"/>
+            <dmrpp:chunk offset="6046674" nBytes="90716" chunkPositionInArray="[3,240,1040,1]"/>
+            <dmrpp:chunk offset="6137390" nBytes="4736" chunkPositionInArray="[3,480,0,0]"/>
+            <dmrpp:chunk offset="6142126" nBytes="4821" chunkPositionInArray="[3,480,0,1]"/>
+            <dmrpp:chunk offset="6146947" nBytes="1480" chunkPositionInArray="[3,480,520,0]"/>
+            <dmrpp:chunk offset="6148427" nBytes="1480" chunkPositionInArray="[3,480,520,1]"/>
+            <dmrpp:chunk offset="6149907" nBytes="1480" chunkPositionInArray="[3,480,1040,0]"/>
+            <dmrpp:chunk offset="6151387" nBytes="1480" chunkPositionInArray="[3,480,1040,1]"/>
+            <dmrpp:chunk offset="6152867" nBytes="63821" chunkPositionInArray="[6,0,0,0]"/>
+            <dmrpp:chunk offset="6216688" nBytes="62411" chunkPositionInArray="[6,0,0,1]"/>
+            <dmrpp:chunk offset="6279099" nBytes="1480" chunkPositionInArray="[6,0,520,0]"/>
+            <dmrpp:chunk offset="6280579" nBytes="1480" chunkPositionInArray="[6,0,520,1]"/>
+            <dmrpp:chunk offset="6282059" nBytes="57739" chunkPositionInArray="[6,0,1040,0]"/>
+            <dmrpp:chunk offset="6339798" nBytes="59474" chunkPositionInArray="[6,0,1040,1]"/>
+            <dmrpp:chunk offset="6399272" nBytes="49215" chunkPositionInArray="[6,240,0,0]"/>
+            <dmrpp:chunk offset="6448487" nBytes="48379" chunkPositionInArray="[6,240,0,1]"/>
+            <dmrpp:chunk offset="6496866" nBytes="1480" chunkPositionInArray="[6,240,520,0]"/>
+            <dmrpp:chunk offset="6498346" nBytes="1480" chunkPositionInArray="[6,240,520,1]"/>
+            <dmrpp:chunk offset="6499826" nBytes="58397" chunkPositionInArray="[6,240,1040,0]"/>
+            <dmrpp:chunk offset="6558223" nBytes="59042" chunkPositionInArray="[6,240,1040,1]"/>
+            <dmrpp:chunk offset="6617265" nBytes="3895" chunkPositionInArray="[6,480,0,0]"/>
+            <dmrpp:chunk offset="6621160" nBytes="3941" chunkPositionInArray="[6,480,0,1]"/>
+            <dmrpp:chunk offset="6625101" nBytes="1480" chunkPositionInArray="[6,480,520,0]"/>
+            <dmrpp:chunk offset="6626581" nBytes="1480" chunkPositionInArray="[6,480,520,1]"/>
+            <dmrpp:chunk offset="63200075" nBytes="1480" chunkPositionInArray="[6,480,1040,0]"/>
+            <dmrpp:chunk offset="63201555" nBytes="1480" chunkPositionInArray="[6,480,1040,1]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="ta_ant_filtered">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Dim name="/polarization_4"/>
+        <Attribute name="long_name" type="String">
+            <Value>RFI filtered antenna temperature. Pol basis V,H,S3,S4</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>Kelvin</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>330.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>physicalMeasurement</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="8019789" nBytes="99370" chunkPositionInArray="[0,0,0,0]"/>
+            <dmrpp:chunk offset="8119159" nBytes="99615" chunkPositionInArray="[0,0,0,1]"/>
+            <dmrpp:chunk offset="8218774" nBytes="112424" chunkPositionInArray="[0,0,0,2]"/>
+            <dmrpp:chunk offset="8331198" nBytes="114391" chunkPositionInArray="[0,0,0,3]"/>
+            <dmrpp:chunk offset="8445589" nBytes="98667" chunkPositionInArray="[0,0,1,0]"/>
+            <dmrpp:chunk offset="8544256" nBytes="98631" chunkPositionInArray="[0,0,1,1]"/>
+            <dmrpp:chunk offset="8642887" nBytes="108062" chunkPositionInArray="[0,0,1,2]"/>
+            <dmrpp:chunk offset="8750949" nBytes="112834" chunkPositionInArray="[0,0,1,3]"/>
+            <dmrpp:chunk offset="8863783" nBytes="98526" chunkPositionInArray="[0,780,0,0]"/>
+            <dmrpp:chunk offset="8962309" nBytes="99128" chunkPositionInArray="[0,780,0,1]"/>
+            <dmrpp:chunk offset="9061437" nBytes="112817" chunkPositionInArray="[0,780,0,2]"/>
+            <dmrpp:chunk offset="9174254" nBytes="113379" chunkPositionInArray="[0,780,0,3]"/>
+            <dmrpp:chunk offset="9287633" nBytes="99375" chunkPositionInArray="[0,780,1,0]"/>
+            <dmrpp:chunk offset="9387008" nBytes="100057" chunkPositionInArray="[0,780,1,1]"/>
+            <dmrpp:chunk offset="9487065" nBytes="113860" chunkPositionInArray="[0,780,1,2]"/>
+            <dmrpp:chunk offset="9600925" nBytes="114016" chunkPositionInArray="[0,780,1,3]"/>
+            <dmrpp:chunk offset="9714941" nBytes="97244" chunkPositionInArray="[360,0,0,0]"/>
+            <dmrpp:chunk offset="9812185" nBytes="98221" chunkPositionInArray="[360,0,0,1]"/>
+            <dmrpp:chunk offset="9910406" nBytes="108509" chunkPositionInArray="[360,0,0,2]"/>
+            <dmrpp:chunk offset="10018915" nBytes="112752" chunkPositionInArray="[360,0,0,3]"/>
+            <dmrpp:chunk offset="10131667" nBytes="96463" chunkPositionInArray="[360,0,1,0]"/>
+            <dmrpp:chunk offset="10228130" nBytes="97247" chunkPositionInArray="[360,0,1,1]"/>
+            <dmrpp:chunk offset="10325377" nBytes="108741" chunkPositionInArray="[360,0,1,2]"/>
+            <dmrpp:chunk offset="10434118" nBytes="111742" chunkPositionInArray="[360,0,1,3]"/>
+            <dmrpp:chunk offset="10545860" nBytes="92435" chunkPositionInArray="[360,780,0,0]"/>
+            <dmrpp:chunk offset="10638295" nBytes="93455" chunkPositionInArray="[360,780,0,1]"/>
+            <dmrpp:chunk offset="10731750" nBytes="104134" chunkPositionInArray="[360,780,0,2]"/>
+            <dmrpp:chunk offset="10835884" nBytes="106387" chunkPositionInArray="[360,780,0,3]"/>
+            <dmrpp:chunk offset="10942271" nBytes="92923" chunkPositionInArray="[360,780,1,0]"/>
+            <dmrpp:chunk offset="58216158" nBytes="93952" chunkPositionInArray="[360,780,1,1]"/>
+            <dmrpp:chunk offset="58310110" nBytes="104177" chunkPositionInArray="[360,780,1,2]"/>
+            <dmrpp:chunk offset="58414287" nBytes="107044" chunkPositionInArray="[360,780,1,3]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="monglt">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Attribute name="long_name" type="String">
+            <Value>Moon glint angle</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>degree</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>-180.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>180.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>physicalMeasurement</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="49158257" nBytes="106405" chunkPositionInArray="[0,0,0]"/>
+            <dmrpp:chunk offset="49264662" nBytes="103935" chunkPositionInArray="[0,0,1]"/>
+            <dmrpp:chunk offset="49368597" nBytes="105239" chunkPositionInArray="[0,780,0]"/>
+            <dmrpp:chunk offset="49473836" nBytes="107526" chunkPositionInArray="[0,780,1]"/>
+            <dmrpp:chunk offset="49581362" nBytes="103664" chunkPositionInArray="[360,0,0]"/>
+            <dmrpp:chunk offset="57221610" nBytes="103793" chunkPositionInArray="[360,0,1]"/>
+            <dmrpp:chunk offset="57325403" nBytes="99636" chunkPositionInArray="[360,780,0]"/>
+            <dmrpp:chunk offset="57425039" nBytes="99031" chunkPositionInArray="[360,780,1]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Int8 name="sea_ice_zones">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Attribute name="long_name" type="String">
+            <Value>sea-ice contamination zones</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>1</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Int8">
+            <Value>0</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Int8">
+            <Value>6</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Int8">
+            <Value>7</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>qualityInformation</Value>
+        </Attribute>
+        <Attribute name="flag_meaning" type="String">
+            <Value>0: open ocean scene. no sea-ice contamination. 1: likely sea-ice contamination in SMAP antenna sidelobes. SSS retrieved. 2: likely sea-ice contamination in SMAP antenna sidelobes. SSS retrieved. 3: likely sea-ice contamination in SMAP antenna mainlobe. SSS retrieved.  4: likely sea-ice contamination in SMAP antenna mainlobe. SSS retrieved.  5: likely sea-ice contamination in SMAP antenna mainlobe. no SSS retrieved. 6: AMSR2 50-km footprint contains land. sea-ice check not reliable. no SSS retrieved if AMSR-2 AS-ECV V8.2 sea-ice flag set. 7: no or invalid AMSR2 observation. sea-ice check not possible. no SSS retrieved if climatological sea-ice flag set.</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>720 1560</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="62074630" nBytes="5258" chunkPositionInArray="[0,0]"/>
+        </dmrpp:chunks>
+    </Int8>
+    <Float32 name="zang">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Attribute name="long_name" type="String">
+            <Value>Orbital position angle of S/C.  0 is South. 90 is equator ascending. 180 is North. 270 is equator descending.</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>degree</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>360.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>physicalMeasurement</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="46539892" nBytes="105493" chunkPositionInArray="[0,0,0]"/>
+            <dmrpp:chunk offset="46645385" nBytes="105189" chunkPositionInArray="[0,0,1]"/>
+            <dmrpp:chunk offset="46750574" nBytes="89447" chunkPositionInArray="[0,780,0]"/>
+            <dmrpp:chunk offset="46840021" nBytes="96181" chunkPositionInArray="[0,780,1]"/>
+            <dmrpp:chunk offset="46936202" nBytes="93487" chunkPositionInArray="[360,0,0]"/>
+            <dmrpp:chunk offset="55746654" nBytes="93952" chunkPositionInArray="[360,0,1]"/>
+            <dmrpp:chunk offset="55840606" nBytes="88164" chunkPositionInArray="[360,780,0]"/>
+            <dmrpp:chunk offset="55928770" nBytes="87399" chunkPositionInArray="[360,780,1]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="gallon">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Attribute name="long_name" type="String">
+            <Value>Longitudinal (azimuthal) angle of specular reflection ray in ECI2000</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>degree</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>360.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>physicalMeasurement</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="50214324" nBytes="108227" chunkPositionInArray="[0,0,0]"/>
+            <dmrpp:chunk offset="50322551" nBytes="105067" chunkPositionInArray="[0,0,1]"/>
+            <dmrpp:chunk offset="50427618" nBytes="106806" chunkPositionInArray="[0,780,0]"/>
+            <dmrpp:chunk offset="50534424" nBytes="103102" chunkPositionInArray="[0,780,1]"/>
+            <dmrpp:chunk offset="50637526" nBytes="104615" chunkPositionInArray="[360,0,0]"/>
+            <dmrpp:chunk offset="57823518" nBytes="105333" chunkPositionInArray="[360,0,1]"/>
+            <dmrpp:chunk offset="57928851" nBytes="95727" chunkPositionInArray="[360,780,0]"/>
+            <dmrpp:chunk offset="58024578" nBytes="101146" chunkPositionInArray="[360,780,1]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="tb_sur0_exp">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Dim name="/polarization_4"/>
+        <Attribute name="long_name" type="String">
+            <Value>Expected (RTM) at flat ocean surface. SIC added. This is to be compared with tb_sur0, before SIC. Pol basis V,H,S3,S4</Value>
+        </Attribute>
+        <Attribute name="standard_name" type="String">
+            <Value>brightness_temperature</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>Kelvin</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>330.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>referenceInformation</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="38770556" nBytes="96193" chunkPositionInArray="[0,0,0,0]"/>
+            <dmrpp:chunk offset="38866749" nBytes="94834" chunkPositionInArray="[0,0,0,1]"/>
+            <dmrpp:chunk offset="38961583" nBytes="2712" chunkPositionInArray="[0,0,0,2]"/>
+            <dmrpp:chunk offset="38964295" nBytes="2712" chunkPositionInArray="[0,0,0,3]"/>
+            <dmrpp:chunk offset="38967007" nBytes="95046" chunkPositionInArray="[0,0,1,0]"/>
+            <dmrpp:chunk offset="39062053" nBytes="93684" chunkPositionInArray="[0,0,1,1]"/>
+            <dmrpp:chunk offset="39155737" nBytes="2778" chunkPositionInArray="[0,0,1,2]"/>
+            <dmrpp:chunk offset="39158515" nBytes="2778" chunkPositionInArray="[0,0,1,3]"/>
+            <dmrpp:chunk offset="39161293" nBytes="95831" chunkPositionInArray="[0,780,0,0]"/>
+            <dmrpp:chunk offset="39257124" nBytes="95150" chunkPositionInArray="[0,780,0,1]"/>
+            <dmrpp:chunk offset="39352274" nBytes="2785" chunkPositionInArray="[0,780,0,2]"/>
+            <dmrpp:chunk offset="39355059" nBytes="2785" chunkPositionInArray="[0,780,0,3]"/>
+            <dmrpp:chunk offset="39357844" nBytes="96674" chunkPositionInArray="[0,780,1,0]"/>
+            <dmrpp:chunk offset="39454518" nBytes="95995" chunkPositionInArray="[0,780,1,1]"/>
+            <dmrpp:chunk offset="39550513" nBytes="2719" chunkPositionInArray="[0,780,1,2]"/>
+            <dmrpp:chunk offset="39553232" nBytes="2719" chunkPositionInArray="[0,780,1,3]"/>
+            <dmrpp:chunk offset="39555951" nBytes="96503" chunkPositionInArray="[360,0,0,0]"/>
+            <dmrpp:chunk offset="39652454" nBytes="96721" chunkPositionInArray="[360,0,0,1]"/>
+            <dmrpp:chunk offset="39749175" nBytes="2911" chunkPositionInArray="[360,0,0,2]"/>
+            <dmrpp:chunk offset="39752086" nBytes="2911" chunkPositionInArray="[360,0,0,3]"/>
+            <dmrpp:chunk offset="39754997" nBytes="95707" chunkPositionInArray="[360,0,1,0]"/>
+            <dmrpp:chunk offset="39850704" nBytes="96021" chunkPositionInArray="[360,0,1,1]"/>
+            <dmrpp:chunk offset="39946725" nBytes="2848" chunkPositionInArray="[360,0,1,2]"/>
+            <dmrpp:chunk offset="39949573" nBytes="2848" chunkPositionInArray="[360,0,1,3]"/>
+            <dmrpp:chunk offset="39952421" nBytes="92564" chunkPositionInArray="[360,780,0,0]"/>
+            <dmrpp:chunk offset="40044985" nBytes="92676" chunkPositionInArray="[360,780,0,1]"/>
+            <dmrpp:chunk offset="40137661" nBytes="3226" chunkPositionInArray="[360,780,0,2]"/>
+            <dmrpp:chunk offset="40140887" nBytes="3226" chunkPositionInArray="[360,780,0,3]"/>
+            <dmrpp:chunk offset="40144113" nBytes="93193" chunkPositionInArray="[360,780,1,0]"/>
+            <dmrpp:chunk offset="62425026" nBytes="93209" chunkPositionInArray="[360,780,1,1]"/>
+            <dmrpp:chunk offset="62518235" nBytes="3318" chunkPositionInArray="[360,780,1,2]"/>
+            <dmrpp:chunk offset="62521553" nBytes="3318" chunkPositionInArray="[360,780,1,3]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="tb_toi">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Dim name="/polarization_4"/>
+        <Attribute name="long_name" type="String">
+            <Value>Brightness temperature at top of ionosphere. Pol basis V,H,S3,S4</Value>
+        </Attribute>
+        <Attribute name="standard_name" type="String">
+            <Value>brightness_temperature</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>Kelvin</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>330.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>physicalMeasurement</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="20096747" nBytes="99691" chunkPositionInArray="[0,0,0,0]"/>
+            <dmrpp:chunk offset="20196438" nBytes="100068" chunkPositionInArray="[0,0,0,1]"/>
+            <dmrpp:chunk offset="20296506" nBytes="112548" chunkPositionInArray="[0,0,0,2]"/>
+            <dmrpp:chunk offset="20409054" nBytes="115070" chunkPositionInArray="[0,0,0,3]"/>
+            <dmrpp:chunk offset="20524124" nBytes="98890" chunkPositionInArray="[0,0,1,0]"/>
+            <dmrpp:chunk offset="20623014" nBytes="99041" chunkPositionInArray="[0,0,1,1]"/>
+            <dmrpp:chunk offset="20722055" nBytes="107989" chunkPositionInArray="[0,0,1,2]"/>
+            <dmrpp:chunk offset="20830044" nBytes="113609" chunkPositionInArray="[0,0,1,3]"/>
+            <dmrpp:chunk offset="20943653" nBytes="98976" chunkPositionInArray="[0,780,0,0]"/>
+            <dmrpp:chunk offset="21042629" nBytes="98872" chunkPositionInArray="[0,780,0,1]"/>
+            <dmrpp:chunk offset="21141501" nBytes="113155" chunkPositionInArray="[0,780,0,2]"/>
+            <dmrpp:chunk offset="21254656" nBytes="113985" chunkPositionInArray="[0,780,0,3]"/>
+            <dmrpp:chunk offset="21368641" nBytes="99793" chunkPositionInArray="[0,780,1,0]"/>
+            <dmrpp:chunk offset="21468434" nBytes="99827" chunkPositionInArray="[0,780,1,1]"/>
+            <dmrpp:chunk offset="21568261" nBytes="114084" chunkPositionInArray="[0,780,1,2]"/>
+            <dmrpp:chunk offset="21682345" nBytes="114700" chunkPositionInArray="[0,780,1,3]"/>
+            <dmrpp:chunk offset="21797045" nBytes="97325" chunkPositionInArray="[360,0,0,0]"/>
+            <dmrpp:chunk offset="21894370" nBytes="98385" chunkPositionInArray="[360,0,0,1]"/>
+            <dmrpp:chunk offset="21992755" nBytes="108290" chunkPositionInArray="[360,0,0,2]"/>
+            <dmrpp:chunk offset="22101045" nBytes="113130" chunkPositionInArray="[360,0,0,3]"/>
+            <dmrpp:chunk offset="22214175" nBytes="96391" chunkPositionInArray="[360,0,1,0]"/>
+            <dmrpp:chunk offset="22310566" nBytes="97448" chunkPositionInArray="[360,0,1,1]"/>
+            <dmrpp:chunk offset="22408014" nBytes="108590" chunkPositionInArray="[360,0,1,2]"/>
+            <dmrpp:chunk offset="22516604" nBytes="112157" chunkPositionInArray="[360,0,1,3]"/>
+            <dmrpp:chunk offset="22628761" nBytes="92036" chunkPositionInArray="[360,780,0,0]"/>
+            <dmrpp:chunk offset="22720797" nBytes="93540" chunkPositionInArray="[360,780,0,1]"/>
+            <dmrpp:chunk offset="22814337" nBytes="104055" chunkPositionInArray="[360,780,0,2]"/>
+            <dmrpp:chunk offset="22918392" nBytes="106810" chunkPositionInArray="[360,780,0,3]"/>
+            <dmrpp:chunk offset="23025202" nBytes="92725" chunkPositionInArray="[360,780,1,0]"/>
+            <dmrpp:chunk offset="60383376" nBytes="94027" chunkPositionInArray="[360,780,1,1]"/>
+            <dmrpp:chunk offset="60477403" nBytes="103870" chunkPositionInArray="[360,780,1,2]"/>
+            <dmrpp:chunk offset="60581273" nBytes="107498" chunkPositionInArray="[360,780,1,3]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="TEC">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Attribute name="long_name" type="String">
+            <Value>Vertically integrated electron content between surface and S/C</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>1e16 m-2</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>referenceInformation</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="52123928" nBytes="105425" chunkPositionInArray="[0,0,0]"/>
+            <dmrpp:chunk offset="52229353" nBytes="103538" chunkPositionInArray="[0,0,1]"/>
+            <dmrpp:chunk offset="52332891" nBytes="105126" chunkPositionInArray="[0,780,0]"/>
+            <dmrpp:chunk offset="52438017" nBytes="106027" chunkPositionInArray="[0,780,1]"/>
+            <dmrpp:chunk offset="52544044" nBytes="98917" chunkPositionInArray="[360,0,0]"/>
+            <dmrpp:chunk offset="62818782" nBytes="99142" chunkPositionInArray="[360,0,1]"/>
+            <dmrpp:chunk offset="62917924" nBytes="94658" chunkPositionInArray="[360,780,0]"/>
+            <dmrpp:chunk offset="63012582" nBytes="95163" chunkPositionInArray="[360,780,1]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="rain">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Attribute name="long_name" type="String">
+            <Value>IMERG rain rate. Resampled to SMAP resolution.</Value>
+        </Attribute>
+        <Attribute name="standard_name" type="String">
+            <Value>rainfall_rate</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>mm h-1</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>25.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>referenceInformation</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="52095528" nBytes="14868" chunkPositionInArray="[0,0]"/>
+            <dmrpp:chunk offset="55586206" nBytes="34557" chunkPositionInArray="[0,780]"/>
+            <dmrpp:chunk offset="55620763" nBytes="18682" chunkPositionInArray="[360,0]"/>
+            <dmrpp:chunk offset="55639445" nBytes="14080" chunkPositionInArray="[360,780]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="pra">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Attribute name="long_name" type="String">
+            <Value>Polarization basis rotation angle (geometric part)</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>degree</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>-90.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>90.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>physicalMeasurement</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="48092339" nBytes="107132" chunkPositionInArray="[0,0,0]"/>
+            <dmrpp:chunk offset="48199471" nBytes="105037" chunkPositionInArray="[0,0,1]"/>
+            <dmrpp:chunk offset="48304508" nBytes="105934" chunkPositionInArray="[0,780,0]"/>
+            <dmrpp:chunk offset="48410442" nBytes="106963" chunkPositionInArray="[0,780,1]"/>
+            <dmrpp:chunk offset="48517405" nBytes="105899" chunkPositionInArray="[360,0,0]"/>
+            <dmrpp:chunk offset="56620212" nBytes="102731" chunkPositionInArray="[360,0,1]"/>
+            <dmrpp:chunk offset="56722943" nBytes="99862" chunkPositionInArray="[360,780,0]"/>
+            <dmrpp:chunk offset="56822805" nBytes="99417" chunkPositionInArray="[360,780,1]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="sss_smap_40km">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Attribute name="long_name" type="String">
+            <Value>SMAP sea surface salinity at original 40km resolution</Value>
+        </Attribute>
+        <Attribute name="standard_name" type="String">
+            <Value>sea_surface_salinity</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>1e-3</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>45.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>physicalMeasurement</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="4317518" nBytes="53556" chunkPositionInArray="[0,0,0]"/>
+            <dmrpp:chunk offset="4371074" nBytes="52894" chunkPositionInArray="[0,0,1]"/>
+            <dmrpp:chunk offset="4423968" nBytes="50045" chunkPositionInArray="[0,780,0]"/>
+            <dmrpp:chunk offset="4474013" nBytes="51072" chunkPositionInArray="[0,780,1]"/>
+            <dmrpp:chunk offset="4525085" nBytes="16815" chunkPositionInArray="[360,0,0]"/>
+            <dmrpp:chunk offset="62011597" nBytes="16507" chunkPositionInArray="[360,0,1]"/>
+            <dmrpp:chunk offset="62028104" nBytes="13817" chunkPositionInArray="[360,780,0]"/>
+            <dmrpp:chunk offset="62041921" nBytes="13989" chunkPositionInArray="[360,780,1]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="ta_earth">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Dim name="/polarization_4"/>
+        <Attribute name="long_name" type="String">
+            <Value>Antenna temperature after correcting for cold space, galaxy, sun, moon. Pol basis V,H,S3,S4</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>Kelvin</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>330.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>physicalMeasurement</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="17076331" nBytes="99349" chunkPositionInArray="[0,0,0,0]"/>
+            <dmrpp:chunk offset="17175680" nBytes="99638" chunkPositionInArray="[0,0,0,1]"/>
+            <dmrpp:chunk offset="17275318" nBytes="113231" chunkPositionInArray="[0,0,0,2]"/>
+            <dmrpp:chunk offset="17388549" nBytes="114820" chunkPositionInArray="[0,0,0,3]"/>
+            <dmrpp:chunk offset="17503369" nBytes="98554" chunkPositionInArray="[0,0,1,0]"/>
+            <dmrpp:chunk offset="17601923" nBytes="98584" chunkPositionInArray="[0,0,1,1]"/>
+            <dmrpp:chunk offset="17700507" nBytes="108768" chunkPositionInArray="[0,0,1,2]"/>
+            <dmrpp:chunk offset="17809275" nBytes="113314" chunkPositionInArray="[0,0,1,3]"/>
+            <dmrpp:chunk offset="17922589" nBytes="98249" chunkPositionInArray="[0,780,0,0]"/>
+            <dmrpp:chunk offset="18020838" nBytes="98803" chunkPositionInArray="[0,780,0,1]"/>
+            <dmrpp:chunk offset="18119641" nBytes="113475" chunkPositionInArray="[0,780,0,2]"/>
+            <dmrpp:chunk offset="18233116" nBytes="113766" chunkPositionInArray="[0,780,0,3]"/>
+            <dmrpp:chunk offset="18346882" nBytes="99050" chunkPositionInArray="[0,780,1,0]"/>
+            <dmrpp:chunk offset="18445932" nBytes="99792" chunkPositionInArray="[0,780,1,1]"/>
+            <dmrpp:chunk offset="18545724" nBytes="114577" chunkPositionInArray="[0,780,1,2]"/>
+            <dmrpp:chunk offset="18660301" nBytes="114453" chunkPositionInArray="[0,780,1,3]"/>
+            <dmrpp:chunk offset="18774754" nBytes="97300" chunkPositionInArray="[360,0,0,0]"/>
+            <dmrpp:chunk offset="18872054" nBytes="98240" chunkPositionInArray="[360,0,0,1]"/>
+            <dmrpp:chunk offset="18970294" nBytes="107726" chunkPositionInArray="[360,0,0,2]"/>
+            <dmrpp:chunk offset="19078020" nBytes="112993" chunkPositionInArray="[360,0,0,3]"/>
+            <dmrpp:chunk offset="19191013" nBytes="96442" chunkPositionInArray="[360,0,1,0]"/>
+            <dmrpp:chunk offset="19287455" nBytes="97311" chunkPositionInArray="[360,0,1,1]"/>
+            <dmrpp:chunk offset="19384766" nBytes="107848" chunkPositionInArray="[360,0,1,2]"/>
+            <dmrpp:chunk offset="19492614" nBytes="112011" chunkPositionInArray="[360,0,1,3]"/>
+            <dmrpp:chunk offset="19604625" nBytes="92258" chunkPositionInArray="[360,780,0,0]"/>
+            <dmrpp:chunk offset="19696883" nBytes="93297" chunkPositionInArray="[360,780,0,1]"/>
+            <dmrpp:chunk offset="19790180" nBytes="103384" chunkPositionInArray="[360,780,0,2]"/>
+            <dmrpp:chunk offset="19893564" nBytes="106705" chunkPositionInArray="[360,780,0,3]"/>
+            <dmrpp:chunk offset="20000269" nBytes="92822" chunkPositionInArray="[360,780,1,0]"/>
+            <dmrpp:chunk offset="60078953" nBytes="93899" chunkPositionInArray="[360,780,1,1]"/>
+            <dmrpp:chunk offset="60172852" nBytes="103191" chunkPositionInArray="[360,780,1,2]"/>
+            <dmrpp:chunk offset="60276043" nBytes="107333" chunkPositionInArray="[360,780,1,3]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="ta_ant_exp">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Dim name="/polarization_4"/>
+        <Attribute name="long_name" type="String">
+            <Value>Expected (RTM) antenna temperature before any losses. This is to be compared with ta_ant_calibrated. Pol basis V,H,S3,S4</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>Kelvin</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>330.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>referenceInformation</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="35820685" nBytes="98545" chunkPositionInArray="[0,0,0,0]"/>
+            <dmrpp:chunk offset="35919230" nBytes="98722" chunkPositionInArray="[0,0,0,1]"/>
+            <dmrpp:chunk offset="36017952" nBytes="112143" chunkPositionInArray="[0,0,0,2]"/>
+            <dmrpp:chunk offset="36130095" nBytes="107708" chunkPositionInArray="[0,0,0,3]"/>
+            <dmrpp:chunk offset="36237803" nBytes="98122" chunkPositionInArray="[0,0,1,0]"/>
+            <dmrpp:chunk offset="36335925" nBytes="98007" chunkPositionInArray="[0,0,1,1]"/>
+            <dmrpp:chunk offset="36433932" nBytes="109101" chunkPositionInArray="[0,0,1,2]"/>
+            <dmrpp:chunk offset="36543033" nBytes="106898" chunkPositionInArray="[0,0,1,3]"/>
+            <dmrpp:chunk offset="36649931" nBytes="98378" chunkPositionInArray="[0,780,0,0]"/>
+            <dmrpp:chunk offset="36748309" nBytes="98709" chunkPositionInArray="[0,780,0,1]"/>
+            <dmrpp:chunk offset="36847018" nBytes="108052" chunkPositionInArray="[0,780,0,2]"/>
+            <dmrpp:chunk offset="36955070" nBytes="104780" chunkPositionInArray="[0,780,0,3]"/>
+            <dmrpp:chunk offset="37059850" nBytes="99452" chunkPositionInArray="[0,780,1,0]"/>
+            <dmrpp:chunk offset="37159302" nBytes="99617" chunkPositionInArray="[0,780,1,1]"/>
+            <dmrpp:chunk offset="37258919" nBytes="111375" chunkPositionInArray="[0,780,1,2]"/>
+            <dmrpp:chunk offset="37370294" nBytes="105803" chunkPositionInArray="[0,780,1,3]"/>
+            <dmrpp:chunk offset="37476097" nBytes="97479" chunkPositionInArray="[360,0,0,0]"/>
+            <dmrpp:chunk offset="37573576" nBytes="97259" chunkPositionInArray="[360,0,0,1]"/>
+            <dmrpp:chunk offset="37670835" nBytes="104566" chunkPositionInArray="[360,0,0,2]"/>
+            <dmrpp:chunk offset="37775401" nBytes="106481" chunkPositionInArray="[360,0,0,3]"/>
+            <dmrpp:chunk offset="37881882" nBytes="96342" chunkPositionInArray="[360,0,1,0]"/>
+            <dmrpp:chunk offset="37978224" nBytes="96174" chunkPositionInArray="[360,0,1,1]"/>
+            <dmrpp:chunk offset="38074398" nBytes="104788" chunkPositionInArray="[360,0,1,2]"/>
+            <dmrpp:chunk offset="38179186" nBytes="104116" chunkPositionInArray="[360,0,1,3]"/>
+            <dmrpp:chunk offset="38283302" nBytes="93854" chunkPositionInArray="[360,780,0,0]"/>
+            <dmrpp:chunk offset="38377156" nBytes="93832" chunkPositionInArray="[360,780,0,1]"/>
+            <dmrpp:chunk offset="38470988" nBytes="100753" chunkPositionInArray="[360,780,0,2]"/>
+            <dmrpp:chunk offset="38571741" nBytes="100801" chunkPositionInArray="[360,780,0,3]"/>
+            <dmrpp:chunk offset="38672542" nBytes="94358" chunkPositionInArray="[360,780,1,0]"/>
+            <dmrpp:chunk offset="62128906" nBytes="94431" chunkPositionInArray="[360,780,1,1]"/>
+            <dmrpp:chunk offset="62223337" nBytes="100391" chunkPositionInArray="[360,780,1,2]"/>
+            <dmrpp:chunk offset="62323728" nBytes="101298" chunkPositionInArray="[360,780,1,3]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="sss_smap_40km_unc">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Attribute name="long_name" type="String">
+            <Value>total formal uncertainty estimate of SMAP sea surface salinity at original 40km resolution</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>1e-3</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>45.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>qualityInformation</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="6631197" nBytes="56440" chunkPositionInArray="[0,0,0]"/>
+            <dmrpp:chunk offset="6687637" nBytes="55542" chunkPositionInArray="[0,0,1]"/>
+            <dmrpp:chunk offset="6743179" nBytes="53428" chunkPositionInArray="[0,780,0]"/>
+            <dmrpp:chunk offset="6796607" nBytes="54265" chunkPositionInArray="[0,780,1]"/>
+            <dmrpp:chunk offset="6850872" nBytes="17995" chunkPositionInArray="[360,0,0]"/>
+            <dmrpp:chunk offset="63150373" nBytes="17681" chunkPositionInArray="[360,0,1]"/>
+            <dmrpp:chunk offset="63168054" nBytes="14383" chunkPositionInArray="[360,780,0]"/>
+            <dmrpp:chunk offset="63182437" nBytes="14678" chunkPositionInArray="[360,780,1]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="cellon">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Attribute name="long_name" type="String">
+            <Value>Longitude of OI Earth grid cell</Value>
+        </Attribute>
+        <Attribute name="standard_name" type="String">
+            <Value>longitude</Value>
+        </Attribute>
+        <Attribute name="Axis" type="String">
+            <Value>X</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>degrees_east</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>360.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>coordinate</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="1395113" nBytes="98491" chunkPositionInArray="[0,0,0]"/>
+            <dmrpp:chunk offset="1493604" nBytes="97425" chunkPositionInArray="[0,0,1]"/>
+            <dmrpp:chunk offset="1591029" nBytes="105081" chunkPositionInArray="[0,780,0]"/>
+            <dmrpp:chunk offset="1696110" nBytes="106020" chunkPositionInArray="[0,780,1]"/>
+            <dmrpp:chunk offset="1802130" nBytes="98277" chunkPositionInArray="[360,0,0]"/>
+            <dmrpp:chunk offset="52994202" nBytes="97383" chunkPositionInArray="[360,0,1]"/>
+            <dmrpp:chunk offset="53091585" nBytes="95588" chunkPositionInArray="[360,780,0]"/>
+            <dmrpp:chunk offset="53187173" nBytes="96258" chunkPositionInArray="[360,780,1]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="sss_ref">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Attribute name="long_name" type="String">
+            <Value>Reference sea surface salinity from HYCOM</Value>
+        </Attribute>
+        <Attribute name="standard_name" type="String">
+            <Value>sea_surface_salinity</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>1e-3</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>45.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>referenceInformation</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="7768189" nBytes="56256" chunkPositionInArray="[0,0]"/>
+            <dmrpp:chunk offset="54345841" nBytes="49017" chunkPositionInArray="[0,780]"/>
+            <dmrpp:chunk offset="54394858" nBytes="62982" chunkPositionInArray="[360,0]"/>
+            <dmrpp:chunk offset="54457840" nBytes="49903" chunkPositionInArray="[360,780]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Int32 name="iqc_flag">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Attribute name="long_name" type="String">
+            <Value>32-bit quality control flag</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>1</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Int32">
+            <Value>1</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>qualityInformation</Value>
+        </Attribute>
+        <Attribute name="flag_meaning" type="String">
+            <Value>bit  0 set: no radiometer observation in cell. SSS not retrieved. bit  1 set: problenm with OI. SSS not retrieved. bit  2 set: strong land contamination. SSS not retrieved. bit  3 set: strong sea ice contamination. SSS not retrieved. bit  4 set: MLE in SSS retrieval algo has not converged. SSS not retrieved. bit  5 set: sunglint. SSS retrieved. very strong degradation. bit  6 set: moonglint. SSS retrieved. moderate - strong degradation. bit  7 set: high reflected galaxy. SSS retrieved. moderate - strong degradation. bit  8 set: moderate land contamination. SSS retrieved. strong degradation. bit  9 set: moderate sea ice contamination. SSS retrieved. strong degradation. bit 10 set: high residual of MLE in SSS retrieval algo. SSS retrieved. strong degradation. bit 11 set: low SST. SSS retrieved. moderate - strong degradation. bit 12 set: high wind. SSS retrieved. moderate degradation. bit 13 set: light land contamination. SSS retrieved. light degradation. not used in ocean target cal. bit 14 set: light sea ice contamination. SSS retrieved. light - moderate degradation. not used in ocean target cal. bit 15 set: rain flag. SSS retrieved. possibly light degradation. not used in ocean target cal. bit 16 set: climatological sea-ice flag set. no AMSR2 data available for sea-ice detection or correction. no SSS retrieved.</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="7732997" nBytes="6484" chunkPositionInArray="[0,0,0]"/>
+            <dmrpp:chunk offset="7739481" nBytes="6505" chunkPositionInArray="[0,0,1]"/>
+            <dmrpp:chunk offset="7745986" nBytes="7199" chunkPositionInArray="[0,780,0]"/>
+            <dmrpp:chunk offset="7753185" nBytes="7441" chunkPositionInArray="[0,780,1]"/>
+            <dmrpp:chunk offset="7760626" nBytes="4947" chunkPositionInArray="[360,0,0]"/>
+            <dmrpp:chunk offset="62055910" nBytes="4814" chunkPositionInArray="[360,0,1]"/>
+            <dmrpp:chunk offset="62060724" nBytes="5203" chunkPositionInArray="[360,780,0]"/>
+            <dmrpp:chunk offset="62065927" nBytes="5124" chunkPositionInArray="[360,780,1]"/>
+        </dmrpp:chunks>
+    </Int32>
+    <Float32 name="sunglt">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Attribute name="long_name" type="String">
+            <Value>Sun glint angle. Negative value means that sun ray pierces the Earth.</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>degree</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>-180.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>180.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>physicalMeasurement</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="48626440" nBytes="106618" chunkPositionInArray="[0,0,0]"/>
+            <dmrpp:chunk offset="48733058" nBytes="106030" chunkPositionInArray="[0,0,1]"/>
+            <dmrpp:chunk offset="48839088" nBytes="105949" chunkPositionInArray="[0,780,0]"/>
+            <dmrpp:chunk offset="48945037" nBytes="106482" chunkPositionInArray="[0,780,1]"/>
+            <dmrpp:chunk offset="49051519" nBytes="103602" chunkPositionInArray="[360,0,0]"/>
+            <dmrpp:chunk offset="56922222" nBytes="102771" chunkPositionInArray="[360,0,1]"/>
+            <dmrpp:chunk offset="57024993" nBytes="97990" chunkPositionInArray="[360,780,0]"/>
+            <dmrpp:chunk offset="57122983" nBytes="98627" chunkPositionInArray="[360,780,1]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="fland">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Attribute name="long_name" type="String">
+            <Value>land fraction within footprint</Value>
+        </Attribute>
+        <Attribute name="standard_name" type="String">
+            <Value>land_area_fraction</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>1</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>auxiliaryInformation</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="7353982" nBytes="76342" chunkPositionInArray="[0,0,0]"/>
+            <dmrpp:chunk offset="7430324" nBytes="75059" chunkPositionInArray="[0,0,1]"/>
+            <dmrpp:chunk offset="7505383" nBytes="62020" chunkPositionInArray="[0,780,0]"/>
+            <dmrpp:chunk offset="7567403" nBytes="62948" chunkPositionInArray="[0,780,1]"/>
+            <dmrpp:chunk offset="7630351" nBytes="99510" chunkPositionInArray="[360,0,0]"/>
+            <dmrpp:chunk offset="53574505" nBytes="98869" chunkPositionInArray="[360,0,1]"/>
+            <dmrpp:chunk offset="53673374" nBytes="86546" chunkPositionInArray="[360,780,0]"/>
+            <dmrpp:chunk offset="53759920" nBytes="87163" chunkPositionInArray="[360,780,1]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="cellat">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Attribute name="long_name" type="String">
+            <Value>Latitude of OI Earth grid cell</Value>
+        </Attribute>
+        <Attribute name="standard_name" type="String">
+            <Value>latitude</Value>
+        </Attribute>
+        <Attribute name="Axis" type="String">
+            <Value>Y</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>degrees_north</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>-90.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>90.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>coordinate</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="966294" nBytes="85688" chunkPositionInArray="[0,0,0]"/>
+            <dmrpp:chunk offset="1051982" nBytes="84890" chunkPositionInArray="[0,0,1]"/>
+            <dmrpp:chunk offset="1136872" nBytes="85019" chunkPositionInArray="[0,780,0]"/>
+            <dmrpp:chunk offset="1221891" nBytes="85802" chunkPositionInArray="[0,780,1]"/>
+            <dmrpp:chunk offset="1307693" nBytes="84284" chunkPositionInArray="[360,0,0]"/>
+            <dmrpp:chunk offset="52749546" nBytes="83416" chunkPositionInArray="[360,0,1]"/>
+            <dmrpp:chunk offset="52832962" nBytes="80204" chunkPositionInArray="[360,780,0]"/>
+            <dmrpp:chunk offset="52913166" nBytes="81036" chunkPositionInArray="[360,780,1]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="ta_sun_dir">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Dim name="/polarization_3"/>
+        <Attribute name="long_name" type="String">
+            <Value>TA of direct sun intrusion. Pol basis I,Q,S3</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>Kelvin</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>physicalMeasurement</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="40240962" nBytes="20434" chunkPositionInArray="[0,0,0,0]"/>
+            <dmrpp:chunk offset="40261396" nBytes="9404" chunkPositionInArray="[0,0,0,1]"/>
+            <dmrpp:chunk offset="40270800" nBytes="4898" chunkPositionInArray="[0,0,0,2]"/>
+            <dmrpp:chunk offset="40275698" nBytes="13454" chunkPositionInArray="[0,0,1,0]"/>
+            <dmrpp:chunk offset="40289152" nBytes="6444" chunkPositionInArray="[0,0,1,1]"/>
+            <dmrpp:chunk offset="40295596" nBytes="2778" chunkPositionInArray="[0,0,1,2]"/>
+            <dmrpp:chunk offset="40298374" nBytes="12416" chunkPositionInArray="[0,780,0,0]"/>
+            <dmrpp:chunk offset="40310790" nBytes="7671" chunkPositionInArray="[0,780,0,1]"/>
+            <dmrpp:chunk offset="40318461" nBytes="3740" chunkPositionInArray="[0,780,0,2]"/>
+            <dmrpp:chunk offset="40322201" nBytes="18813" chunkPositionInArray="[0,780,1,0]"/>
+            <dmrpp:chunk offset="40341014" nBytes="9110" chunkPositionInArray="[0,780,1,1]"/>
+            <dmrpp:chunk offset="40350124" nBytes="2839" chunkPositionInArray="[0,780,1,2]"/>
+            <dmrpp:chunk offset="40352963" nBytes="48724" chunkPositionInArray="[360,0,0,0]"/>
+            <dmrpp:chunk offset="40401687" nBytes="5206" chunkPositionInArray="[360,0,0,1]"/>
+            <dmrpp:chunk offset="40406893" nBytes="2911" chunkPositionInArray="[360,0,0,2]"/>
+            <dmrpp:chunk offset="40409804" nBytes="50846" chunkPositionInArray="[360,0,1,0]"/>
+            <dmrpp:chunk offset="40460650" nBytes="4561" chunkPositionInArray="[360,0,1,1]"/>
+            <dmrpp:chunk offset="40465211" nBytes="2848" chunkPositionInArray="[360,0,1,2]"/>
+            <dmrpp:chunk offset="40468059" nBytes="40501" chunkPositionInArray="[360,780,0,0]"/>
+            <dmrpp:chunk offset="40508560" nBytes="4384" chunkPositionInArray="[360,780,0,1]"/>
+            <dmrpp:chunk offset="40512944" nBytes="3226" chunkPositionInArray="[360,780,0,2]"/>
+            <dmrpp:chunk offset="59109385" nBytes="40141" chunkPositionInArray="[360,780,1,0]"/>
+            <dmrpp:chunk offset="59149526" nBytes="5274" chunkPositionInArray="[360,780,1,1]"/>
+            <dmrpp:chunk offset="59154800" nBytes="3318" chunkPositionInArray="[360,780,1,2]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="tbup">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Attribute name="long_name" type="String">
+            <Value>Atmospheric upwelling brightness temperature</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>Kelvin</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>auxiliaryInformation</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="51765463" nBytes="97550" chunkPositionInArray="[0,0]"/>
+            <dmrpp:chunk offset="54711619" nBytes="100341" chunkPositionInArray="[0,780]"/>
+            <dmrpp:chunk offset="54811960" nBytes="93415" chunkPositionInArray="[360,0]"/>
+            <dmrpp:chunk offset="54905375" nBytes="87157" chunkPositionInArray="[360,780]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="tb_toa">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Dim name="/polarization_4"/>
+        <Attribute name="long_name" type="String">
+            <Value>Brightness temperature at top of atmosphere BEFORE applying land correction. Pol basis V,H,S3,S4</Value>
+        </Attribute>
+        <Attribute name="standard_name" type="String">
+            <Value>toa_brightness_temperature</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>Kelvin</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="valid_max" type="Float32">
+            <Value>330.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>physicalMeasurement</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="23121583" nBytes="99696" chunkPositionInArray="[0,0,0,0]"/>
+            <dmrpp:chunk offset="23221279" nBytes="100118" chunkPositionInArray="[0,0,0,1]"/>
+            <dmrpp:chunk offset="23321397" nBytes="115038" chunkPositionInArray="[0,0,0,2]"/>
+            <dmrpp:chunk offset="23436435" nBytes="115070" chunkPositionInArray="[0,0,0,3]"/>
+            <dmrpp:chunk offset="23551505" nBytes="98728" chunkPositionInArray="[0,0,1,0]"/>
+            <dmrpp:chunk offset="23650233" nBytes="99073" chunkPositionInArray="[0,0,1,1]"/>
+            <dmrpp:chunk offset="23749306" nBytes="113708" chunkPositionInArray="[0,0,1,2]"/>
+            <dmrpp:chunk offset="23863014" nBytes="113609" chunkPositionInArray="[0,0,1,3]"/>
+            <dmrpp:chunk offset="23976623" nBytes="98959" chunkPositionInArray="[0,780,0,0]"/>
+            <dmrpp:chunk offset="24075582" nBytes="98899" chunkPositionInArray="[0,780,0,1]"/>
+            <dmrpp:chunk offset="24174481" nBytes="113902" chunkPositionInArray="[0,780,0,2]"/>
+            <dmrpp:chunk offset="24288383" nBytes="113985" chunkPositionInArray="[0,780,0,3]"/>
+            <dmrpp:chunk offset="24402368" nBytes="99805" chunkPositionInArray="[0,780,1,0]"/>
+            <dmrpp:chunk offset="24502173" nBytes="99835" chunkPositionInArray="[0,780,1,1]"/>
+            <dmrpp:chunk offset="24602008" nBytes="115212" chunkPositionInArray="[0,780,1,2]"/>
+            <dmrpp:chunk offset="24717220" nBytes="114700" chunkPositionInArray="[0,780,1,3]"/>
+            <dmrpp:chunk offset="24831920" nBytes="97229" chunkPositionInArray="[360,0,0,0]"/>
+            <dmrpp:chunk offset="24929149" nBytes="98307" chunkPositionInArray="[360,0,0,1]"/>
+            <dmrpp:chunk offset="25027456" nBytes="112566" chunkPositionInArray="[360,0,0,2]"/>
+            <dmrpp:chunk offset="25140022" nBytes="113130" chunkPositionInArray="[360,0,0,3]"/>
+            <dmrpp:chunk offset="25253152" nBytes="96398" chunkPositionInArray="[360,0,1,0]"/>
+            <dmrpp:chunk offset="25349550" nBytes="97486" chunkPositionInArray="[360,0,1,1]"/>
+            <dmrpp:chunk offset="25447036" nBytes="111149" chunkPositionInArray="[360,0,1,2]"/>
+            <dmrpp:chunk offset="25558185" nBytes="112157" chunkPositionInArray="[360,0,1,3]"/>
+            <dmrpp:chunk offset="25670342" nBytes="92136" chunkPositionInArray="[360,780,0,0]"/>
+            <dmrpp:chunk offset="25762478" nBytes="93533" chunkPositionInArray="[360,780,0,1]"/>
+            <dmrpp:chunk offset="25856011" nBytes="106248" chunkPositionInArray="[360,780,0,2]"/>
+            <dmrpp:chunk offset="25962259" nBytes="106810" chunkPositionInArray="[360,780,0,3]"/>
+            <dmrpp:chunk offset="26069069" nBytes="92670" chunkPositionInArray="[360,780,1,0]"/>
+            <dmrpp:chunk offset="60688771" nBytes="94107" chunkPositionInArray="[360,780,1,1]"/>
+            <dmrpp:chunk offset="60782878" nBytes="107194" chunkPositionInArray="[360,780,1,2]"/>
+            <dmrpp:chunk offset="60890072" nBytes="107498" chunkPositionInArray="[360,780,1,3]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="tb_consistency">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Dim name="/look"/>
+        <Attribute name="long_name" type="String">
+            <Value>sqrt(chi2) of MLE in SSS retrieval</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>Kelvin</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>qualityInformation</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780 1</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="51443381" nBytes="59488" chunkPositionInArray="[0,0,0]"/>
+            <dmrpp:chunk offset="51502869" nBytes="58492" chunkPositionInArray="[0,0,1]"/>
+            <dmrpp:chunk offset="51561361" nBytes="55426" chunkPositionInArray="[0,780,0]"/>
+            <dmrpp:chunk offset="51616787" nBytes="56433" chunkPositionInArray="[0,780,1]"/>
+            <dmrpp:chunk offset="51673220" nBytes="18668" chunkPositionInArray="[360,0,0]"/>
+            <dmrpp:chunk offset="62079888" nBytes="18350" chunkPositionInArray="[360,0,1]"/>
+            <dmrpp:chunk offset="62098238" nBytes="15205" chunkPositionInArray="[360,780,0]"/>
+            <dmrpp:chunk offset="62113443" nBytes="15463" chunkPositionInArray="[360,780,1]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Float32 name="solar_flux">
+        <Dim name="/ydim_grid"/>
+        <Dim name="/xdim_grid"/>
+        <Attribute name="long_name" type="String">
+            <Value>Ancillary solar flux (from NOAA SWPC)</Value>
+        </Attribute>
+        <Attribute name="units" type="String">
+            <Value>1e-22 W m-2 Hz-1</Value>
+        </Attribute>
+        <Attribute name="valid_min" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="_FillValue" type="Float32">
+            <Value>-9999.</Value>
+        </Attribute>
+        <Attribute name="scale_factor" type="Float32">
+            <Value>1.</Value>
+        </Attribute>
+        <Attribute name="add_offset" type="Float32">
+            <Value>0.</Value>
+        </Attribute>
+        <Attribute name="coverage_content_type" type="String">
+            <Value>auxiliaryInformation</Value>
+        </Attribute>
+        <dmrpp:chunks compressionType="deflate" byteOrder="LE">
+            <dmrpp:chunkDimensionSizes>360 780</dmrpp:chunkDimensionSizes>
+            <dmrpp:chunk offset="51965818" nBytes="17877" chunkPositionInArray="[0,0]"/>
+            <dmrpp:chunk offset="55653525" nBytes="18734" chunkPositionInArray="[0,780]"/>
+            <dmrpp:chunk offset="55672259" nBytes="17779" chunkPositionInArray="[360,0]"/>
+            <dmrpp:chunk offset="55690038" nBytes="18790" chunkPositionInArray="[360,780]"/>
+        </dmrpp:chunks>
+    </Float32>
+    <Attribute name="Conventions" type="String">
+        <Value>CF-1.7, ACDD-1.3</Value>
+    </Attribute>
+    <Attribute name="title" type="String">
+        <Value>SMAP ocean surface salinity</Value>
+    </Attribute>
+    <Attribute name="version" type="String">
+        <Value>V5.0 Validated Release</Value>
+    </Attribute>
+    <Attribute name="summary" type="String">
+        <Value>The dataset contains the Level 2 output of the NASA/RSS Version 5.0 SMAP Salinity Retrieval Algorithm. It includes all necessary ancillary data and the results of all intermediate steps. The data are resampled on a fixed regular 0.25 deg Earth grid. For details see the Release Notes at https://www.remss.com/missions/smap/salinity/.</Value>
+    </Attribute>
+    <Attribute name="acknowledgement" type="String">
+        <Value>Funded under Subcontract No.1664013 between JPL and RSS: Production System for NASA Ocean Salinity Science Team (OSST).</Value>
+    </Attribute>
+    <Attribute name="processing_level" type="String">
+        <Value>L2C</Value>
+    </Attribute>
+    <Attribute name="level" type="String">
+        <Value>Level 2: swath observations. optimum interpolated (OI) onto 0.25 deg fixed Earth grid</Value>
+    </Attribute>
+    <Attribute name="resolution" type="String">
+        <Value>Spatial resolution: approx 70km</Value>
+    </Attribute>
+    <Attribute name="history" type="String">
+        <Value>created by T. Meissner</Value>
+    </Attribute>
+    <Attribute name="date_created" type="String">
+        <Value>2022-03-22T14:18:48-0700</Value>
+    </Attribute>
+    <Attribute name="date_modified" type="String">
+        <Value>2022-03-22T14:18:48-0700</Value>
+    </Attribute>
+    <Attribute name="date_issued" type="String">
+        <Value>2022-03-22T14:18:48-0700</Value>
+    </Attribute>
+    <Attribute name="date_metadata_modified" type="String">
+        <Value>2022-03-22T14:18:48-0700</Value>
+    </Attribute>
+    <Attribute name="institution" type="String">
+        <Value>Remote Sensing Systems, Santa Rosa, CA, USA</Value>
+    </Attribute>
+    <Attribute name="source" type="String">
+        <Value>RSS SMAP-SSS v5.0 algorithm</Value>
+    </Attribute>
+    <Attribute name="platform" type="String">
+        <Value>SMAP</Value>
+    </Attribute>
+    <Attribute name="instrument" type="String">
+        <Value>SMAP radiometer</Value>
+    </Attribute>
+    <Attribute name="project" type="String">
+        <Value>Production System for NASA Ocean Salinity Science Team (OSST)</Value>
+    </Attribute>
+    <Attribute name="keywords" type="String">
+        <Value>SURFACE SALINITY, SALINITY, SMAP, NASA, RSS</Value>
+    </Attribute>
+    <Attribute name="keywords_vocabulary" type="String">
+        <Value>NASA Global Change Master Directory (GCMD) Science Keywords</Value>
+    </Attribute>
+    <Attribute name="standard_name_vocabulary" type="String">
+        <Value>CF Standard Name Table v78</Value>
+    </Attribute>
+    <Attribute name="license" type="String">
+        <Value>None</Value>
+    </Attribute>
+    <Attribute name="creator_name" type="String">
+        <Value>Thomas Meissner, Remote Sensing Systems</Value>
+    </Attribute>
+    <Attribute name="creator_email" type="String">
+        <Value>meissner@remss.com</Value>
+    </Attribute>
+    <Attribute name="creator_url" type="String">
+        <Value>http://www.remss.com/missions/smap</Value>
+    </Attribute>
+    <Attribute name="publisher_name" type="String">
+        <Value>Thomas Meissner, Frank Wentz, Andrew Manaster, Richard Lindsley, Marty Brewer, Michael Densberger, Remote Sensing Systems</Value>
+    </Attribute>
+    <Attribute name="publisher_email" type="String">
+        <Value>meissner@remss.com</Value>
+    </Attribute>
+    <Attribute name="publisher_url" type="String">
+        <Value>http://www.remss.com/missions/smap</Value>
+    </Attribute>
+    <Attribute name="id" type="String">
+        <Value>10.5067/SMP50-2SOCS</Value>
+    </Attribute>
+    <Attribute name="naming_authority" type="String">
+        <Value>gov.nasa.earthdata</Value>
+    </Attribute>
+    <Attribute name="dataset_citation_authors" type="String">
+        <Value>T. Meissner, F. Wentz, A. Manaster, R. Lindsley, M. Brewer, M. Densberger</Value>
+    </Attribute>
+    <Attribute name="dataset_citation_year" type="String">
+        <Value>2022</Value>
+    </Attribute>
+    <Attribute name="dataset_citation_product" type="String">
+        <Value>Remote Sensing Systems SMAP L2C Sea Surface Salinity</Value>
+    </Attribute>
+    <Attribute name="dataset_citation_version" type="String">
+        <Value>V5.0 Validated Release</Value>
+    </Attribute>
+    <Attribute name="dataset_citation_institution" type="String">
+        <Value>Remote Sensing Systems, Santa Rosa, CA, USA</Value>
+    </Attribute>
+    <Attribute name="dataset_citation_url" type="String">
+        <Value>Available online at www.remss.com/missions/smap</Value>
+    </Attribute>
+    <Attribute name="netCDF_version_id" type="String">
+        <Value>4</Value>
+    </Attribute>
+    <Attribute name="comment" type="String">
+        <Value>Major changes in V5.0: 1. sea-ice flag: based on AMSR-2 surface emissivties and discriminant analysis.  2. sea-ice correction included. 3. formal uncertainty estimates added.</Value>
+    </Attribute>
+    <Attribute name="references" type="String">
+        <Value>1. V5.0 Release Notes at https://www.remss.com/missions/smap/salinity/ 2. Meissner, T.; Wentz, F.J.; Le Vine, D.M. The Salinity Retrieval Algorithms for the NASA Aquarius Version 5 and SMAP Version 3 Releases. Remote Sens. 2018, 10, 1121. https://doi.org/10.3390/rs10071121 3. Meissner, T.; Manaster, A. SMAP Salinity Retrievals near the Sea-Ice Edge Using Multi-Channel AMSR2 Brightness Temperatures. Remote Sens. 2021, 13, 5120. https://doi.org/10.3390/rs13245120</Value>
+    </Attribute>
+    <Attribute name="time_coverage_start" type="String">
+        <Value>2015-04-01T00:43:12Z</Value>
+    </Attribute>
+    <Attribute name="time_coverage_end" type="String">
+        <Value>2015-04-01T02:24:53Z</Value>
+    </Attribute>
+    <Attribute name="orbit_number" type="Int32">
+        <Value>870</Value>
+    </Attribute>
+    <Attribute name="time_coverage_duration" type="String">
+        <Value>PT6104S</Value>
+    </Attribute>
+    <Attribute name="time_coverage_resolution" type="String">
+        <Value>PT6104S</Value>
+    </Attribute>
+    <Attribute name="cdm_data_type" type="String">
+        <Value>grid</Value>
+    </Attribute>
+    <Attribute name="geospatial_bounds" type="String">
+        <Value>2D</Value>
+    </Attribute>
+    <Attribute name="geospatial_lat_min" type="Float32">
+        <Value>-90.</Value>
+    </Attribute>
+    <Attribute name="geospatial_lat_max" type="Float32">
+        <Value>90.</Value>
+    </Attribute>
+    <Attribute name="geospatial_lat_resolution" type="Float32">
+        <Value>0.25</Value>
+    </Attribute>
+    <Attribute name="geospatial_lat_units" type="String">
+        <Value>degrees_north</Value>
+    </Attribute>
+    <Attribute name="geospatial_lon_min" type="Float32">
+        <Value>0.</Value>
+    </Attribute>
+    <Attribute name="geospatial_lon_max" type="Float32">
+        <Value>360.</Value>
+    </Attribute>
+    <Attribute name="geospatial_lon_resolution" type="Float32">
+        <Value>0.25</Value>
+    </Attribute>
+    <Attribute name="geospatial_lon_units" type="String">
+        <Value>degrees_east</Value>
+    </Attribute>
+    <Attribute name="geospatial_bounds_vertical_crs" type="String">
+        <Value>EPSG:5831</Value>
+    </Attribute>
+    <Attribute name="geospatial_vertical_min" type="Int32">
+        <Value>0</Value>
+    </Attribute>
+    <Attribute name="geospatial_vertical_max" type="Int32">
+        <Value>0</Value>
+    </Attribute>
+    <Attribute name="OI_Earth_grid_x_dimension" type="String">
+        <Value>1560 (360 deg longitude + 30 deg to accommodate whole swath).</Value>
+    </Attribute>
+    <Attribute name="OI_Earth_grid_y_dimension" type="String">
+        <Value> 720 (180 deg latitude).</Value>
+    </Attribute>
+    <Attribute name="OI_Earth_grid_cells_longitude_and_latitude" type="String">
+        <Value>provided as variables cellon and cellat.</Value>
+    </Attribute>
+    <Attribute name="Source_of_SMAP_filtered_TA" type="String">
+        <Value>Piepmeier J. et al., 2020. SMAP L1B SMAP L1B Radiometer Half-Orbit Time-Ordered Brightness Temperatures, Version 5. Boulder, Colorado USA. NASA National Snow and Ice Data Center Distributed Active Archive Center. https://doi.org/10.5067/ZHHBN1KQLI20.</Value>
+    </Attribute>
+    <Attribute name="Source_of_ancillary_SST" type="String">
+        <Value>Canada Meteorological Center. 2016.GHRSST Level 4 CMC0.1deg Global Foundation Sea Surface Temperature Analysis (GDS version 2). Ver.3.3.doi: 10.5067/GHCMC-4FM03 http://dx.doi.org/10.5067/GHCMC-4FM03.</Value>
+    </Attribute>
+    <Attribute name="Source_of_ancillary_IMERG_rain_rate" type="String">
+        <Value>Huffman, G. et al.,  2019. NASA Global Precipitation Measurement (GPM) Integrated Multi-satellitE Retrievals for GPM (IMERG) Version 6, LATE RUN, 30-minutes, NASA, http://dx.doi.org/10.5067/GPM/IMERG/3B-HH/06.</Value>
+    </Attribute>
+    <Attribute name="Source_of_ancillary_CCMP_wind_speed" type="String">
+        <Value>Mears, C. et al., 2018.Remote Sensing Systems CCMP NRT V2.0 wind speed and direction. Remote Sensing Systems, Santa Rosa, CA.</Value>
+    </Attribute>
+    <Attribute name="Source_of_ancillary_NCEP_wind_speed_and_direction" type="String">
+        <Value>NCEP GFS 0.25-deg 6-hour. UGRD, VGRD. Available from http://nomads.ncep.noaa.gov/.</Value>
+    </Attribute>
+    <Attribute name="Source_of_ancillary_NCEP_atmospheric_profiles" type="String">
+        <Value>NCEP GDAS 1-deg 6-hour. HGT, PRS, TMP, TMP, RH, CLWMR. Available from http://nomads.ncep.noaa.gov/.</Value>
+    </Attribute>
+    <Attribute name="Source_of_ancillary_AMSR2_sea_ice_flag_and_correction" type="String">
+        <Value>Meissner, T. and A. Manaster, 2021. SMAP Salinity Retrievals near the Sea-Ice Edge Using Multi-Channel AMSR2 Brightness Temperatures. Remote Sens. 2021, 13, 5120. https://doi.org/10.3390/rs13245120.</Value>
+    </Attribute>
+    <Attribute name="Source_of_ancillary_solar_flux" type="String">
+        <Value>noon flux values from US Air Force Radio Solar Telescope sites 1415 MHz values. Available from NOAA Space Weather Prediction Center, www.swpc.noaa.gov.</Value>
+    </Attribute>
+    <Attribute name="Source_of_ancillary_land_mask" type="String">
+        <Value>1 km land/water mask from OCEAN DISCIPLINE PROCESSING SYSTEM (ODPS) based on World Vector Shoreline (WVS)database and World Data Bank. courtesy of Fred Patt, Goddard Space Flight Center, frederick.s.patt@nasa.gov.</Value>
+    </Attribute>
+    <Attribute name="Source_of_ancillary_reference_SSS_from_HYCOM" type="String">
+        <Value>Hybrid Coordinate Ocean Model, GLBa0.08/expt_90.9, Top layer salinity. Available at www.hycom.org.</Value>
+    </Attribute>
+    <Attribute name="Source_of_ancillary_ionospheric_TEC" type="String">
+        <Value>University of Bern Astronomical Institute (AIUB) Center for Orbit Determination in Europe (CODE) TEC Forecast. Available at http://www.aiub.unibe.ch/download/CODE.</Value>
+    </Attribute>
+    <Attribute name="start_time_sec2000" type="Float64">
+        <Value>481164192.96085173</Value>
+    </Attribute>
+    <Attribute name="start_time_year" type="Int32">
+        <Value>2015</Value>
+    </Attribute>
+    <Attribute name="start_time_month" type="Int32">
+        <Value>4</Value>
+    </Attribute>
+    <Attribute name="start_time_day_of_month" type="Int32">
+        <Value>1</Value>
+    </Attribute>
+    <Attribute name="start_time_day_of_year" type="Int32">
+        <Value>91</Value>
+    </Attribute>
+    <Attribute name="start_time_sec_of_day" type="Float64">
+        <Value>2592.9608516693115</Value>
+    </Attribute>
+    <Attribute name="end_time_sec2000" type="Float64">
+        <Value>481170293.79190642</Value>
+    </Attribute>
+    <Attribute name="end_time_year" type="Int32">
+        <Value>2015</Value>
+    </Attribute>
+    <Attribute name="end_time_month" type="Int32">
+        <Value>4</Value>
+    </Attribute>
+    <Attribute name="end_time_day_of_month" type="Int32">
+        <Value>1</Value>
+    </Attribute>
+    <Attribute name="end_time_day_of_year" type="Int32">
+        <Value>91</Value>
+    </Attribute>
+    <Attribute name="end_time_sec_of_day" type="Float64">
+        <Value>8693.7919063568115</Value>
+    </Attribute>
+    <Attribute name="emisivity_reflector_vpol" type="Float32">
+        <Value>0.01011999976</Value>
+    </Attribute>
+    <Attribute name="emisivity_reflector_hpol" type="Float32">
+        <Value>0.01011999976</Value>
+    </Attribute>
+    <Attribute name="A_II" type="Float64">
+        <Value>1.1046</Value>
+    </Attribute>
+    <Attribute name="A_IQ" type="Float64">
+        <Value>-0.0001</Value>
+    </Attribute>
+    <Attribute name="A_I3" type="Float64">
+        <Value>0.0035999999999999999</Value>
+    </Attribute>
+    <Attribute name="A_I4" type="Float64">
+        <Value>-0.00059999999999999995</Value>
+    </Attribute>
+    <Attribute name="A_QI" type="Float64">
+        <Value>0.</Value>
+    </Attribute>
+    <Attribute name="A_QQ" type="Float64">
+        <Value>1.1349</Value>
+    </Attribute>
+    <Attribute name="A_Q3" type="Float64">
+        <Value>0.0066</Value>
+    </Attribute>
+    <Attribute name="A_Q4" type="Float64">
+        <Value>-0.0001</Value>
+    </Attribute>
+    <Attribute name="A_3I" type="Float64">
+        <Value>0.00089999999999999998</Value>
+    </Attribute>
+    <Attribute name="A_3Q" type="Float64">
+        <Value>0.0041999999999999997</Value>
+    </Attribute>
+    <Attribute name="A_33" type="Float64">
+        <Value>1.1335999999999999</Value>
+    </Attribute>
+    <Attribute name="A_34" type="Float64">
+        <Value>-0.055300000000000002</Value>
+    </Attribute>
+    <Attribute name="A_4I" type="Float64">
+        <Value>0.00029999999999999997</Value>
+    </Attribute>
+    <Attribute name="A_4Q" type="Float64">
+        <Value>0.0014</Value>
+    </Attribute>
+    <Attribute name="A_43" type="Float64">
+        <Value>0.0117</Value>
+    </Attribute>
+    <Attribute name="A_44" type="Float64">
+        <Value>1.1296999999999999</Value>
+    </Attribute>
+    <Attribute name="ta_ocean_ave_vpol" type="Float32">
+        <Value>109.3097382</Value>
+    </Attribute>
+    <Attribute name="ta_ocean_ave_hpol" type="Float32">
+        <Value>76.1269989</Value>
+    </Attribute>
+    <Attribute name="ta_bias_ocean_vpol" type="Float32">
+        <Value>-1.029843211</Value>
+    </Attribute>
+    <Attribute name="ta_bias_ocean_hpol" type="Float32">
+        <Value>-1.033103228</Value>
+    </Attribute>
+    <Attribute name="ta_bias_ocean_S3" type="Float32">
+        <Value>0.4300000072</Value>
+    </Attribute>
+    <Attribute name="ta_bias_ocean_S4" type="Float32">
+        <Value>-0.1700000018</Value>
+    </Attribute>
+    <Attribute name="build_dmrpp_metadata" type="Container">
+        <Attribute name="build_dmrpp" type="String">
+            <Value>3.20.9-91</Value>
+        </Attribute>
+        <Attribute name="bes" type="String">
+            <Value>3.20.9-91</Value>
+        </Attribute>
+        <Attribute name="libdap" type="String">
+            <Value>libdap-3.20.8-41</Value>
+        </Attribute>
+        <Attribute name="configuration" type="String">
+            <Value>
+# TheBESKeys::get_as_config()
+AllowedHosts=^https?:\/\/
+BES.Catalog.catalog.Exclude=^\..*;
+BES.Catalog.catalog.FollowSymLinks=Yes
+BES.Catalog.catalog.Include=;
+BES.Catalog.catalog.RootDirectory=/tmp/tmp81ogoe2d/
+BES.Catalog.catalog.TypeMatch=dmrpp:.*\.(dmrpp)$;
+BES.Catalog.catalog.TypeMatch+=h5:.*(\.bz2|\.gz|\.Z)?$;
+BES.Container.Persistence=strict
+BES.Data.RootDirectory=/dev/null
+BES.DefaultResponseMethod=POST
+BES.FollowSymLinks=Yes
+BES.Group=group_name
+BES.Info.Buffered=no
+BES.Info.Type=xml
+BES.LogName=./bes.log
+BES.LogVerbose=no
+BES.Memory.GlobalArea.ControlHeap=no
+BES.Memory.GlobalArea.EmergencyPoolSize=1
+BES.Memory.GlobalArea.MaximumHeapSize=20
+BES.Memory.GlobalArea.Verbose=no
+BES.ProcessManagerMethod=multiple
+BES.ServerAdministrator=admin.email.address@your.domain.name
+BES.Uncompress.NumTries=10
+BES.Uncompress.Retry=2000
+BES.UncompressCache.dir=/tmp/hyrax_ux
+BES.UncompressCache.prefix=ux_
+BES.UncompressCache.size=500
+BES.User=user_name
+BES.module.cmd=/usr/lib64/bes/libdap_xml_module.so
+BES.module.dap=/usr/lib64/bes/libdap_module.so
+BES.module.dmrpp=/usr/lib64/bes/libdmrpp_module.so
+BES.module.fonc=/usr/lib64/bes/libfonc_module.so
+BES.module.h5=/usr/lib64/bes/libhdf5_module.so
+BES.module.nc=/usr/lib64/bes/libnc_module.so
+BES.modules=dap,cmd,h5,dmrpp,nc,fonc
+FONc.ClassicModel=false
+FONc.NoGlobalAttrs=true
+H5.Cache.latlon.path=/tmp/latlon
+H5.Cache.latlon.prefix=l
+H5.Cache.latlon.size=20000
+H5.CheckIgnoreObj=false
+H5.DefaultHandleDimension=true
+H5.DisableStructMetaAttr=true
+H5.DiskCacheComp=true
+H5.DiskCacheCompThreshold=2.0
+H5.DiskCacheCompVarSize=10000
+H5.DiskCacheDataPath=/tmp
+H5.DiskCacheFilePrefix=c
+H5.DiskCacheFloatOnlyComp=true
+H5.DiskCacheSize=10000
+H5.DiskMetaDataCachePath=/tmp
+H5.EnableAddPathAttrs=true
+H5.EnableCF=false
+H5.EnableCFDMR=true
+H5.EnableCheckNameClashing=true
+H5.EnableDiskDDSCache=false
+H5.EnableDiskDataCache=false
+H5.EnableDiskMetaDataCache=false
+H5.EnableDropLongString=true
+H5.EnableEOSGeoCacheFile=false
+H5.EnableFillValueCheck=true
+H5.KeepVarLeadingUnderscore=false
+H5.LargeDataMemCacheEntries=0
+H5.MetaDataMemCacheEntries=300
+H5.SmallDataMemCacheEntries=0
+</Value>
+        </Attribute>
+        <Attribute name="invocation" type="String">
+            <Value>build_dmrpp -c /tmp/conf_EQOA -f /tmp/tmp81ogoe2d//RSS_SMAP_SSS_L2C_r00870_20150401T004312_2015091_FNL_V05.0.nc -r /tmp/dmr_v8Zh -u OPeNDAP_DMRpp_DATA_ACCESS_URL -M</Value>
+        </Attribute>
+    </Attribute>
+</Dataset>
