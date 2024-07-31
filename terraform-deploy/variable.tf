@@ -53,7 +53,6 @@ variable "dmrpp_url" {
 
 variable "stage" {}
 variable "app_version" {}
-variable "credentials" {}
 variable "buckets_name" {}
 
 variable "app_name" {

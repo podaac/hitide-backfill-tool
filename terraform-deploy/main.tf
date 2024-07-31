@@ -14,7 +14,6 @@ terraform {
 provider "aws" {
   region  = var.region
   profile = var.profile
-  shared_credentials_files = [var.credentials]
 
   ignore_tags {
     key_prefixes = ["gsfc-ngap"]
