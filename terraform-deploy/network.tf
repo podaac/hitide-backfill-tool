@@ -20,6 +20,7 @@ data "aws_subnet" "private" {
     for_each = toset(data.aws_subnets.private.ids)
     id = each.key
     vpc_id = data.aws_vpc.default.id
+    
 }
 
 /*
