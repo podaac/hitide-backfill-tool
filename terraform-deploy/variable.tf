@@ -54,9 +54,6 @@ variable "dmrpp_url" {
 variable "stage" {}
 variable "app_version" {}
 variable "credentials" {}
-variable "subnet_ids" {}
-variable "security_group_ids" {}
-variable "vpc_id" {}
 variable "buckets_name" {}
 
 variable "app_name" {
@@ -91,10 +88,6 @@ variable "db_instance_class"{
 variable "db_storage_size"{
   type = number
   default = 20
-}
-
-variable dmrpp_generator_docker_image{
-  type = string
 }
 
 variable dmrpp_ecs_cpu{
