@@ -1,5 +1,4 @@
 prefix = "sit-hitide-backfill-tool"
-permissions_boundary_arn = var.permissions_boundary_arn
 stage = "sit"
 db_instance_class = "db.t2.micro"
 db_storage_size = 20
@@ -13,7 +12,6 @@ buckets = {
     type = "protected"
   }
 } 
-system_bucket = var.system_bucket
 key_name = "backfill-tool-sit-cluster-keypair"
 ecs_container_stop_timeout = "45m"
 ecs_cluster_desired_size = 1

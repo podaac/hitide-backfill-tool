@@ -52,9 +52,7 @@ variable "credentials" {}
 variable "subnet_ids" {}
 variable "security_group_ids" {}
 variable "vpc_id" {}
-variable "system_bucket" {}
 variable "buckets_name" {}
-variable "permissions_boundary_arn" {}
 
 variable "app_name" {
   default = "hitide-backfill"

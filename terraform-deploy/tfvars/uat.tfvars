@@ -1,5 +1,4 @@
 prefix = "uat-hitide-backfill-tool"
-permissions_boundary_arn = var.permissions_boundary_arn
 stage = "uat"
 db_instance_class = "db.t3.large"
 db_storage_size = 20
@@ -12,7 +11,6 @@ buckets = {
     type = "protected"
   }
 }
-system_bucket = var.system_bucket
 key_name = "backfill-tool-uat-cluster-keypair"
 ecs_container_stop_timeout = "45m"
 
