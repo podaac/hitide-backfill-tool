@@ -5,13 +5,6 @@ db_storage_size = 20
 
 
 # ECS cluster variables
-# Bucket name
-buckets = {
-  protected = {
-    name = var.buckets_name
-    type = "protected"
-  }
-} 
 key_name = "backfill-tool-sit-cluster-keypair"
 ecs_container_stop_timeout = "45m"
 ecs_cluster_desired_size = 1

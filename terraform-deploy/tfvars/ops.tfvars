@@ -6,13 +6,6 @@ db_instance_class = "db.t3.large"
 db_storage_size = 50
 
 # ECS cluster variables
-# Bucket name
-buckets = {
-  protected = {
-    name = var.buckets_name
-    type = "protected"
-  }
-}
 key_name = "backfill-tool-ops-cluster-keypair"
 ecs_container_stop_timeout = "45m"
 

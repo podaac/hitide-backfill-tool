@@ -37,4 +37,12 @@ locals {
     Environment = var.stage
     Version = var.app_version
   } : var.default_tags
+
+  buckets = {
+    protected = {
+      name = var.buckets_name
+      type = "protected"
+    }
+  }
+
 }

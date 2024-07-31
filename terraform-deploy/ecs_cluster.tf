@@ -203,7 +203,7 @@ locals {
     subnet_ids                = data.aws_subnets.private.ids,
     task_reaper_object        = aws_s3_object.task_reaper
   }
-  all_bucket_names = [for k, v in var.buckets : v.name]
+  all_bucket_names = [for k, v in local.buckets : v.name]
 }
 
 resource "aws_cloudformation_stack" "ecs_instance_autoscaling_group" {
