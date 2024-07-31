@@ -46,6 +46,11 @@ variable "cmr_environment" {
   default = "UAT"
 }
 
+variable "dmrpp_url" {
+  description = "The AWS url for the Docker image repository"
+  type        = string
+}
+
 variable "stage" {}
 variable "app_version" {}
 variable "credentials" {}
