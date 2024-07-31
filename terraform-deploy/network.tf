@@ -26,6 +26,6 @@ resource "aws_security_group" "lambda_sg" {
   description = "security group for lambda"
 
   vpc_id = data.aws_vpc.default.id
-  name   = "${local.ec2_resources_name}-lambda-sg"
+  name   = "${local.resources_name}-lambda-sg"
   tags   = local.default_tags
 }
