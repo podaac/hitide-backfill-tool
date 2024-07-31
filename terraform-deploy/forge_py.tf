@@ -8,7 +8,7 @@ module "forge_py_module" {
     footprint_output_bucket = "${local.resources_name}-internal"
     footprint_output_dir    = "dataset-metadata"
     lambda_role = aws_iam_role.iam_execution.arn
-    security_group_ids = [aws_security_group.lambda_sg.id]
+    security_group_ids = [var.aws_security_group_ids]
     subnet_ids = data.aws_subnets.private.ids
     memory_size = 512
     timeout = 900

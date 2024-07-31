@@ -54,6 +54,7 @@ variable "dmrpp_url" {
 variable "stage" {}
 variable "app_version" {}
 variable "buckets_name" {}
+variable "aws_security_group_ids" {}
 
 variable "app_name" {
   default = "hitide-backfill"

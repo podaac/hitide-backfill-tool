@@ -11,7 +11,7 @@ resource "aws_lambda_function" "post_to_cmr_task" {
 
   vpc_config {
     subnet_ids = data.aws_subnets.private.ids
-    security_group_ids = [aws_security_group.lambda_sg.id]
+    security_group_ids = [var.aws_security_group_ids]
   }
 
   environment {

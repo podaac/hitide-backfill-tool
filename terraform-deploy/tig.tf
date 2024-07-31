@@ -7,7 +7,7 @@ module "tig" {
   role = aws_iam_role.iam_execution.arn
   cmr_environment = "OPS"
   subnet_ids = data.aws_subnets.private.ids
-  security_group_ids = [aws_security_group.lambda_sg.id]
+  security_group_ids = [var.aws_security_group_ids]
   task_logs_retention_in_days = "7"
   config_url = "https://hitide.podaac.earthdatacloud.nasa.gov/dataset-configs"
   palette_url = "https://hitide.podaac.earthdatacloud.nasa.gov/palettes"

@@ -22,6 +22,7 @@ data "aws_subnet" "private" {
     vpc_id = data.aws_vpc.default.id
 }
 
+/*
 resource "aws_security_group" "lambda_sg" {
   description = "security group for lambda"
 
@@ -29,3 +30,4 @@ resource "aws_security_group" "lambda_sg" {
   name   = "${local.resources_name}-lambda-sg"
   tags   = local.default_tags
 }
+*/
