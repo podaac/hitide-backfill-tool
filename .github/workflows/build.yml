@@ -324,6 +324,7 @@ jobs:
           TF_VAR_buckets_name: ${{ secrets[format('BUCKET_{0}', env.TARGET_ENV_UPPERCASE)] }}
           TF_VAR_system_bucket: ${{ secrets[format('SYSTEM_BUCKET_{0}', env.TARGET_ENV_UPPERCASE)] }}
           TF_VAR_dmrpp_url: ${{ secrets.DMRPP_URL }}
+          TF_LOG: ERROR
 
         run: |
           ls -al
