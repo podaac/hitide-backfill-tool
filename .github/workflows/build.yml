@@ -307,7 +307,7 @@ jobs:
           startsWith(github.ref, 'refs/heads/release') ||
           github.event.head_commit.message == '/deploy sit' ||
           github.event.head_commit.message == '/deploy uat'
-        working-directory: terraform_deploy/
+        working-directory: terraform-deploy/
         env:
           AWS_ACCESS_KEY_ID:       ${{ secrets[format('AWS_ACCESS_KEY_ID_SERVICES_{0}', env.TARGET_ENV_UPPERCASE)] }}
           AWS_SECRET_ACCESS_KEY:   ${{ secrets[format('AWS_SECRET_ACCESS_KEY_SERVICES_{0}', env.TARGET_ENV_UPPERCASE)] }}
