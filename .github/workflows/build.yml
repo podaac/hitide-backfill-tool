@@ -74,6 +74,7 @@ jobs:
           echo "software_version=${new_version}" >> $GITHUB_ENV
           echo "new_version=${new_version}" >> $GITHUB_ENV
           echo "Github REF: ${{ github.ref }}"
+          echo "TARGET_ENV_UPPERCASE=SIT" >> $GITHUB_ENV
 
       # Alpha Logic - Use the project version number and add -alpha.1 or bump
       # alpha number
@@ -172,6 +173,7 @@ jobs:
           echo "GITHUB REF: ${{ github.ref }}"
           echo "VENUE: ${{ env.venue }}"
           echo "Target Env Uppercase: ${{ env.TARGET_ENV_UPPERCASE }}"
+          
           original_env_value="${TARGET_ENV_UPPERCASE}"
           lowercase_value=$(echo "${original_env_value}" | tr '[:upper:]' '[:lower:]')
           echo "TARGET_ENV_LOWERCASE=${lowercase_value}" >> $GITHUB_ENV
