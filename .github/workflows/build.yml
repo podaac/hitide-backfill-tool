@@ -324,18 +324,8 @@ jobs:
           TF_VAR_buckets_name: ${{ secrets[format('BUCKET_{0}', env.TARGET_ENV_UPPERCASE)] }}
           TF_VAR_system_bucket: ${{ secrets[format('SYSTEM_BUCKET_{0}', env.TARGET_ENV_UPPERCASE)] }}
           TF_VAR_dmrpp_url: ${{ secrets.DMRPP_URL }}
-          TF_LOG: ERROR
 
         run: |
-          ls -al
-          ls -al bin/
-          which python3
-          python3 --version
           python3 override.py "${{ env.TARGET_ENV_LOWERCASE }}"
-          ls -al
-          echo "Show override contents"
-          cat override.tf.json
-          echo "End show override contents"
-          terraform --version
           source bin/config.sh ${{ env.TARGET_ENV_LOWERCASE }}
-          terraform plan -var-file=tfvars/"${{ env.TARGET_ENV_LOWERCASE }}".tfvars -var="app_version=${{ env.the_version }}" -out="tfplan"
+          terraform plan -var-file=tfvars/"${{ env.TARGET_ENV_LOWERCASE }}".tfvars -var="app_version=${{ env.the_version }}" -out="tfplan" > /dev/null 2>&1
