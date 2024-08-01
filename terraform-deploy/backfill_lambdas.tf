@@ -11,7 +11,7 @@ module backfill_lambdas{
   region = var.region
   aws_profile = var.profile
   subnet_ids = data.aws_subnets.private.ids
-  security_group_ids = [var.aws_security_group_ids]
+  security_group_ids = concat(var.security_group_ids,[aws_security_group.db.id])
   step_retry = var.step_retry
   message_visibility_timeout = var.message_visibility_timeout
   reserved_concurrent_executions = 1
