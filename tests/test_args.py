@@ -2,16 +2,13 @@ import os
 from podaac.hitide_backfill_tool.file_util import write_yaml_file
 from podaac.hitide_backfill_tool.args import parse_args
 
-
-
-
-
 def test_parsing_args_with_config(tmp_path):
     config_path = os.path.join(tmp_path, "test_config.yml")
     test_config = {
         "cmr": "ops",
         "image": "off",
-        "use_data_url": True
+        "use_data_url": True,
+        "default_message_config" : "/test/path"
     }
     args = ["--config", config_path, "--collection", "abc", "--image=force", "--preview"]
 

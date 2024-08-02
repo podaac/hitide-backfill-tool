@@ -9,14 +9,17 @@ from pathlib import Path
 from .file_util import load_json_file, make_absolute
 
 
-def get_message_config(env):
+def get_message_config(env, config_file=None):
     """Retrieve message config file.
 
     The message config is specific to an environment (ops, uat, or sit) and
     is the same for all collections in that environment
     """
-    message_config = load_json_file(
-        "default_message_config.json", relative_to=__file__)
+    if config_file is not None:
+        message_config = load_json_file(config_file)
+    else:
+        message_config = load_json_file(
+            "default_message_config.json", relative_to=__file__)
     return message_config.get(env, {})
 
 
