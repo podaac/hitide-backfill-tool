@@ -1,0 +1,10 @@
+{
+   "uat":{
+      "buckets":{
+         "internal":{
+            "name":"test-internal",
+            "type":"internal"
+         }
+      }
+   }
+}

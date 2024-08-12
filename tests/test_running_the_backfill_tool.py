@@ -78,7 +78,7 @@ def test_running_the_backfill_tool_will_send_a_message_to_an_sns_topic(sns_topic
           --footprint force
           --image force
           --cumulus-configurations {cumulus_configurations_dir}
-          --default_message_config "/test"
+          --default_message_config tests/resources/default_message_config.json
         """)
 
     # There should two messages for one granule. One for forge and one for tig
