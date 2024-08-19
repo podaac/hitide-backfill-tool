@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+ - updated cumulus cluster template
+ - moved regression and memory_profiler script into podaac/hitide-backfill-tool
+ - made default_message_config.json a argument file 
+ - implemented github actions to deploy in github
 ### Deprecated
 ### Removed
 ### Fixed
