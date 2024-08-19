@@ -46,12 +46,15 @@ variable "cmr_environment" {
   default = "UAT"
 }
 
+variable "dmrpp_url" {
+  description = "The AWS url for the Docker image repository"
+  type        = string
+}
+
 variable "stage" {}
 variable "app_version" {}
-variable "credentials" {}
-variable "subnet_ids" {}
-variable "security_group_ids" {}
-variable "vpc_id" {}
+variable "buckets_name" {}
+variable "aws_security_group_ids" {}
 
 variable "app_name" {
   default = "hitide-backfill"
@@ -85,10 +88,6 @@ variable "db_instance_class"{
 variable "db_storage_size"{
   type = number
   default = 20
-}
-
-variable dmrpp_generator_docker_image{
-  type = string
 }
 
 variable dmrpp_ecs_cpu{

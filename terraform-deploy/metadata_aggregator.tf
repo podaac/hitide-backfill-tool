@@ -25,8 +25,8 @@ resource "aws_lambda_function" "metadata_aggregator_task" {
   }
 
   vpc_config {
-    subnet_ids = var.subnet_ids
-    security_group_ids = var.security_group_ids
+    subnet_ids = data.aws_subnets.private.ids
+    security_group_ids = [var.aws_security_group_ids]
   }
 
   tags = merge(local.tags, { Project = local.resources_name })

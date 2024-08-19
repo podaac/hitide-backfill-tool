@@ -78,6 +78,7 @@ def test_running_the_backfill_tool_will_send_a_message_to_an_sns_topic(sns_topic
           --footprint force
           --image force
           --cumulus-configurations {cumulus_configurations_dir}
+          --default_message_config tests/resources/default_message_config.json
         """)
 
     # There should two messages for one granule. One for forge and one for tig
@@ -111,6 +112,7 @@ def test_running_the_backfill_tool_for_dmrpp(s3_object, sns_topic):
       --dmrpp on
       --dmrpp-min-version 3.20.9-91
       --cumulus-configurations {cumulus_configurations_dir}
+      --default_message_config "/test"
     """)
 
     notifications = sns_topic.sent_notifications

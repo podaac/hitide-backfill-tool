@@ -6,7 +6,7 @@ module "dmrpp-generator" {
   log_destination_arn = var.log_destination_arn
   region = var.region
   prefix = var.prefix
-  docker_image = var.dmrpp_generator_docker_image
+  docker_image = "${var.dmrpp_url}:v5.0.1"
   // Optional parameters
   cpu = var.dmrpp_ecs_cpu // default to 512
   memory_reservation = var.dmrpp_memory_reservation // default to 512Mb

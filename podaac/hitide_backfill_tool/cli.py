@@ -79,7 +79,7 @@ def granule_search_from_args(args, logger):
 def message_writer_from_args(args, logger):
     """Return configured message writer from parsed cli args and logger."""
 
-    message_config = get_message_config(args.cumulus)
+    message_config = get_message_config(args.cumulus, args.default_message_config)
     collection_config = get_collection_config(
         args.cumulus_configurations, args.collection, args.cumulus, logger)
     message_writer = CnmMessageWriter(message_config, collection_config,

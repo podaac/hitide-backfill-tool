@@ -14,7 +14,6 @@ terraform {
 provider "aws" {
   region  = var.region
   profile = var.profile
-  shared_credentials_files = [var.credentials]
 
   ignore_tags {
     key_prefixes = ["gsfc-ngap"]
@@ -37,4 +36,12 @@ locals {
     Environment = var.stage
     Version = var.app_version
   } : var.default_tags
+
+  buckets = {
+    protected = {
+      name = var.buckets_name
+      type = "protected"
+    }
+  }
+
 }

@@ -135,7 +135,7 @@ resource "aws_iam_instance_profile" "ecs_cluster_instance" {
 }
 
 resource "aws_security_group" "ecs_cluster_instance" {
-  vpc_id = var.vpc_id
+  vpc_id = data.aws_vpc.default.id
   tags   = var.default_tags
 }
 
@@ -200,10 +200,10 @@ locals {
       ],
       var.ecs_custom_sg_ids
     ))
-    subnet_ids                = var.subnet_ids,
+    subnet_ids                = data.aws_subnets.private.ids,
     task_reaper_object        = aws_s3_object.task_reaper
   }
-  all_bucket_names = [for k, v in var.buckets : v.name]
+  all_bucket_names = [for k, v in local.buckets : v.name]
 }
 
 resource "aws_cloudformation_stack" "ecs_instance_autoscaling_group" {

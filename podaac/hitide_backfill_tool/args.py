@@ -73,6 +73,9 @@ def create_parser():
     parser.add_argument('--sort-order', type=str, help="cmr search start date sorting order",
                         choices=["descending", "ascending"])
 
+    parser.add_argument("--default_message_config", type=str,
+                        help="defaut message config to construct messages", default=None)
+
     return parser
 
 
@@ -95,5 +98,8 @@ def parse_args(args=None):
     args = vars(args)
     merged_dict = merge_dicts(default_config, config, args)
     merged_config = Namespace(**merged_dict)
+
+    if merged_config.default_message_config is None:
+        raise Exception("please specify path to default message config")
 
     return merged_config
