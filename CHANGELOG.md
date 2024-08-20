@@ -16,11 +16,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.9.0]
 
 ### Added
-- Moved repo to Github.com [hitide-backfill-tool](https://github.com/podaac/hitide-backfill-tool) repo
+- Moved repo to Github.com [hitide-backfill-tool](https://github.com/podaac/hitide-backfill-tool)
   - Updated cumulus cluster template
   - Moved regression and memory_profiler script into podaac/hitide-backfill-tool
   - Made default_message_config.json an argument file 
-  - Implemented github actions to deploy in github
+  - Implemented Github Actions to Build and Deploy to AWS
 ### Deprecated
 ### Removed
 ### Fixed
