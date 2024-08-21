@@ -197,6 +197,9 @@ class Backfiller:
     def print_monthly_results_table(self):
         """Function to print out monthly stats"""
 
+        if not self.message_senders:
+            print("** In preview mode monthly count may differ from actual execution due to parallel processing of granules ** \n")
+
         print("Monthly Counts Summary:\n")
         header = f"{'Date':<10} {'Granules':<10} {'Need Image':<12} {'Need Footprint':<16} {'Both FP & BBox':<16} {'Need DMRPP':<12}"
 
