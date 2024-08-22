@@ -198,7 +198,7 @@ class Backfiller:
         """Function to print out monthly stats"""
 
         if not self.message_senders:
-            print("** In preview mode monthly count may differ from actual execution due to parallel processing of granules ** \n")
+            print("** NOTE: When in preview mode, the messages sent count may not be accurate since it's only simulating sending messages. ** \n")
 
         print("Monthly Counts Summary:\n")
         header = f"{'Date':<10} {'Granules':<10} {'Need Image':<12} {'Need Footprint':<16} {'Both FP & BBox':<16} {'Need DMRPP':<12}"
