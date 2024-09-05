@@ -5,6 +5,7 @@ regression.py
 
 Test TIG on all our collections.
 """
+import argparse
 import os
 import subprocess
 import requests
@@ -37,7 +38,12 @@ def download_configs(config_dir):
                 file.write(config_file.content)
 
 
-if __name__ == "__main__":
+def main():
+    """main function for regression"""
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--backfill_config', type=str,
+                        help="path to backfill config", required=True)
+    args = parser.parse_args()
 
     test_dir = os.path.dirname(os.path.realpath(__file__))
     config_directory = f'{test_dir}/dl_configs'
@@ -48,6 +54,10 @@ if __name__ == "__main__":
 
     for _file in files:
         collection = _file.strip('.cfg')
-        cli_command = f'backfill --config backfill_uat.cfg --collection {collection}'
+        cli_command = f'backfill --config {args.backfill_config} --collection {collection}'
         result = make_cli_call(cli_command)
         print(result)
+
+
+if __name__ == "__main__":
+    main()
