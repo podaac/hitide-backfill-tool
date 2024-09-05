@@ -1,0 +1,27 @@
+{
+  "sit": {
+    "buckets": {
+      "internal": {
+        "name": "internal_bucket",
+        "type": "internal"
+      },
+    },
+    "stack": "sit",
+    "cmr": {
+      "clientId": "clientId",
+      "cmrEnvironment": "cmrEnvironment",
+      "cmrLimit": 100,
+      "cmrPageSize": 50,
+      "oauthProvider": "oauthProvider",
+      "passwordSecretName": "passwordSecretName",
+      "provider": "provider",
+      "username": "username"
+    },
+    "distribution_endpoint": "https://example.com/",
+    "launchpad": {
+      "api": "https://launchpadapi.com",
+      "certificate": "certificate.pfx",
+      "passphraseSecretName": "passphraseSecretName"
+    }
+  }
+}

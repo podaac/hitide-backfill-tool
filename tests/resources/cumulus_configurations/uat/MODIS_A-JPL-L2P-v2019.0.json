@@ -1,0 +1,52 @@
+{
+    "duplicateHandling": "replace",
+    "files": [
+        {
+            "bucket": "protected",
+            "regex": "^[0-9]{14}-JPL-L2P_GHRSST-SSTskin-MODIS_A-[DN]-v02\\.0-fv01\\.0\\.nc$",
+            "sampleFileName": "20200101000000-JPL-L2P_GHRSST-SSTskin-MODIS_A-D-v02.0-fv01.0.nc",
+            "type": "data"
+        },
+        {
+            "bucket": "public",
+            "regex": "^[0-9]{14}-JPL-L2P_GHRSST-SSTskin-MODIS_A-[DN]-v02\\.0-fv01\\.0\\.nc\\.md5$",
+            "sampleFileName": "20200101000000-JPL-L2P_GHRSST-SSTskin-MODIS_A-D-v02.0-fv01.0.nc.md5",
+            "type": "metadata"
+        },
+        {
+            "bucket": "private",
+            "regex": "^[0-9]{14}-JPL-L2P_GHRSST-SSTskin-MODIS_A-[DN]-v02\\.0-fv01\\.0\\.cmr\\.json$",
+            "sampleFileName": "20200101000000-JPL-L2P_GHRSST-SSTskin-MODIS_A-D-v02.0-fv01.0.cmr.json",
+            "type": "metadata"
+        },
+        {
+            "bucket": "protected",
+            "regex": "^[0-9]{14}-JPL-L2P_GHRSST-SSTskin-MODIS_A-[DN]-v02\\.0-fv01\\.0\\.nc\\.dmrpp$",
+            "sampleFileName": "20200101000000-JPL-L2P_GHRSST-SSTskin-MODIS_A-D-v02.0-fv01.0.nc.dmrpp",
+            "type": "metadata"
+        }
+    ],
+    "granuleId": "^[0-9]{14}-JPL-L2P_GHRSST-SSTskin-MODIS_A-[DN]-v02\\.0-fv01\\.0$",
+    "granuleIdExtraction": "^([0-9]{14}-JPL-L2P_GHRSST-SSTskin-MODIS_A-[DN]-v02\\.0-fv01\\.0)((\\.nc)|(\\.nc\\.md5)|(\\.cmr\\.json)|(\\.nc\\.dmrpp))?$",
+    "meta": {
+        "glacier-bucket": "test-bucket",
+        "granuleRecoveryWorkflow": "DrRecoveryWorkflow",
+        "response-endpoint": [
+            "arn:aws:sns:us-west-2:123456789012:podaac-uat-cumulus-provider-response-sns",
+            "arn:aws:sns:us-west-2:123456789012:uat-cumulus-response-topic"
+        ],
+        "workflowChoice": {
+            "compressed": false,
+            "convertNetCDF": false,
+            "dmrpp": true,
+            "footprint": true,
+            "glacier": true,
+            "image": true,
+            "readDataFileForMetadata": true
+        }
+    },
+    "name": "MODIS_A-JPL-L2P-v2019.0",
+    "sampleFileName": "20200101000000-JPL-L2P_GHRSST-SSTskin-MODIS_A-D-v02.0-fv01.0.nc",
+    "url_path": "{cmrMetadata.CollectionReference.ShortName}",
+    "version": "2019.0"
+}

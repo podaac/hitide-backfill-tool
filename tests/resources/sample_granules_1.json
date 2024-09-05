@@ -1,0 +1,820 @@
+{
+  "hits": 998700,
+  "took": 118,
+  "items": [
+    {
+      "meta": {
+        "concept-type": "granule",
+        "concept-id": "G1237730654-POCLOUD",
+        "revision-id": 1,
+        "native-id": "20000227202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-D-v02.0-fv01.0",
+        "provider-id": "POCLOUD",
+        "format": "application/vnd.nasa.cmr.umm+json",
+        "revision-date": "2020-09-09T06:15:46.676Z"
+      },
+      "umm": {
+        "TemporalExtent": {
+          "RangeDateTime": {
+            "EndingDateTime": "2000-02-27T20:25:00.000Z",
+            "BeginningDateTime": "2000-02-27T20:20:01.000Z"
+          }
+        },
+        "MetadataSpecification": {
+          "URL": "https://cdn.earthdata.nasa.gov/umm/granule/v1.6.4",
+          "Name": "UMM-G",
+          "Version": "1.6.4"
+        },
+        "GranuleUR": "20000227202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-D-v02.0-fv01.0",
+        "ProviderDates": [
+          { "Type": "Insert", "Date": "2020-09-09T06:15:30.450Z" },
+          { "Type": "Update", "Date": "2020-09-09T06:15:30.450Z" }
+        ],
+        "SpatialExtent": {
+          "HorizontalSpatialDomain": {
+            "Geometry": {
+              "BoundingRectangles": [
+                {
+                  "WestBoundingCoordinate": 134.98,
+                  "SouthBoundingCoordinate": 66.18,
+                  "EastBoundingCoordinate": 180,
+                  "NorthBoundingCoordinate": 89.988
+                },
+                {
+                  "WestBoundingCoordinate": -180,
+                  "SouthBoundingCoordinate": 66.18,
+                  "EastBoundingCoordinate": -63.22,
+                  "NorthBoundingCoordinate": 89.988
+                }
+              ]
+            }
+          }
+        },
+        "DataGranule": {
+          "ArchiveAndDistributionInformation": [
+            {
+              "SizeUnit": "MB",
+              "Size": 20.032519340515137,
+              "Name": "20000227202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-D-v02.0-fv01.0.nc"
+            }
+          ],
+          "DayNightFlag": "Unspecified",
+          "ProductionDateTime": "2020-09-09T06:10:48.000Z"
+        },
+        "CollectionReference": {
+          "Version": "2019.0",
+          "ShortName": "MODIS_T-JPL-L2P-v2019.0"
+        },
+        "RelatedUrls": [
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/podaac-uat-cumulus-public/MODIS_T-JPL-L2P-v2019.0/20000227202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-D-v02.0-fv01.0.nc.md5",
+            "Description": "Download 20000227202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-D-v02.0-fv01.0.nc.md5",
+            "Type": "EXTENDED METADATA"
+          },
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/podaac-uat-cumulus-protected/MODIS_T-JPL-L2P-v2019.0/20000227202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-D-v02.0-fv01.0.nc",
+            "Description": "Download 20000227202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-D-v02.0-fv01.0.nc",
+            "Type": "GET DATA"
+          },
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/podaac-uat-cumulus-public/MODIS_T-JPL-L2P-v2019.0/20000227202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-D-v02.0-fv01.0.cmr.json",
+            "Description": "Download 20000227202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-D-v02.0-fv01.0.cmr.json",
+            "Type": "EXTENDED METADATA"
+          },
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/s3credentials",
+            "Description": "api endpoint to retrieve temporary credentials valid for same-region direct s3 access",
+            "Type": "VIEW RELATED INFORMATION"
+          }
+        ]
+      }
+    },
+    {
+      "meta": {
+        "concept-type": "granule",
+        "concept-id": "G1237730655-POCLOUD",
+        "revision-id": 1,
+        "native-id": "20000227202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0",
+        "provider-id": "POCLOUD",
+        "format": "application/vnd.nasa.cmr.umm+json",
+        "revision-date": "2020-09-09T06:15:46.731Z"
+      },
+      "umm": {
+        "TemporalExtent": {
+          "RangeDateTime": {
+            "EndingDateTime": "2000-02-27T20:25:00.000Z",
+            "BeginningDateTime": "2000-02-27T20:20:01.000Z"
+          }
+        },
+        "MetadataSpecification": {
+          "URL": "https://cdn.earthdata.nasa.gov/umm/granule/v1.6.4",
+          "Name": "UMM-G",
+          "Version": "1.6.4"
+        },
+        "GranuleUR": "20000227202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0",
+        "ProviderDates": [
+          { "Type": "Insert", "Date": "2020-09-09T06:15:29.892Z" },
+          { "Type": "Update", "Date": "2020-09-09T06:15:29.893Z" }
+        ],
+        "SpatialExtent": {
+          "HorizontalSpatialDomain": {
+            "Geometry": {
+              "BoundingRectangles": [
+                {
+                  "WestBoundingCoordinate": 134.98,
+                  "SouthBoundingCoordinate": 66.18,
+                  "EastBoundingCoordinate": 180,
+                  "NorthBoundingCoordinate": 89.988
+                },
+                {
+                  "WestBoundingCoordinate": -180,
+                  "SouthBoundingCoordinate": 66.18,
+                  "EastBoundingCoordinate": -63.22,
+                  "NorthBoundingCoordinate": 89.988
+                }
+              ]
+            }
+          }
+        },
+        "DataGranule": {
+          "ArchiveAndDistributionInformation": [
+            {
+              "SizeUnit": "MB",
+              "Size": 22.86871337890625,
+              "Name": "20000227202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.nc"
+            }
+          ],
+          "DayNightFlag": "Unspecified",
+          "ProductionDateTime": "2020-09-09T06:10:52.000Z"
+        },
+        "CollectionReference": {
+          "Version": "2019.0",
+          "ShortName": "MODIS_T-JPL-L2P-v2019.0"
+        },
+        "RelatedUrls": [
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/podaac-uat-cumulus-protected/MODIS_T-JPL-L2P-v2019.0/20000227202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.nc",
+            "Description": "Download 20000227202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.nc",
+            "Type": "GET DATA"
+          },
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/podaac-uat-cumulus-public/MODIS_T-JPL-L2P-v2019.0/20000227202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.nc.md5",
+            "Description": "Download 20000227202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.nc.md5",
+            "Type": "EXTENDED METADATA"
+          },
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/podaac-uat-cumulus-public/MODIS_T-JPL-L2P-v2019.0/20000227202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.cmr.json",
+            "Description": "Download 20000227202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.cmr.json",
+            "Type": "EXTENDED METADATA"
+          },
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/s3credentials",
+            "Description": "api endpoint to retrieve temporary credentials valid for same-region direct s3 access",
+            "Type": "VIEW RELATED INFORMATION"
+          }
+        ]
+      }
+    },
+    {
+      "meta": {
+        "concept-type": "granule",
+        "concept-id": "G1236935090-POCLOUD",
+        "revision-id": 1,
+        "native-id": "20000322202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0",
+        "provider-id": "POCLOUD",
+        "format": "application/vnd.nasa.cmr.umm+json",
+        "revision-date": "2020-08-13T19:42:47.345Z"
+      },
+      "umm": {
+        "TemporalExtent": {
+          "RangeDateTime": {
+            "EndingDateTime": "2000-03-22T20:25:00.000Z",
+            "BeginningDateTime": "2000-03-22T20:20:01.000Z"
+          }
+        },
+        "MetadataSpecification": {
+          "URL": "https://cdn.earthdata.nasa.gov/umm/granule/v1.6.4",
+          "Name": "UMM-G",
+          "Version": "1.6.4"
+        },
+        "GranuleUR": "20000322202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0",
+        "ProviderDates": [
+          { "Type": "Insert", "Date": "2020-08-13T19:42:29.872Z" },
+          { "Type": "Update", "Date": "2020-08-13T19:42:29.873Z" }
+        ],
+        "SpatialExtent": {
+          "HorizontalSpatialDomain": {
+            "Geometry": {
+              "BoundingRectangles": [
+                {
+                  "WestBoundingCoordinate": -53.517,
+                  "SouthBoundingCoordinate": -89.996,
+                  "EastBoundingCoordinate": 124.935,
+                  "NorthBoundingCoordinate": -64.138
+                }
+              ]
+            }
+          }
+        },
+        "DataGranule": {
+          "ArchiveAndDistributionInformation": [
+            {
+              "SizeUnit": "MB",
+              "Size": 19.56984043121338,
+              "Name": "20000322202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.nc"
+            }
+          ],
+          "DayNightFlag": "Unspecified",
+          "ProductionDateTime": "2020-08-13T19:40:53.000Z"
+        },
+        "CollectionReference": {
+          "Version": "2019.0",
+          "ShortName": "MODIS_T-JPL-L2P-v2019.0"
+        },
+        "RelatedUrls": [
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/podaac-uat-cumulus-public/MODIS_T-JPL-L2P-v2019.0/20000322202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.nc.md5",
+            "Description": "File to download",
+            "Type": "EXTENDED METADATA"
+          },
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/podaac-uat-cumulus-protected/MODIS_T-JPL-L2P-v2019.0/20000322202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.nc",
+            "Description": "The base directory location for the granule.",
+            "Type": "GET DATA"
+          },
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/podaac-uat-cumulus-public/MODIS_T-JPL-L2P-v2019.0/20000322202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.cmr.json",
+            "Description": "File to download",
+            "Type": "EXTENDED METADATA"
+          },
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/s3credentials",
+            "Description": "api endpoint to retrieve temporary credentials valid for same-region direct s3 access",
+            "Type": "VIEW RELATED INFORMATION"
+          }
+        ]
+      }
+    },
+    {
+      "meta": {
+        "concept-type": "granule",
+        "concept-id": "G1236935091-POCLOUD",
+        "revision-id": 1,
+        "native-id": "20000322202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-D-v02.0-fv01.0",
+        "provider-id": "POCLOUD",
+        "format": "application/vnd.nasa.cmr.umm+json",
+        "revision-date": "2020-08-13T19:42:48.455Z"
+      },
+      "umm": {
+        "TemporalExtent": {
+          "RangeDateTime": {
+            "EndingDateTime": "2000-03-22T20:25:00.000Z",
+            "BeginningDateTime": "2000-03-22T20:20:01.000Z"
+          }
+        },
+        "MetadataSpecification": {
+          "URL": "https://cdn.earthdata.nasa.gov/umm/granule/v1.6.4",
+          "Name": "UMM-G",
+          "Version": "1.6.4"
+        },
+        "GranuleUR": "20000322202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-D-v02.0-fv01.0",
+        "ProviderDates": [
+          { "Type": "Insert", "Date": "2020-08-13T19:42:32.639Z" },
+          { "Type": "Update", "Date": "2020-08-13T19:42:32.639Z" }
+        ],
+        "SpatialExtent": {
+          "HorizontalSpatialDomain": {
+            "Geometry": {
+              "BoundingRectangles": [
+                {
+                  "WestBoundingCoordinate": -53.517,
+                  "SouthBoundingCoordinate": -89.996,
+                  "EastBoundingCoordinate": 124.935,
+                  "NorthBoundingCoordinate": -64.138
+                }
+              ]
+            }
+          }
+        },
+        "DataGranule": {
+          "ArchiveAndDistributionInformation": [
+            {
+              "SizeUnit": "MB",
+              "Size": 17.96884536743164,
+              "Name": "20000322202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-D-v02.0-fv01.0.nc"
+            }
+          ],
+          "DayNightFlag": "Unspecified",
+          "ProductionDateTime": "2020-08-13T19:40:49.000Z"
+        },
+        "CollectionReference": {
+          "Version": "2019.0",
+          "ShortName": "MODIS_T-JPL-L2P-v2019.0"
+        },
+        "RelatedUrls": [
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/podaac-uat-cumulus-public/MODIS_T-JPL-L2P-v2019.0/20000322202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-D-v02.0-fv01.0.nc.md5",
+            "Description": "File to download",
+            "Type": "EXTENDED METADATA"
+          },
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/podaac-uat-cumulus-protected/MODIS_T-JPL-L2P-v2019.0/20000322202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-D-v02.0-fv01.0.nc",
+            "Description": "The base directory location for the granule.",
+            "Type": "GET DATA"
+          },
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/podaac-uat-cumulus-public/MODIS_T-JPL-L2P-v2019.0/20000322202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-D-v02.0-fv01.0.cmr.json",
+            "Description": "File to download",
+            "Type": "EXTENDED METADATA"
+          },
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/s3credentials",
+            "Description": "api endpoint to retrieve temporary credentials valid for same-region direct s3 access",
+            "Type": "VIEW RELATED INFORMATION"
+          }
+        ]
+      }
+    },
+    {
+      "meta": {
+        "concept-type": "granule",
+        "concept-id": "G1236580138-POCLOUD",
+        "revision-id": 1,
+        "native-id": "20000402202005-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0",
+        "provider-id": "POCLOUD",
+        "format": "application/vnd.nasa.cmr.umm+json",
+        "revision-date": "2020-07-26T14:12:58.995Z"
+      },
+      "umm": {
+        "TemporalExtent": {
+          "RangeDateTime": {
+            "EndingDateTime": "2000-04-02T20:25:00.000Z",
+            "BeginningDateTime": "2000-04-02T20:20:00.000Z"
+          }
+        },
+        "MetadataSpecification": {
+          "URL": "https://cdn.earthdata.nasa.gov/umm/granule/v1.6.4",
+          "Name": "UMM-G",
+          "Version": "1.6.4"
+        },
+        "GranuleUR": "20000402202005-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0",
+        "ProviderDates": [
+          { "Type": "Insert", "Date": "2020-07-26T14:12:43.693Z" },
+          { "Type": "Update", "Date": "2020-07-26T14:12:43.693Z" }
+        ],
+        "SpatialExtent": {
+          "HorizontalSpatialDomain": {
+            "Geometry": {
+              "BoundingRectangles": [
+                {
+                  "WestBoundingCoordinate": 27.135,
+                  "SouthBoundingCoordinate": -42.75,
+                  "EastBoundingCoordinate": 57.131,
+                  "NorthBoundingCoordinate": -21.445
+                }
+              ]
+            }
+          }
+        },
+        "DataGranule": {
+          "ArchiveAndDistributionInformation": [
+            {
+              "SizeUnit": "MB",
+              "Size": 25.690549850463867,
+              "Name": "20000402202005-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.nc"
+            }
+          ],
+          "DayNightFlag": "Unspecified",
+          "ProductionDateTime": "2020-07-26T14:10:45.000Z"
+        },
+        "CollectionReference": {
+          "Version": "2019.0",
+          "ShortName": "MODIS_T-JPL-L2P-v2019.0"
+        },
+        "RelatedUrls": [
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/podaac-uat-cumulus-protected/MODIS_T-JPL-L2P-v2019.0/20000402202005-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.nc",
+            "Description": "The base directory location for the granule.",
+            "Type": "GET DATA"
+          },
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/podaac-uat-cumulus-public/MODIS_T-JPL-L2P-v2019.0/20000402202005-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.cmr.json",
+            "Description": "File to download",
+            "Type": "EXTENDED METADATA"
+          },
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/s3credentials",
+            "Description": "api endpoint to retrieve temporary credentials valid for same-region direct s3 access",
+            "Type": "VIEW RELATED INFORMATION"
+          }
+        ]
+      }
+    },
+    {
+      "meta": {
+        "concept-type": "granule",
+        "concept-id": "G1236932436-POCLOUD",
+        "revision-id": 1,
+        "native-id": "20000409202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0",
+        "provider-id": "POCLOUD",
+        "format": "application/vnd.nasa.cmr.umm+json",
+        "revision-date": "2020-08-13T14:44:46.262Z"
+      },
+      "umm": {
+        "TemporalExtent": {
+          "RangeDateTime": {
+            "EndingDateTime": "2000-04-09T20:25:00.000Z",
+            "BeginningDateTime": "2000-04-09T20:20:01.000Z"
+          }
+        },
+        "MetadataSpecification": {
+          "URL": "https://cdn.earthdata.nasa.gov/umm/granule/v1.6.4",
+          "Name": "UMM-G",
+          "Version": "1.6.4"
+        },
+        "GranuleUR": "20000409202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0",
+        "ProviderDates": [
+          { "Type": "Insert", "Date": "2020-08-13T14:44:30.013Z" },
+          { "Type": "Update", "Date": "2020-08-13T14:44:30.013Z" }
+        ],
+        "SpatialExtent": {
+          "HorizontalSpatialDomain": {
+            "Geometry": {
+              "BoundingRectangles": [
+                {
+                  "WestBoundingCoordinate": 28.106,
+                  "SouthBoundingCoordinate": -64.34,
+                  "EastBoundingCoordinate": 72.26,
+                  "NorthBoundingCoordinate": -42.202
+                }
+              ]
+            }
+          }
+        },
+        "DataGranule": {
+          "ArchiveAndDistributionInformation": [
+            {
+              "SizeUnit": "MB",
+              "Size": 25.70586585998535,
+              "Name": "20000409202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.nc"
+            }
+          ],
+          "DayNightFlag": "Unspecified",
+          "ProductionDateTime": "2020-08-13T14:40:48.000Z"
+        },
+        "CollectionReference": {
+          "Version": "2019.0",
+          "ShortName": "MODIS_T-JPL-L2P-v2019.0"
+        },
+        "RelatedUrls": [
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/podaac-uat-cumulus-protected/MODIS_T-JPL-L2P-v2019.0/20000409202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.nc",
+            "Description": "The base directory location for the granule.",
+            "Type": "GET DATA"
+          },
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/podaac-uat-cumulus-public/MODIS_T-JPL-L2P-v2019.0/20000409202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.nc.md5",
+            "Description": "File to download",
+            "Type": "EXTENDED METADATA"
+          },
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/podaac-uat-cumulus-public/MODIS_T-JPL-L2P-v2019.0/20000409202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.cmr.json",
+            "Description": "File to download",
+            "Type": "EXTENDED METADATA"
+          },
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/s3credentials",
+            "Description": "api endpoint to retrieve temporary credentials valid for same-region direct s3 access",
+            "Type": "VIEW RELATED INFORMATION"
+          }
+        ]
+      }
+    },
+    {
+      "meta": {
+        "concept-type": "granule",
+        "concept-id": "G1236932187-POCLOUD",
+        "revision-id": 1,
+        "native-id": "20000422202005-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0",
+        "provider-id": "POCLOUD",
+        "format": "application/vnd.nasa.cmr.umm+json",
+        "revision-date": "2020-08-13T14:13:54.736Z"
+      },
+      "umm": {
+        "TemporalExtent": {
+          "RangeDateTime": {
+            "EndingDateTime": "2000-04-22T20:24:59.000Z",
+            "BeginningDateTime": "2000-04-22T20:20:00.000Z"
+          }
+        },
+        "MetadataSpecification": {
+          "URL": "https://cdn.earthdata.nasa.gov/umm/granule/v1.6.4",
+          "Name": "UMM-G",
+          "Version": "1.6.4"
+        },
+        "GranuleUR": "20000422202005-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0",
+        "ProviderDates": [
+          { "Type": "Insert", "Date": "2020-08-13T14:13:37.958Z" },
+          { "Type": "Update", "Date": "2020-08-13T14:13:37.959Z" }
+        ],
+        "SpatialExtent": {
+          "HorizontalSpatialDomain": {
+            "Geometry": {
+              "BoundingRectangles": [
+                {
+                  "WestBoundingCoordinate": -1.804,
+                  "SouthBoundingCoordinate": 43.398,
+                  "EastBoundingCoordinate": 43.049,
+                  "NorthBoundingCoordinate": 65.596
+                }
+              ]
+            }
+          }
+        },
+        "DataGranule": {
+          "ArchiveAndDistributionInformation": [
+            {
+              "SizeUnit": "MB",
+              "Size": 19.02705478668213,
+              "Name": "20000422202005-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.nc"
+            }
+          ],
+          "DayNightFlag": "Unspecified",
+          "ProductionDateTime": "2020-08-13T14:10:48.000Z"
+        },
+        "CollectionReference": {
+          "Version": "2019.0",
+          "ShortName": "MODIS_T-JPL-L2P-v2019.0"
+        },
+        "RelatedUrls": [
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/podaac-uat-cumulus-public/MODIS_T-JPL-L2P-v2019.0/20000422202005-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.nc.md5",
+            "Description": "File to download",
+            "Type": "EXTENDED METADATA"
+          },
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/podaac-uat-cumulus-protected/MODIS_T-JPL-L2P-v2019.0/20000422202005-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.nc",
+            "Description": "The base directory location for the granule.",
+            "Type": "GET DATA"
+          },
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/podaac-uat-cumulus-public/MODIS_T-JPL-L2P-v2019.0/20000422202005-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.cmr.json",
+            "Description": "File to download",
+            "Type": "EXTENDED METADATA"
+          },
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/s3credentials",
+            "Description": "api endpoint to retrieve temporary credentials valid for same-region direct s3 access",
+            "Type": "VIEW RELATED INFORMATION"
+          }
+        ]
+      }
+    },
+    {
+      "meta": {
+        "concept-type": "granule",
+        "concept-id": "G1236185051-POCLOUD",
+        "revision-id": 1,
+        "native-id": "20000607202005-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0",
+        "provider-id": "POCLOUD",
+        "format": "application/vnd.nasa.cmr.umm+json",
+        "revision-date": "2020-07-11T13:13:00.647Z"
+      },
+      "umm": {
+        "TemporalExtent": {
+          "RangeDateTime": {
+            "EndingDateTime": "2000-06-07T20:24:59.000Z",
+            "BeginningDateTime": "2000-06-07T20:20:00.000Z"
+          }
+        },
+        "MetadataSpecification": {
+          "URL": "https://cdn.earthdata.nasa.gov/umm/granule/v1.6.4",
+          "Name": "UMM-G",
+          "Version": "1.6.4"
+        },
+        "GranuleUR": "20000607202005-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0",
+        "ProviderDates": [
+          { "Type": "Insert", "Date": "2020-07-11T13:12:44.793Z" },
+          { "Type": "Update", "Date": "2020-07-11T13:12:44.793Z" }
+        ],
+        "SpatialExtent": {
+          "HorizontalSpatialDomain": {
+            "Geometry": {
+              "BoundingRectangles": [
+                {
+                  "WestBoundingCoordinate": 20.652,
+                  "SouthBoundingCoordinate": 2.801,
+                  "EastBoundingCoordinate": 46.008,
+                  "NorthBoundingCoordinate": 23.74
+                }
+              ]
+            }
+          }
+        },
+        "DataGranule": {
+          "ArchiveAndDistributionInformation": [
+            {
+              "SizeUnit": "MB",
+              "Size": 17.70878028869629,
+              "Name": "20000607202005-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.nc"
+            }
+          ],
+          "DayNightFlag": "Unspecified",
+          "ProductionDateTime": "2020-07-11T13:10:45.000Z"
+        },
+        "CollectionReference": {
+          "Version": "2019.0",
+          "ShortName": "MODIS_T-JPL-L2P-v2019.0"
+        },
+        "RelatedUrls": [
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/podaac-uat-cumulus-protected/MODIS_T-JPL-L2P-v2019.0/20000607202005-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.nc",
+            "Description": "The base directory location for the granule.",
+            "Type": "GET DATA"
+          },
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/podaac-uat-cumulus-public/MODIS_T-JPL-L2P-v2019.0/20000607202005-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.cmr.json",
+            "Description": "File to download",
+            "Type": "EXTENDED METADATA"
+          },
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/s3credentials",
+            "Description": "api endpoint to retrieve temporary credentials valid for same-region direct s3 access",
+            "Type": "VIEW RELATED INFORMATION"
+          }
+        ]
+      }
+    },
+    {
+      "meta": {
+        "concept-type": "granule",
+        "concept-id": "G1237974526-POCLOUD",
+        "revision-id": 1,
+        "native-id": "20000709202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0",
+        "provider-id": "POCLOUD",
+        "format": "application/vnd.nasa.cmr.umm+json",
+        "revision-date": "2020-09-11T20:51:57.879Z"
+      },
+      "umm": {
+        "TemporalExtent": {
+          "RangeDateTime": {
+            "EndingDateTime": "2000-07-09T20:24:59.000Z",
+            "BeginningDateTime": "2000-07-09T20:20:01.000Z"
+          }
+        },
+        "MetadataSpecification": {
+          "URL": "https://cdn.earthdata.nasa.gov/umm/granule/v1.6.4",
+          "Name": "UMM-G",
+          "Version": "1.6.4"
+        },
+        "GranuleUR": "20000709202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0",
+        "ProviderDates": [
+          { "Type": "Insert", "Date": "2020-09-11T20:51:34.847Z" },
+          { "Type": "Update", "Date": "2020-09-11T20:51:34.848Z" }
+        ],
+        "SpatialExtent": {
+          "HorizontalSpatialDomain": {
+            "Geometry": {
+              "BoundingRectangles": [
+                {
+                  "WestBoundingCoordinate": 20.415,
+                  "SouthBoundingCoordinate": 3.271,
+                  "EastBoundingCoordinate": 45.888,
+                  "NorthBoundingCoordinate": 24.211
+                }
+              ]
+            }
+          }
+        },
+        "DataGranule": {
+          "ArchiveAndDistributionInformation": [
+            {
+              "SizeUnit": "MB",
+              "Size": 17.410160064697266,
+              "Name": "20000709202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.nc"
+            }
+          ],
+          "DayNightFlag": "Unspecified",
+          "ProductionDateTime": "2020-09-11T01:40:48.000Z"
+        },
+        "CollectionReference": {
+          "Version": "2019.0",
+          "ShortName": "MODIS_T-JPL-L2P-v2019.0"
+        },
+        "RelatedUrls": [
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/podaac-uat-cumulus-protected/MODIS_T-JPL-L2P-v2019.0/20000709202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.nc",
+            "Description": "Download 20000709202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.nc",
+            "Type": "GET DATA"
+          },
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/podaac-uat-cumulus-public/MODIS_T-JPL-L2P-v2019.0/20000709202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.nc.md5",
+            "Description": "Download 20000709202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.nc.md5",
+            "Type": "EXTENDED METADATA"
+          },
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/podaac-uat-cumulus-public/MODIS_T-JPL-L2P-v2019.0/20000709202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.cmr.json",
+            "Description": "Download 20000709202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0.cmr.json",
+            "Type": "EXTENDED METADATA"
+          },
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/s3credentials",
+            "Description": "api endpoint to retrieve temporary credentials valid for same-region direct s3 access",
+            "Type": "VIEW RELATED INFORMATION"
+          },
+          {
+            "URL": "https://opendap.uat.earthdata.nasa.gov/providers/POCLOUD/collections/GHRSST%20Level%202P%20Global%20Sea%20Surface%20Skin%20Temperature%20from%20the%20Moderate%20Resolution%20Imaging%20Spectroradiometer%20(MODIS)%20on%20the%20NASA%20Terra%20satellite%20(GDS2)/granules/20000709202006-JPL-L2P_GHRSST-SSTskin-MODIS_T-N-v02.0-fv01.0",
+            "Type": "GET DATA",
+            "Subtype": "OPENDAP DATA",
+            "Description": "OPeNDAP request URL"
+          }
+        ]
+      }
+    },
+    {
+      "meta": {
+        "concept-type": "granule",
+        "concept-id": "G1236933771-POCLOUD",
+        "revision-id": 1,
+        "native-id": "20000719202000-JPL-L2P_GHRSST-SSTskin-MODIS_T-D-v02.0-fv01.0",
+        "provider-id": "POCLOUD",
+        "format": "application/vnd.nasa.cmr.umm+json",
+        "revision-date": "2020-08-13T17:15:44.500Z"
+      },
+      "umm": {
+        "TemporalExtent": {
+          "RangeDateTime": {
+            "EndingDateTime": "2000-07-19T20:25:00.000Z",
+            "BeginningDateTime": "2000-07-19T20:20:00.000Z"
+          }
+        },
+        "MetadataSpecification": {
+          "URL": "https://cdn.earthdata.nasa.gov/umm/granule/v1.6.4",
+          "Name": "UMM-G",
+          "Version": "1.6.4"
+        },
+        "GranuleUR": "20000719202000-JPL-L2P_GHRSST-SSTskin-MODIS_T-D-v02.0-fv01.0",
+        "ProviderDates": [
+          { "Type": "Insert", "Date": "2020-08-13T17:15:28.180Z" },
+          { "Type": "Update", "Date": "2020-08-13T17:15:28.180Z" }
+        ],
+        "SpatialExtent": {
+          "HorizontalSpatialDomain": {
+            "Geometry": {
+              "BoundingRectangles": [
+                {
+                  "WestBoundingCoordinate": 172.651,
+                  "SouthBoundingCoordinate": -69.538,
+                  "EastBoundingCoordinate": 180,
+                  "NorthBoundingCoordinate": -46.862
+                },
+                {
+                  "WestBoundingCoordinate": -180,
+                  "SouthBoundingCoordinate": -69.538,
+                  "EastBoundingCoordinate": -136.062,
+                  "NorthBoundingCoordinate": -46.862
+                }
+              ]
+            }
+          }
+        },
+        "DataGranule": {
+          "ArchiveAndDistributionInformation": [
+            {
+              "SizeUnit": "MB",
+              "Size": 20.450956344604492,
+              "Name": "20000719202000-JPL-L2P_GHRSST-SSTskin-MODIS_T-D-v02.0-fv01.0.nc"
+            }
+          ],
+          "DayNightFlag": "Unspecified",
+          "ProductionDateTime": "2020-08-13T17:10:49.000Z"
+        },
+        "CollectionReference": {
+          "Version": "2019.0",
+          "ShortName": "MODIS_T-JPL-L2P-v2019.0"
+        },
+        "RelatedUrls": [
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/podaac-uat-cumulus-protected/MODIS_T-JPL-L2P-v2019.0/20000719202000-JPL-L2P_GHRSST-SSTskin-MODIS_T-D-v02.0-fv01.0.nc",
+            "Description": "The base directory location for the granule.",
+            "Type": "GET DATA"
+          },
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/podaac-uat-cumulus-public/MODIS_T-JPL-L2P-v2019.0/20000719202000-JPL-L2P_GHRSST-SSTskin-MODIS_T-D-v02.0-fv01.0.nc.md5",
+            "Description": "File to download",
+            "Type": "EXTENDED METADATA"
+          },
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/podaac-uat-cumulus-public/MODIS_T-JPL-L2P-v2019.0/20000719202000-JPL-L2P_GHRSST-SSTskin-MODIS_T-D-v02.0-fv01.0.cmr.json",
+            "Description": "File to download",
+            "Type": "EXTENDED METADATA"
+          },
+          {
+            "URL": "https://archive.podaac.uat.earthdata.nasa.gov/s3credentials",
+            "Description": "api endpoint to retrieve temporary credentials valid for same-region direct s3 access",
+            "Type": "VIEW RELATED INFORMATION"
+          }
+        ]
+      }
+    }
+  ]
+}
