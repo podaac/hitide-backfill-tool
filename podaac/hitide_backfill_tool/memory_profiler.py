@@ -103,13 +103,14 @@ def parse_arguments():
     parser = argparse.ArgumentParser(description="Analyze AWS Lambda logs.")
     parser.add_argument('--aws_lambda_log', type=str, help="Lambda log to profile", required=True)
     parser.add_argument('--aws_profile', type=str, help="AWS profile to use", required=True)
+    parser.add_argument('--aws_region', type=str, help="AWS region to use", default="us-west-2")
     parser.add_argument('--start_time', type=int, help="Start time (hours ago) to analyze", default=1)
     return parser.parse_args()
 
 
-def setup_aws_client(profile_name):
+def setup_aws_client(profile_name, aws_region):
     """Set up AWS boto3 client for CloudWatch Logs."""
-    session = boto3.Session(profile_name=profile_name)
+    session = boto3.Session(profile_name=profile_name, region=aws_region)
     return session.client('logs')
 
 
@@ -241,7 +242,7 @@ def write_csv(memory_collection, billed_collection):
 def main():
     """Main function for the script."""
     args = parse_arguments()
-    client = setup_aws_client(args.aws_profile)
+    client = setup_aws_client(args.aws_profile, args.aws_region)
 
     request_id_pattern, memory_used_pattern, billed_duration_pattern = compile_patterns()
 
