@@ -1,8 +1,10 @@
-# pylint: disable=redefined-outer-name, line-too-long, too-many-locals
+# pylint: disable=redefined-outer-name, line-too-long, too-many-locals, too-many-arguments
 
 """Script to profile lambda performance"""
 
 import json
+import concurrent.futures
+import threading
 import re
 import time
 import statistics
@@ -55,17 +57,28 @@ def execute_query_for_minute(query, minute_start_time, minute_end_time, client, 
 
 
 def execute_query_for_time_range(query, start_time, end_time, client, log_group):
-    """Function to execute query for a given time range, minute by minute"""
+    """Function to execute query for a given time range, minute by minute, in parallel"""
 
-    all_results = []
+    time_ranges = []
     current_time = start_time
 
+    # Prepare time ranges for each minute (assuming each time range is 600000 ms = 10 minutes)
     while current_time < end_time:
         minute_start_time = current_time
-        minute_end_time = current_time + (300 * 1000)
-        results = execute_query_for_minute(query, minute_start_time, minute_end_time, client, log_group)
-        all_results.extend(results)
+        minute_end_time = min(current_time + (600 * 1000), end_time)  # Ensure it doesn't go past end_time
+        time_ranges.append((query, minute_start_time, minute_end_time, client, log_group))
         current_time = minute_end_time
+
+    all_results = []
+
+    # Use ThreadPoolExecutor to parallelize the execution
+    with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+        # Submit the tasks to the executor
+        futures = [executor.submit(execute_query_for_minute, *time_range) for time_range in time_ranges]
+
+        # Collect the results as they complete
+        for future in concurrent.futures.as_completed(futures):
+            all_results.extend(future.result())
 
     return all_results
 
@@ -117,22 +130,7 @@ def execute_combined_query(client, log_group_name, start_time, end_time):
     return execute_query_for_time_range(combined_query, start_time, end_time, client, log_group_name)
 
 
-def process_results(response_query, request_id_pattern, memory_used_pattern, billed_duration_pattern):
-    """Process results from the CloudWatch Logs query."""
-    request_collection = {}
-
-    for result in response_query:
-        text = result[1]['value']
-
-        if 'aws_request_id' in text:
-            process_aws_request_id(text, request_collection)
-        elif 'Max Memory Used:' in text:
-            process_max_memory_used(text, request_id_pattern, memory_used_pattern, billed_duration_pattern, request_collection)
-
-    return request_collection
-
-
-def process_aws_request_id(text, request_collection):
+def process_aws_request_id(text, request_collection, lock):
     """Process and update request collection for aws_request_id."""
     try:
         message = json.loads(json.loads(text).get('message', '{}'))
@@ -140,15 +138,16 @@ def process_aws_request_id(text, request_collection):
         collection = message.get('collection')
 
         if request_id:
-            request_collection.setdefault(request_id, {}).update({
-                "request_id": request_id,
-                "collection": collection
-            })
+            with lock:
+                request_collection.setdefault(request_id, {}).update({
+                    "request_id": request_id,
+                    "collection": collection
+                })
     except (json.JSONDecodeError, TypeError):
         pass
 
 
-def process_max_memory_used(text, request_id_pattern, memory_used_pattern, billed_duration_pattern, request_collection):
+def process_max_memory_used(text, request_id_pattern, memory_used_pattern, billed_duration_pattern, request_collection, lock):
     """Process and update request collection for Max Memory Used."""
     request_id_match = request_id_pattern.search(text)
     memory_used_match = memory_used_pattern.search(text)
@@ -159,10 +158,44 @@ def process_max_memory_used(text, request_id_pattern, memory_used_pattern, bille
         memory_used = int(memory_used_match.group(1))
         billed_duration = int(billed_duration_match.group(1))
 
-        request_collection.setdefault(request_id, {}).update({
-            "memory_used": memory_used,
-            "billed_duration": billed_duration
-        })
+        with lock:
+            request_collection.setdefault(request_id, {}).update({
+                "memory_used": memory_used,
+                "billed_duration": billed_duration
+            })
+
+
+def process_results_chunk(response_chunk, request_id_pattern, memory_used_pattern, billed_duration_pattern, request_collection, lock):
+    """Process a chunk of results in parallel."""
+    for result in response_chunk:
+        text = result[1]['value']
+
+        if 'aws_request_id' in text:
+            process_aws_request_id(text, request_collection, lock)
+        elif 'Max Memory Used:' in text:
+            process_max_memory_used(text, request_id_pattern, memory_used_pattern, billed_duration_pattern, request_collection, lock)
+
+
+def process_results_parallel(response_query, request_id_pattern, memory_used_pattern, billed_duration_pattern):
+    """Parallelize processing of results."""
+    request_collection = {}
+    lock = threading.Lock()  # Lock for thread-safe access to request_collection
+
+    # Split the response_query into chunks for parallel processing
+    chunk_size = len(response_query) // 4  # Adjust this to control chunk sizes
+    response_chunks = [response_query[i:i + chunk_size] for i in range(0, len(response_query), chunk_size)]
+
+    # Use ThreadPoolExecutor for parallel processing
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        futures = [
+            executor.submit(process_results_chunk, chunk, request_id_pattern, memory_used_pattern, billed_duration_pattern, request_collection, lock)
+            for chunk in response_chunks
+        ]
+
+        # Wait for all threads to finish processing
+        concurrent.futures.wait(futures)
+
+    return request_collection
 
 
 def update_memory_billed_collections(request_collection):
@@ -217,7 +250,7 @@ def main():
 
     response_query = execute_combined_query(client, args.aws_lambda_log, start_time, end_time)
 
-    request_collection = process_results(
+    request_collection = process_results_parallel(
         response_query, request_id_pattern, memory_used_pattern, billed_duration_pattern
     )
 
