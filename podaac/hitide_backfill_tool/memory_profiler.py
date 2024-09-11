@@ -110,7 +110,7 @@ def parse_arguments():
 
 def setup_aws_client(profile_name, aws_region):
     """Set up AWS boto3 client for CloudWatch Logs."""
-    session = boto3.Session(profile_name=profile_name, region=aws_region)
+    session = boto3.Session(profile_name=profile_name, region_name=aws_region)
     return session.client('logs')
 
 
