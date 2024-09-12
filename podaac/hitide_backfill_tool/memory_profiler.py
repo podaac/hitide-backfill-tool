@@ -183,7 +183,7 @@ def process_results_parallel(response_query, request_id_pattern, memory_used_pat
     lock = threading.Lock()  # Lock for thread-safe access to request_collection
 
     # Split the response_query into chunks for parallel processing
-    chunk_size = len(response_query) // 4  # Adjust this to control chunk sizes
+    chunk_size = max(1, len(response_query) // 4)  # Ensure chunk_size is at least 1
     response_chunks = [response_query[i:i + chunk_size] for i in range(0, len(response_query), chunk_size)]
 
     # Use ThreadPoolExecutor for parallel processing
