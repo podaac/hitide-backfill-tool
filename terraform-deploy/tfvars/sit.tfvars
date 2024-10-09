@@ -1,6 +1,6 @@
 prefix = "sit-hitide-backfill-tool"
 stage = "sit"
-db_instance_class = "db.t2.micro"
+db_instance_class = "db.t2.small"
 db_storage_size = 20
 
 
