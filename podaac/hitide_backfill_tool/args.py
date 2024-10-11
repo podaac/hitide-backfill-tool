@@ -41,6 +41,7 @@ def create_parser():
     parser.add_argument("--provider")
     parser.add_argument("-sd", "--start-date")
     parser.add_argument("-ed", "--end-date")
+    parser.add_argument("--granule-list-file", default=None)
     parser.add_argument("--page-size", type=int)
     parser.add_argument("--page-limit", type=int)
     parser.add_argument("--edl-token")

@@ -89,5 +89,4 @@ class CnmMessageWriter:
             "username": self.user
         }
 
-        print(message["payload"])
         return json.dumps(message)
