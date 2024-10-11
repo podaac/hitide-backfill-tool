@@ -1,5 +1,6 @@
 """Search for CMR granules"""
 
+from concurrent.futures import ThreadPoolExecutor
 import ast
 import json
 import logging
@@ -194,9 +195,9 @@ class GranuleSearch:
         return self._pages_loaded
 
     def get_one_granule(self, granule_name):
-        """Request a single granule from CMR using granule_name"""
+        """Request a single granule from CMR using granule_name or concept_id"""
 
-        url = (f"{self._base_url}/search/granules.umm_json?")
+        url = f"{self._base_url}/search/granules.umm_json?"
     
         # Regex for granule concept id
         pattern = r"^G\d{10}-"
@@ -235,22 +236,24 @@ class GranuleSearch:
             raise Exception("CMR error")
 
         return body["items"][0]
-        
 
     def get_granules_from_list(self, granule_list):
-        """Iterate through granule_list and get cmr for each item and return a list of umm granule json"""
-
-        granules = []
-
-        for granule_name in granule_list:
+        """Iterate through granule_list, get cmr for each item in parallel, and return a list of umm granule json"""
+        
+        def safe_get_granule(granule_name):
+            """Safely get one granule, catching exceptions"""
             try:
-                granule = self.get_one_granule(granule_name)
-                granules.append(granule)
+                return self.get_one_granule(granule_name)
             except Exception:
-                pass
+                return None
 
-        return granules
+        with ThreadPoolExecutor() as executor:
+            granules = list(executor.map(lambda granule_name:
+                safe_get_granule(granule_name), granule_list))
 
+        # Filter out any None values due to exceptions
+        return [granule for granule in granules if granule is not None]
+    
 #
 #   Helpers
 #
