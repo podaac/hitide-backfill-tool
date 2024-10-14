@@ -10,8 +10,8 @@ import uuid
 import copy
 import json
 from datetime import datetime, timezone
-import requests
 import traceback
+import requests
 
 from podaac.hitide_backfill_tool.cmr.search import GranuleSearch
 from podaac.hitide_backfill_tool.cmr.cmr_granule import CmrGranule
@@ -124,8 +124,7 @@ class Backfiller:
     # Disable broad-except since many types of error indicate the absense
     #   of data when attempting access (e.g. TypeError, IndexError, KeyError, ...)
     # pylint: disable=broad-except
-
-    # pylint: disable=too-many-instance-attributes,too-many-arguments
+    # pylint: disable=too-many-instance-attributes,too-many-arguments,too-many-positional-arguments
 
     def __init__(self, search, message_writer, message_senders, granule_options, logger,
                  message_limit, cli_execution_id, s3, collection, granule_list_file):
@@ -190,9 +189,8 @@ class Backfiller:
     def read_granule_list_file(self):
         """read the self.granule_list_file and store the granule list in self.granule_list"""
 
-        with open(self.granule_list_file, 'r') as file:
+        with open(self.granule_list_file, 'r', encoding='utf-8') as file:
             self.granule_list = [line.strip() for line in file]
-
 
     def process_granules(self):
         """Loop through granules (in parallel) from granule-search and call the process_one_granule() method."""
@@ -202,7 +200,7 @@ class Backfiller:
             granules = self.search.get_granules_from_list(self.granule_list)
 
             with ThreadPoolExecutor() as executor:
-                    executor.map(self.process_one_granule, granules)
+                executor.map(self.process_one_granule, granules)
             print("done.")
         else:
             while self.search.get_next_page():
