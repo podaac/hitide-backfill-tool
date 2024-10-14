@@ -41,12 +41,13 @@ def create_parser():
     parser.add_argument("--provider")
     parser.add_argument("-sd", "--start-date")
     parser.add_argument("-ed", "--end-date")
-    parser.add_argument("--granule-list-file", default=None)
     parser.add_argument("--page-size", type=int)
     parser.add_argument("--page-limit", type=int)
     parser.add_argument("--edl-token")
     parser.add_argument("--launchpad-token")
     parser.add_argument("--cmr-search-after")
+
+    parser.add_argument("--granule-list-file", help='Process only this list of granuleURs or concept-IDs, and ignore start-date, end-date, cycles, etc.', default=None)
 
     parser.add_argument("-g", "--geometry", dest="geometries",
                         action="append", default=None)
