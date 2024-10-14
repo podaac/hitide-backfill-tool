@@ -187,7 +187,18 @@ class Backfiller:
         self.lock = Lock()
 
     def read_granule_list_file(self):
-        """read the self.granule_list_file and store the granule list in self.granule_list"""
+        """Read the granule_list_file and store contents in array granule_list
+           The items in the list are one granule per line:
+           Can be either a GranuleUR or a granlue concept ID, and all items must the same type.
+           Example:
+              20240702060501-JPL-L2P_GHRSST-SSTskin-MODIS_A-D-v02.0-fv01.0
+              20240702083501-JPL-L2P_GHRSST-SSTskin-MODIS_A-N-v02.0-fv01.0
+              20240702174000-JPL-L2P_GHRSST-SSTskin-MODIS_A-D-v02.0-fv01.0
+           OR
+               G3141860732-POCLOUD
+               G3142056458-POCLOUD
+               G3142846484-POCLOUD
+        """
 
         with open(self.granule_list_file, 'r', encoding='utf-8') as file:
             self.granule_list = [line.strip() for line in file]
@@ -197,7 +208,7 @@ class Backfiller:
 
         if self.granule_list:
             print('Processing granules from granule list file...', end='', flush=True)
-            granules = self.search.get_granules_from_list(self.granule_list)
+            granules = self.search.get_granules_in_list(self.granule_list)
 
             with ThreadPoolExecutor() as executor:
                 executor.map(self.process_one_granule, granules)

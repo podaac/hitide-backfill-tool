@@ -239,7 +239,7 @@ class GranuleSearch:
 
         return body["items"][0]
 
-    def get_granules_from_list(self, granule_list):
+    def get_granules_in_list(self, granule_list):
         """Iterate through granule_list, get cmr for each item in parallel, and return a list of umm granule json"""
 
         # pylint: disable=broad-except
