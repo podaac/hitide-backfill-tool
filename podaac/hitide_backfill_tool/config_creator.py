@@ -99,7 +99,7 @@ def create_defaults(env):
             "aws_profile": "ngap-services-sit"
         }
 
-    raise f"create_defaults({env}) - env must be ops | uat | sit"
+    raise Exception(f"create_defaults({env}) - env must be ops | uat | sit")
 
 
 def create_config(args=None):

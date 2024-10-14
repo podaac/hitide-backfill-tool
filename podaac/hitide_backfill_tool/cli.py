@@ -10,6 +10,7 @@ import uuid
 import copy
 import json
 from datetime import datetime, timezone
+import traceback
 import requests
 
 from podaac.hitide_backfill_tool.cmr.search import GranuleSearch
@@ -123,11 +124,10 @@ class Backfiller:
     # Disable broad-except since many types of error indicate the absense
     #   of data when attempting access (e.g. TypeError, IndexError, KeyError, ...)
     # pylint: disable=broad-except
-
-    # pylint: disable=too-many-instance-attributes,too-many-arguments
+    # pylint: disable=too-many-instance-attributes,too-many-arguments,too-many-positional-arguments
 
     def __init__(self, search, message_writer, message_senders, granule_options, logger,
-                 message_limit, cli_execution_id, s3, collection):
+                 message_limit, cli_execution_id, s3, collection, granule_list_file):
         # pylint: disable=C0103
 
         # dependencies
@@ -140,6 +140,8 @@ class Backfiller:
         self.cli_execution_id = cli_execution_id
         self.s3 = s3
         self.collection = collection
+        self.granule_list_file = granule_list_file
+        self.granule_list = None
 
         # statistics
         self.granules_analyzed = 0
@@ -178,27 +180,52 @@ class Backfiller:
             destination_message.append('nowhere')
         self.destination_message = f"Messages being sent to {', '.join(destination_message)}"
 
+        if self.granule_list_file:
+            self.read_granule_list_file()
+
         # for thread-safe operations
         self.lock = Lock()
+
+    def read_granule_list_file(self):
+        """Read the granule_list_file and store contents in array granule_list
+           The items in the list are one granule per line:
+           Can be either a GranuleUR or a granlue concept ID, and all items must the same type.
+           Example:
+              20240702060501-JPL-L2P_GHRSST-SSTskin-MODIS_A-D-v02.0-fv01.0
+              20240702083501-JPL-L2P_GHRSST-SSTskin-MODIS_A-N-v02.0-fv01.0
+              20240702174000-JPL-L2P_GHRSST-SSTskin-MODIS_A-D-v02.0-fv01.0
+           OR
+               G3141860732-POCLOUD
+               G3142056458-POCLOUD
+               G3142846484-POCLOUD
+        """
+
+        with open(self.granule_list_file, 'r', encoding='utf-8') as file:
+            self.granule_list = [line.strip() for line in file]
 
     def process_granules(self):
         """Loop through granules (in parallel) from granule-search and call the process_one_granule() method."""
 
-        while self.search.get_next_page():
-            print("Processing granules...", end='', flush=True)
+        if self.granule_list:
+            print('Processing granules from granule list file...', end='', flush=True)
+            granules = self.search.get_granules_in_list(self.granule_list)
+
             with ThreadPoolExecutor() as executor:
-                executor.map(self.process_one_granule, self.search.granules())
+                executor.map(self.process_one_granule, granules)
             print("done.")
-            if self.message_limit_reached():
-                self.logger.info("\n**** Message limit reached ****")
-                return
-            self.log_stats()
+        else:
+            while self.search.get_next_page():
+                print("Processing granules...", end='', flush=True)
+                with ThreadPoolExecutor() as executor:
+                    executor.map(self.process_one_granule, self.search.granules())
+                print("done.")
+                if self.message_limit_reached():
+                    self.logger.info("\n**** Message limit reached ****")
+                    return
+                self.log_stats()
 
     def print_monthly_results_table(self):
         """Function to print out monthly stats"""
-
-        if not self.message_senders:
-            print("** NOTE: When in preview mode, the messages sent count may not be accurate since it's only simulating sending messages. ** \n")
 
         print("Monthly Counts Summary:\n")
         header = f"{'Date':<10} {'Granules':<10} {'Need Image':<12} {'Need Footprint':<16} {'Both FP & BBox':<16} {'Need DMRPP':<12}"
@@ -274,6 +301,7 @@ class Backfiller:
                 self.granules_analyzed += 1
         except Exception as exc:
             self.logger.error(f"Error: {str(exc)}\n")
+            traceback.print_exc()
 
     def update_image(self, granule):
         """Create and send messages for one granule's image update."""
@@ -420,6 +448,9 @@ class Backfiller:
             f"-- {self.destination_message} --\n"
             "==============================================================\n"
         )
+        if not self.message_senders:
+            print("** NOTE: When in preview mode, the messages sent count may not be accurate since it's only simulating sending messages. ** \n")
+
         if len(self.concept_ids_needing_image) > 0:
             self.logger.info(f"Granule IDs needing images (showing first 100):\n"
                              f" {self.concept_ids_needing_image[:100]}\n"
@@ -483,7 +514,7 @@ def main(args=None):
 
     # setup backfiller
     backfiller = Backfiller(search, message_writer, message_senders,
-                            granule_options, logger, args.message_limit, args.cli_execution_id, s3, collection)
+                            granule_options, logger, args.message_limit, args.cli_execution_id, s3, collection, args.granule_list_file)
 
     # Check forge configurations before running backfill
     backfiller.get_forge_tig_configuration()
