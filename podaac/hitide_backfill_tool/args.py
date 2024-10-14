@@ -47,7 +47,12 @@ def create_parser():
     parser.add_argument("--launchpad-token")
     parser.add_argument("--cmr-search-after")
 
-    parser.add_argument("--granule-list-file", help='Process only this list of granuleURs or concept-IDs, and ignore start-date, end-date, cycles, etc.', default=None)
+    parser.add_argument(
+        "--granule-list-file",
+        help=("Process only this list of granuleURs or concept-IDs, and ignore start-date, "
+              "end-date, cycles, etc."),
+        default=None
+    )
 
     parser.add_argument("-g", "--geometry", dest="geometries",
                         action="append", default=None)
