@@ -1,5 +1,5 @@
 module "forge_py_module" {
-    source = "https://github.com/podaac/forge-py/releases/download/0.1.0/forge-py-terraform-0.1.0.zip"
+    source = "https://github.com/podaac/forge-py/releases/download/0.3.0%2B3fbd0dc/forge-py-terraform-0.3.0+3fbd0dc.zip"
     lambda_container_image_uri = "ghcr.io/podaac/forge-py:0.1.0"
     prefix = local.resources_name
     region = var.region
