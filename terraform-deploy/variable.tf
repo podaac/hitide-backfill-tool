@@ -82,7 +82,7 @@ variable "step_retry"{
 
 variable "db_instance_class"{
   type = string
-  default = "db.t2.micro"
+  default = "db.t3.micro"
 }
 
 variable "db_storage_size"{
