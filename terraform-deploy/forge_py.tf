@@ -4,7 +4,8 @@ module "forge_py_module" {
     prefix = local.resources_name
     region = var.region
     cmr_environment = var.cmr_environment
-    config_url = "https://hitide.podaac.earthdatacloud.nasa.gov/dataset-configs"
+    config_bucket = "podaac-services-uat-hitide-backfill-internal"
+    config_dir = "forge_py_configs"
     footprint_output_bucket = "${local.resources_name}-internal"
     footprint_output_dir    = "dataset-metadata"
     lambda_role = aws_iam_role.iam_execution.arn
