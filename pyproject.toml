@@ -28,7 +28,7 @@ pytest = "^8.0.1"
 moto = {extras = ["sns"], version = "^4.2.6"}
 flake8 = "^7.0.0"
 pylint = "^3.0.3"
-pytest-cov = "^5"
+pytest-cov = "^6"
 
 [tool.poetry.scripts]
 backfill = "podaac.hitide_backfill_tool.cli:main"
