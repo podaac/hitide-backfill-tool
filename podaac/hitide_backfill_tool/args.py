@@ -64,7 +64,7 @@ def create_parser():
 
     parser.add_argument("--cumulus", choices=["ops", "uat", "sit",
                                               "swot-sit", "swot-uat", "swot-ops"])
-    parser.add_argument("--cumulus-configurations")
+    parser.add_argument("--cumulus-configurations", default=None)
 
     parser.add_argument("--preview", action="store_true", default=None)
     parser.add_argument("--sns-arn")

@@ -80,11 +80,14 @@ def granule_search_from_args(args, logger):
 def message_writer_from_args(args, logger):
     """Return configured message writer from parsed cli args and logger."""
 
-    message_config = get_message_config(args.cumulus, args.default_message_config)
-    collection_config = get_collection_config(
-        args.cumulus_configurations, args.collection, args.cumulus, logger)
-    message_writer = CnmMessageWriter(message_config, collection_config,
-                                      args.start_date, args.end_date, args.provider, args.cli_execution_id, args.user)
+    message_writer = None
+
+    if args.cumulus_configurations:
+        message_config = get_message_config(args.cumulus, args.default_message_config)
+        collection_config = get_collection_config(
+            args.cumulus_configurations, args.collection, args.cumulus, logger)
+        message_writer = CnmMessageWriter(message_config, collection_config,
+                                          args.start_date, args.end_date, args.provider, args.cli_execution_id, args.user)
     return message_writer
 
 
@@ -316,11 +319,12 @@ class Backfiller:
             if not self.message_limit_reached():
                 with self.lock:
                     self.image_messages_sent += 1
-                message = self.message_writer.write(granule, needs_footprint=False,
-                                                    needs_image=True, needs_dmrpp=False,
-                                                    skip_cmr_opendap_update=True)
-                for sender in self.message_senders:
-                    sender.send(message)
+                if self.message_writer:
+                    message = self.message_writer.write(granule, needs_footprint=False,
+                                                        needs_image=True, needs_dmrpp=False,
+                                                        skip_cmr_opendap_update=True)
+                    for sender in self.message_senders:
+                        sender.send(message)
         else:
             with self.lock:
                 self.images_that_couldnt_be_processed += 1
@@ -341,11 +345,12 @@ class Backfiller:
             if not self.message_limit_reached():
                 with self.lock:
                     self.footprint_messages_sent += 1
-                message = self.message_writer.write(granule, needs_footprint=True,
-                                                    needs_image=False, needs_dmrpp=False,
-                                                    skip_cmr_opendap_update=True)
-                for sender in self.message_senders:
-                    sender.send(message)
+                if self.message_writer:
+                    message = self.message_writer.write(granule, needs_footprint=True,
+                                                        needs_image=False, needs_dmrpp=False,
+                                                        skip_cmr_opendap_update=True)
+                    for sender in self.message_senders:
+                        sender.send(message)
         else:
             with self.lock:
                 self.footprints_that_couldnt_be_processed += 1
@@ -398,11 +403,12 @@ class Backfiller:
             if not self.message_limit_reached():
                 with self.lock:
                     self.dmrpp_messages_sent += 1
-                message = self.message_writer.write(granule, needs_footprint=False,
-                                                    needs_image=False, needs_dmrpp=True,
-                                                    skip_cmr_opendap_update=skip_cmr_opendap_update)
-                for sender in self.message_senders:
-                    sender.send(message)
+                if self.message_writer:
+                    message = self.message_writer.write(granule, needs_footprint=False,
+                                                        needs_image=False, needs_dmrpp=True,
+                                                        skip_cmr_opendap_update=skip_cmr_opendap_update)
+                    for sender in self.message_senders:
+                        sender.send(message)
         else:
             with self.lock:
                 self.dmrpp_that_couldnt_be_processed += 1
@@ -483,6 +489,36 @@ class Backfiller:
             self.forge_tig_configuration = None
 
 
+def verify_inputs(args, granule_options, message_writer, backfiller):
+    """Verify inputs from parsed cli args, and raise an exception if any are invalid."""
+
+    if args.cumulus_configurations is None and not args.preview:
+        raise Exception("Please specify --cumulus-configurations path")
+
+    # Check forge configurations before running backfill
+    backfiller.get_forge_tig_configuration()
+
+    if granule_options['footprint_processing'] != "off":
+        if backfiller.forge_tig_configuration is None:
+            raise Exception("Cannot find forge tig configuration for this collection")
+        footprint_settings = backfiller.forge_tig_configuration.get('footprint')
+        if not footprint_settings:
+            raise Exception("There is no footprint setting for this collection, please disable footprint for backfilling")
+
+    if granule_options['dmrpp_processing'] != "off":
+        if message_writer is None:
+            raise Exception("Either disable dmrpp processing or specify --cumulus-configurations path")
+
+        files = message_writer.collection_config.get('files', [])
+        has_dmrpp_regex = False
+        for file in files:
+            if file.get('regex', "").endswith(".dmrpp$"):
+                has_dmrpp_regex = True
+                break
+        if has_dmrpp_regex is False:
+            raise Exception(f"There is no DMRPP regex in cumulus collection configuration for {message_writer.collection_name}")
+
+
 def main(args=None):
     """Main script for backfilling from the cli"""
 
@@ -516,25 +552,11 @@ def main(args=None):
     backfiller = Backfiller(search, message_writer, message_senders,
                             granule_options, logger, args.message_limit, args.cli_execution_id, s3, collection, args.granule_list_file)
 
-    # Check forge configurations before running backfill
-    backfiller.get_forge_tig_configuration()
-
-    if granule_options['footprint_processing'] != "off":
-        if backfiller.forge_tig_configuration is None:
-            raise Exception("There is no footprint settings for this collection, please disable footprint for backfilling")
-        footprint_settings = backfiller.forge_tig_configuration.get('footprint')
-        if not footprint_settings:
-            raise Exception("There is no footprint settings for this collection, please disable footprint for backfilling")
-
-    if granule_options['dmrpp_processing'] != "off":
-        files = message_writer.collection_config.get('files', [])
-        has_dmrpp_regex = False
-        for file in files:
-            if file.get('regex', "").endswith(".dmrpp$"):
-                has_dmrpp_regex = True
-                break
-        if has_dmrpp_regex is False:
-            raise Exception(f"There is no DMRPP regex in cumulus collection configuration for {message_writer.collection_name}")
+    try:
+        verify_inputs(args, granule_options, message_writer, backfiller)
+    except Exception as exc:
+        logger.error(exc)
+        return
 
     # run backfiller
     try:
