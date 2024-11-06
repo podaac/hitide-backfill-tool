@@ -510,7 +510,15 @@ def verify_inputs(args, granule_options, message_writer, backfiller):
 
     if granule_options['dmrpp_processing'] != "off":
         if message_writer is None:
-            raise Exception("Either disable dmrpp processing or specify --cumulus-configurations path")
+            error_msg = "Dmrpp processing requires "
+            missing = []
+            if args.cumulus_configurations is None:
+                missing.append("cumulus configurations directory")
+            if args.default_message_config is None:
+                missing.append("default message config file")
+
+            error_msg += " and ".join(missing) + " to be specified" if missing else ""
+            raise Exception(error_msg)
 
         files = message_writer.collection_config.get('files', [])
         has_dmrpp_regex = False
