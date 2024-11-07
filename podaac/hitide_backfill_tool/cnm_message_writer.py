@@ -6,7 +6,7 @@ import json
 class CnmMessageWriter:
     """Creates a Cumulus CNM message from granule."""
 
-    # pylint: disable=too-many-instance-attributes,too-many-arguments
+    # pylint: disable=too-many-instance-attributes,too-many-arguments,too-many-positional-arguments
 
     def __init__(self,
                  message_config,
@@ -89,5 +89,4 @@ class CnmMessageWriter:
             "username": self.user
         }
 
-        print(message["payload"])
         return json.dumps(message)

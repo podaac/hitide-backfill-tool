@@ -1,8 +1,12 @@
 """Search for CMR granules"""
 
+# pylint: disable=line-too-long
+
+from concurrent.futures import ThreadPoolExecutor
 import ast
 import json
 import logging
+import re
 from requests import Session
 from requests.exceptions import RequestException
 from requests.adapters import HTTPAdapter
@@ -13,7 +17,7 @@ from .cmr_granule import CmrGranule
 class GranuleSearch:
     """Searches for CMR granules, with paging"""
 
-    # pylint: disable=too-many-instance-attributes,too-many-arguments,too-many-locals
+    # pylint: disable=too-many-instance-attributes,too-many-arguments,too-many-locals,too-many-positional-arguments
 
     def __init__(self,
                  base_url,
@@ -191,6 +195,66 @@ class GranuleSearch:
     def pages_loaded(self):
         """Return the total number of granule search pages that have been loaded up to this point"""
         return self._pages_loaded
+
+    def get_one_granule(self, granule_name):
+        """Request a single granule from CMR using granule_name or concept_id"""
+
+        url = f"{self._base_url}/search/granules.umm_json?"
+
+        # Regex for granule concept id
+        pattern = r"^G\d{10}-"
+        url += (f"concept_id={granule_name}" if re.match(pattern, granule_name) else
+                f"provider={self._provider}&short_name={self._collection_short_name}&readable_granule_name={granule_name}")
+
+        headers = {}
+        if self._edl_token:
+            headers["Authorization"] = f"Bearer {self._edl_token}"
+        elif self._launchpad_token:
+            headers["Authorization"] = self._launchpad_token
+
+        body = {}
+        try:
+            response = self.session.get(url, headers=headers)
+            response.raise_for_status()
+
+            body = json.loads(response.text)
+        except RequestException as exc:
+            self._logger.error(f"Error requesting CMR: {exc}")
+        except json.JSONDecodeError as exc:
+            self._logger.error(f"Error decoding CMR JSON response: {exc}")
+
+        # Error message if there is a problem
+        if response.status_code >= 400 or body.get("hits") is None or body.get("items") is None or len(body.get("items")) == 0:
+            granule_message = f"Granule not found: {granule_name}"
+            self._logger.error(
+                f"\nCMR problem:\n"
+                f"url: {url}\n"
+                f"----------\n"
+                f"http_code: {response.status_code}\n"
+                f"body: {response.text}\n"
+                f"----------\n"
+                f"{granule_message}\n"
+            )
+            raise Exception("CMR error")
+
+        return body["items"][0]
+
+    def get_granules_in_list(self, granule_list):
+        """Iterate through granule_list, get cmr for each item in parallel, and return a list of umm granule json"""
+
+        # pylint: disable=broad-except
+        def safe_get_granule(granule_name):
+            """Safely get one granule, catching exceptions"""
+            try:
+                return self.get_one_granule(granule_name)
+            except Exception:
+                return None
+
+        with ThreadPoolExecutor() as executor:
+            granules = list(executor.map(safe_get_granule, granule_list))
+
+        # Filter out any None values due to exceptions
+        return [granule for granule in granules if granule is not None]
 
 #
 #   Helpers

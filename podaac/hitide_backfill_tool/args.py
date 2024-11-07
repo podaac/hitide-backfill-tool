@@ -47,6 +47,13 @@ def create_parser():
     parser.add_argument("--launchpad-token")
     parser.add_argument("--cmr-search-after")
 
+    parser.add_argument(
+        "--granule-list-file",
+        help=("Process only this list of granuleURs or concept-IDs, and ignore start-date, "
+              "end-date, cycles, etc."),
+        default=None
+    )
+
     parser.add_argument("-g", "--geometry", dest="geometries",
                         action="append", default=None)
     parser.add_argument("--footprint", choices=["on", "off", "force"])
@@ -57,7 +64,7 @@ def create_parser():
 
     parser.add_argument("--cumulus", choices=["ops", "uat", "sit",
                                               "swot-sit", "swot-uat", "swot-ops"])
-    parser.add_argument("--cumulus-configurations")
+    parser.add_argument("--cumulus-configurations", default=None)
 
     parser.add_argument("--preview", action="store_true", default=None)
     parser.add_argument("--sns-arn")

@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Added a new input argument *granule-list-file* to input a specific list of granules to process,
+  and ignore start-date, end-date, cycles, etc
+  - List can be a list of GranuleURs or granule concept-IDs
+- Update db size from t2.micro to t3.micro
+- Made argument *--cumulus-configurations* optional in preview mode
 ### Deprecated
 ### Removed
 ### Fixed
