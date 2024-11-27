@@ -3,7 +3,7 @@
    "tig_image":"ghcr.io/podaac/tig:0.12.0-rc.2",
    "forge_source":"https://github.com/podaac/forge/releases/download/0.11.0-rc.2/forge-0.11.0-rc.2.zip",
    "forge_image":"ghcr.io/podaac/forge:0.11.0-rc.2",
-   "forge_py_source" : "https://github.com/podaac/forge-py/releases/download/0.2.0-rc.2/forge-py-terraform-0.2.0-rc.2.zip",
-   "forge_py_image": "ghcr.io/podaac/forge-py:0.2.0-rc.2",
+   "forge_py_source" : "https://github.com/podaac/forge-py/releases/download/0.3.0-rc.4/forge-py-terraform-0.3.0-rc.4.zip",
+   "forge_py_image": "ghcr.io/podaac/forge-py:0.3.0-rc.4",
    "backfill_lambdas_source": "https://github.com/podaac/hitide-backfill-lambdas/releases/download/0.4.0-alpha.2/hitide-backfill-lambdas-0.4.0-alpha.2.zip"
 }
