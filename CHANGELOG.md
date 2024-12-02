@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Made arguments *--cumulus-configurations* and *--default-message-config* optional in preview mode
 - Update forge-py to 0.3.0
 - Update metadata aggregator to cumulus-metadata-aggregator-8.7.0-alpha.6-SNAPSHOT
+- Update forge-py memory to 2048
 ### Deprecated
 ### Removed
 ### Fixed

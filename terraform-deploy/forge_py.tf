@@ -10,6 +10,6 @@ module "forge_py_module" {
     lambda_role = aws_iam_role.iam_execution.arn
     security_group_ids = [var.aws_security_group_ids]
     subnet_ids = data.aws_subnets.private.ids
-    memory_size = 1024
+    memory_size = 2048
     timeout = 900
 }
