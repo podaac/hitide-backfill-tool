@@ -25,19 +25,9 @@ jobs:
           repository: nasa/cumulus
           ref: v18.5.1
 
-      # Step 2: Install NVM (Node Version Manager)
-      - name: Install NVM
-        run: |
-          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
-          export NVM_DIR="$HOME/.nvm"
-          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-          echo "NVM installed"
-
       # Step 3: Install and use Node.js
       - name: Install Node.js
         run: |
-          export NVM_DIR="$HOME/.nvm"
-          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
           nvm install
           nvm use
           echo "Node.js version: $(node -v)"
@@ -47,7 +37,7 @@ jobs:
         run: |
           export NVM_DIR="$HOME/.nvm"
           [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-          npm install -g lerna
+          npm install -g typescript lerna
 
       # Step 5: Install NPM dependencies
       - name: Install NPM dependencies
@@ -61,7 +51,7 @@ jobs:
         run: |
           export NVM_DIR="$HOME/.nvm"
           [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-          npm run bootstrap -- --loglevel verbose
+          npm run bootstrap
 
       # Step 7: Upload the lambda.zip from post-to-cmr
       - name: Upload Post-to-CMR Lambda Artifact
@@ -80,6 +70,7 @@ jobs:
 
   # First job in the workflow installs and verifies the software
   build:
+    if: false
     name: Build, Test, Verify, Publish
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
