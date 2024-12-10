@@ -14,6 +14,70 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
+  create-zips:
+    name: Create Cumulus Dependency Zips
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Checkout the specified version of the repository
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          repository: nasa/cumulus
+          ref: v18.5.1
+
+      # Step 2: Install NVM (Node Version Manager)
+      - name: Install NVM
+        run: |
+          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+          echo "NVM installed"
+
+      # Step 3: Install and use Node.js
+      - name: Install Node.js
+        run: |
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+          nvm install
+          nvm use
+          echo "Node.js version: $(node -v)"
+
+      # Step 4: Install Lerna globally
+      - name: Install Lerna
+        run: |
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+          npm install -g lerna
+
+      # Step 5: Install NPM dependencies
+      - name: Install NPM dependencies
+        run: |
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+          npm install
+
+      # Step 6: Run Bootstrap
+      - name: Run Bootstrap
+        run: |
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+          npm run bootstrap
+
+      # Step 7: Upload the lambda.zip from post-to-cmr
+      - name: Upload Post-to-CMR Lambda Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: post-to-cmr.zip
+          path: tasks/post-to-cmr/lambda.zip
+
+      # Step 8: Upload the lambda.zip from hyrax-metadata-updates
+      - name: Upload Hyrax-Metadata-Updates Lambda Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: hyrax-metadata-updates.zip
+          path: tasks/hyrax-metadata-updates/lambda.zip
+
+
   # First job in the workflow installs and verifies the software
   build:
     name: Build, Test, Verify, Publish
