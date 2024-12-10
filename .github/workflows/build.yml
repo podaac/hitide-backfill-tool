@@ -39,7 +39,7 @@ jobs:
         run: |
           export NVM_DIR="$HOME/.nvm"
           [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-          npm install -g typescript lerna
+          npm install -g lerna
 
       # Step 5: Install NPM dependencies
       - name: Install NPM dependencies
@@ -53,7 +53,7 @@ jobs:
         run: |
           export NVM_DIR="$HOME/.nvm"
           [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-          npm run bootstrap
+          npm run bootstrap --no-parallel
 
       # Step 7: Upload the lambda.zip from post-to-cmr
       - name: Upload Post-to-CMR Lambda Artifact
