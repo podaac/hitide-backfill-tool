@@ -25,35 +25,29 @@ jobs:
           repository: nasa/cumulus
           ref: v18.5.1
 
-      # Step 3: Install and use Node.js
-      - name: Install Node.js
-        run: |
-          export NVM_DIR="$HOME/.nvm"
-          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-          nvm install
-          nvm use
-          echo "Node.js version: $(node -v)"
+      - name: Read Node.js Version from .nvmrc
+        run: echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_ENV
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
 
       # Step 4: Install Lerna globally
       - name: Install Lerna
         run: |
-          export NVM_DIR="$HOME/.nvm"
-          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
           npm install -g lerna
 
       # Step 5: Install NPM dependencies
       - name: Install NPM dependencies
         run: |
-          export NVM_DIR="$HOME/.nvm"
-          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
           npm install
 
       # Step 6: Run Bootstrap
       - name: Run Bootstrap
         run: |
-          export NVM_DIR="$HOME/.nvm"
-          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-          npm run bootstrap --no-parallel
+          npm run bootstrap
 
       # Step 7: Upload the lambda.zip from post-to-cmr
       - name: Upload Post-to-CMR Lambda Artifact
