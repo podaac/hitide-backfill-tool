@@ -46,7 +46,7 @@ jobs:
       # Step 6: Run Bootstrap
       - name: Run Bootstrap
         run: |
-          npm run bootstrap
+          npm run bootstrap --scope @cumulus/post-to-cmr
 
       # Step 7: Upload the lambda.zip from post-to-cmr
       - name: Upload Post-to-CMR Lambda Artifact
