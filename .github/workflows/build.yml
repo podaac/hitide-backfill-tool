@@ -46,21 +46,21 @@ jobs:
       # Step 6: Run Bootstrap
       - name: Run Bootstrap
         run: |
-          npm run bootstrap --scope @cumulus/post-to-cmr
+          npm run bootstrap
 
       # Step 7: Upload the lambda.zip from post-to-cmr
       - name: Upload Post-to-CMR Lambda Artifact
         uses: actions/upload-artifact@v4
         with:
           name: post-to-cmr.zip
-          path: tasks/post-to-cmr/lambda.zip
+          path: tasks/post-to-cmr/dist/lambda.zip
 
       # Step 8: Upload the lambda.zip from hyrax-metadata-updates
       - name: Upload Hyrax-Metadata-Updates Lambda Artifact
         uses: actions/upload-artifact@v4
         with:
           name: hyrax-metadata-updates.zip
-          path: tasks/hyrax-metadata-updates/lambda.zip
+          path: tasks/hyrax-metadata-updates/dist/lambda.zip
 
 
   # First job in the workflow installs and verifies the software
