@@ -50,11 +50,11 @@ resource "aws_sfn_state_machine" "forge" {
         {
           "And": [
             {
-              "Variable": "$.meta.collection.meta.workflowChoice.useEcs",
+              "Variable": "$.meta.collection.meta.workflowChoice.ecs_lambda",
               "IsPresent": true
             },
             {
-              "Variable": "$.meta.collection.meta.workflowChoice.useEcs",
+              "Variable": "$.meta.collection.meta.workflowChoice.ecs_lambda",
               "BooleanEquals": true
             }
           ],
