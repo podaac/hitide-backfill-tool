@@ -52,24 +52,23 @@ jobs:
         run: |
           npm run bootstrap
 
-      # Step 7: Upload the lambda.zip from post-to-cmr
-      - name: Upload Post-to-CMR Lambda Artifact
+      - name: Prepare Files for Upload
+        run: |
+          mkdir -p temp
+          cp tasks/post-to-cmr/dist/lambda.zip temp/post_to_cmr.zip
+          cp tasks/hyrax-metadata-updates/dist/lambda.zip temp/hyrax-metadata-updates.zip
+          cp tf-modules/cumulus/ecs_cluster_instance_autoscaling_cf_template.yml.tmpl temp/
+          cp tf-modules/cumulus/task-reaper.sh temp/
+
+      - name: Upload Renamed Files
         uses: actions/upload-artifact@v4
         with:
-          name: post-to-cmr.zip
-          path: tasks/post-to-cmr/dist/lambda.zip
-
-      # Step 8: Upload the lambda.zip from hyrax-metadata-updates
-      - name: Upload Hyrax-Metadata-Updates Lambda Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: hyrax-metadata-updates.zip
-          path: tasks/hyrax-metadata-updates/dist/lambda.zip
-
+          name: cumulus-files
+          path: temp/       
 
   # First job in the workflow installs and verifies the software
   build:
-    if: false
+    needs: create-zips
     name: Build, Test, Verify, Publish
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -89,6 +88,12 @@ jobs:
         uses: abatilo/actions-poetry@v3
         with:
           poetry-version: 1.8.4
+
+      - name: Download Cumulus Files
+        uses: actions/download-artifact@v4
+        with:
+          name: cumulus-files
+          path: ./terraform-deploy
 
       #########################################################################
       # Versioning (featuring weird gradle output work-arounds)

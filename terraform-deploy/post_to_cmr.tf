@@ -3,7 +3,7 @@ resource "aws_lambda_function" "post_to_cmr_task" {
   filename         = "post_to_cmr.zip"
   handler          = "index.handler"
   role             = aws_iam_role.iam_execution.arn
-  runtime          = "nodejs16.x"
+  runtime          = "nodejs20.x"
   timeout          = 300
   memory_size      = 512
 
@@ -23,9 +23,4 @@ resource "aws_lambda_function" "post_to_cmr_task" {
       CUMULUS_MESSAGE_ADAPTER_DIR = "/opt/"
     }
   }
-
-  tags = {
-    Version = "18.2.0"
-  }
-
 }

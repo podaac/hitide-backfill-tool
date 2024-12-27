@@ -4,7 +4,7 @@ resource "aws_lambda_function" "hyrax_metadata_updates_task" {
   source_code_hash = filebase64sha256("hyrax-metadata-updates.zip")
   handler          = "index.handler"
   role             = aws_iam_role.iam_execution.arn
-  runtime          = "nodejs16.x"
+  runtime          = "nodejs20.x"
   timeout          = 300
   memory_size      = 512
 
@@ -23,9 +23,5 @@ resource "aws_lambda_function" "hyrax_metadata_updates_task" {
   vpc_config {
     subnet_ids = data.aws_subnets.private.ids
     security_group_ids = [var.aws_security_group_ids]
-  }
-
-  tags = {
-    Version = "18.2.0"
   }
 }
