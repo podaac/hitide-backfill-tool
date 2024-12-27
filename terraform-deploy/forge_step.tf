@@ -12,7 +12,8 @@ resource "aws_sfn_state_machine" "forge" {
         "cma": {
           "event.$": "$",
           "task_config": {
-            "collection": "{$.meta.collection}"
+            "collection": "{$.meta.collection}",
+            "lambda_ephemeral_storage": 4294967296
           }    
         }
       },
