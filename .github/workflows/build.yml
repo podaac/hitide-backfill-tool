@@ -54,6 +54,7 @@ jobs:
       - name: Install Dependencies
         run: |
           npm install -g lerna
+          npm install
           npm run bootstrap
 
       - name: Prepare and Upload Files
