@@ -25,7 +25,7 @@ python-Levenshtein = "^0.26.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^8.0.1"
-moto = {extras = ["sns"], version = "^4.2.6"}
+moto = {extras = ["sns"], version = "^5.0.25"}
 flake8 = "^7.0.0"
 pylint = "^3.0.3"
 pytest-cov = "^6"
