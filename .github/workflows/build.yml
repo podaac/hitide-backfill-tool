@@ -44,6 +44,7 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
+          cache-dependency-path: '**/package.json'
 
       - name: Setup Python
         uses: actions/setup-python@v5
