@@ -6,6 +6,7 @@ resource "aws_sfn_state_machine" "tig" {
 {
   "Comment": "Image Processing",
   "StartAt": "Normalizer",
+  "TimeoutSeconds": 10800,
   "States": {
     "Normalizer": {
       "Parameters": {
