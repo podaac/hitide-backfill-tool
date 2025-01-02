@@ -25,7 +25,7 @@ jobs:
       - name: Install Poetry
         uses: abatilo/actions-poetry@v3
         with:
-          poetry-version: 1.8.4
+          poetry-version: 1.8.5
       - name: Bump minor version
         env:
           COMMIT_VERSION: ${{ github.ref }}
