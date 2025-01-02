@@ -82,7 +82,7 @@ jobs:
 
   build:
     if: always()
-    name: Build and Test
+    name: Build and Test CLI Tool
     runs-on: ubuntu-latest
     
     permissions:
@@ -235,7 +235,7 @@ jobs:
       startsWith(github.ref, 'refs/heads/release') ||
       contains(github.event.head_commit.message, '/deploy sit') ||
       contains(github.event.head_commit.message, '/deploy uat')
-    name: Deploy Terraform
+    name: Deploy Backend Infrastructure Terraform
     runs-on: ubuntu-latest
     
     permissions:
