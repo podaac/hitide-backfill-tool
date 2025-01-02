@@ -76,7 +76,7 @@ jobs:
   build:
     needs: create-zips
     if: always()
-    name: Build, Test, and Deploy
+    name: Build and Test
     runs-on: ubuntu-latest
     
     permissions:
@@ -106,17 +106,6 @@ jobs:
           key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
           restore-keys: |
             ${{ runner.os }}-poetry-
-
-      - name: Download Cumulus Files
-        if: |
-          github.ref == 'refs/heads/develop' ||
-          github.ref == 'refs/heads/main' ||
-          startsWith(github.ref, 'refs/heads/release') ||
-          contains(github.event.head_commit.message, '/deploy')
-        uses: actions/download-artifact@v4
-        with:
-          name: cumulus-files
-          path: ./terraform-deploy
 
       - name: Set Default Version and Environment
         id: default-version
@@ -220,6 +209,37 @@ jobs:
           POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_API_TOKEN }}
         run: poetry publish --skip-existing
 
+  terraform-deploy:
+    needs: [create-zips, build]
+    if: |
+      github.ref == 'refs/heads/develop' ||
+      github.ref == 'refs/heads/main' ||
+      startsWith(github.ref, 'refs/heads/release') ||
+      contains(github.event.head_commit.message, '/deploy sit') ||
+      contains(github.event.head_commit.message, '/deploy uat')    name: Deploy Terraform
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write
+      packages: write
+      
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download Cumulus Files
+        if: |
+          github.ref == 'refs/heads/develop' ||
+          github.ref == 'refs/heads/main' ||
+          startsWith(github.ref, 'refs/heads/release') ||
+          contains(github.event.head_commit.message, '/deploy')
+        uses: actions/download-artifact@v4
+        with:
+          name: cumulus-files
+          path: ./terraform-deploy
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
@@ -249,4 +269,4 @@ jobs:
           
           terraform init
           terraform plan -var-file=tfvars/"${{ env.TARGET_ENV_LOWERCASE }}".tfvars -var="app_version=${{ env.new_version }}" -out=tfplan
-          terraform apply -auto-approve tfplan
+          terraform apply -auto-approve tfplan    
