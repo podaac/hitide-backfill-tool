@@ -74,7 +74,6 @@ jobs:
           retention-days: 1
 
   build:
-    needs: create-zips
     if: always()
     name: Build and Test
     runs-on: ubuntu-latest
