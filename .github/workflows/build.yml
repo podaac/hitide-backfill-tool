@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       cumulus_files_created: ${{ steps.upload-files.outputs.files_uploaded }}
-
+      cumulus-node-version: 
     steps:
       - name: Checkout Cumulus Code
         uses: actions/checkout@v4
@@ -45,6 +45,16 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
           cache-dependency-path: '**/package.json'
+
+      - name: Read .nvmrc version
+        id: parse_version
+        run: |
+          # Read the .nvmrc file content
+          version=$(cat .nvmrc)
+          # Set it as a GitHub environment variable
+          echo "TF_LAMBDA_VERSION=$version" >> $GITHUB_ENV
+
+
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -216,60 +226,60 @@ jobs:
       - name: Set Environment Output
         id: set-env
         run: |
-          echo "TARGET_ENV_UPPERCASE=${{ env.TARGET_ENV_UPPERCASE }}" >> $GITHUB_ENV
-          echo "TARGET_ENV_LOWERCASE=${{ env.TARGET_ENV_LOWERCASE }}" >> $GITHUB_ENV
-          echo "new_version=${{ env.new_version }}" >> $GITHUB_ENV
-
+          echo "target_env_uppercase=${{ env.TARGET_ENV_UPPERCASE }}" >> $GITHUB_OUTPUT
+          echo "target_env_lowercase=${{ env.TARGET_ENV_LOWERCASE }}" >> $GITHUB_OUTPUT
+          echo "new_version=${{ env.new_version }}" >> $GITHUB_OUTPUT
 
   terraform-deploy:
-      needs: [create-zips, build]
-      if: |
-        github.ref == 'refs/heads/develop' ||
-        github.ref == 'refs/heads/main' ||
-        startsWith(github.ref, 'refs/heads/release') ||
-        contains(github.event.head_commit.message, '/deploy sit') ||
-        contains(github.event.head_commit.message, '/deploy uat')
-      name: Deploy Terraform
-      runs-on: ubuntu-latest
+    needs: [create-zips, build]
+    if: |
+      github.ref == 'refs/heads/develop' ||
+      github.ref == 'refs/heads/main' ||
+      startsWith(github.ref, 'refs/heads/release') ||
+      contains(github.event.head_commit.message, '/deploy sit') ||
+      contains(github.event.head_commit.message, '/deploy uat')
+    name: Deploy Terraform
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write
+      packages: write
       
-      permissions:
-        contents: write
-        packages: write
-        
-      steps:
-        - name: Checkout Code
-          uses: actions/checkout@v4
-          with:
-            fetch-depth: 0
-            
-        - name: Download Cumulus Files
-          uses: actions/download-artifact@v4
-          with:
-            name: cumulus-files
-            path: ./terraform-deploy
-            
-        - name: Setup Terraform
-          uses: hashicorp/setup-terraform@v3
-          with:
-            terraform_version: ${{ env.TERRAFORM_VERSION }}
-            
-        - name: Deploy with Terraform
-          working-directory: terraform-deploy/
-          env:
-            AWS_ACCESS_KEY_ID: ${{ secrets[format('AWS_ACCESS_KEY_ID_SERVICES_{0}', needs.build.outputs.target_env_uppercase)] }}
-            AWS_SECRET_ACCESS_KEY: ${{ secrets[format('AWS_SECRET_ACCESS_KEY_SERVICES_{0}', needs.build.outputs.target_env_uppercase)] }}
-            AWS_ACCOUNT_ID: ${{ secrets[format('AWS_ACCOUNT_ID_SERVICES_{0}', needs.build.outputs.target_env_uppercase)] }}
-            AWS_DEFAULT_REGION: us-west-2
-            TF_VAR_permissions_boundary_arn: ${{ secrets[format('PERMISSIONS_BOUNDARY_ARN_{0}', needs.build.outputs.target_env_uppercase)] }}
-            TF_VAR_buckets_name: ${{ secrets[format('BUCKET_{0}', needs.build.outputs.target_env_uppercase)] }}
-            TF_VAR_system_bucket: ${{ secrets[format('SYSTEM_BUCKET_{0}', needs.build.outputs.target_env_uppercase)] }}
-            TF_VAR_dmrpp_url: ${{ secrets.DMRPP_URL }}
-            TF_VAR_aws_security_group_ids: ${{ secrets[format('SECURITY_GROUP_IDS_{0}', needs.build.outputs.target_env_uppercase)] }}
-          run: |
-            curl -L -o metadata-aggregator.zip https://github.com/podaac/cumulus-metadata-aggregator/releases/download/v8.7.0-alpha.6-SNAPSHOT/cumulus-metadata-aggregator-8.7.0-alpha.6-SNAPSHOT.zip
-            python3 override.py "${{ needs.build.outputs.target_env_lowercase }}"
-            source bin/config.sh "${{ needs.build.outputs.target_env_lowercase }}"
-            
-            terraform init
-            terraform plan -var-file=tfvars/"${{ needs.build.outputs.target_env_lowercase }}".tfvars -var="app_version=${{ needs.build.outputs.new_version }}" -out=tfplan
-            terraform apply -auto-approve tfplan 
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Download Cumulus Files
+        uses: actions/download-artifact@v4
+        with:
+          name: cumulus-files
+          path: ./terraform-deploy
+          
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
+          
+      - name: Deploy with Terraform
+        working-directory: terraform-deploy/
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets[format('AWS_ACCESS_KEY_ID_SERVICES_{0}', needs.build.outputs.target_env_uppercase)] }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets[format('AWS_SECRET_ACCESS_KEY_SERVICES_{0}', needs.build.outputs.target_env_uppercase)] }}
+          AWS_ACCOUNT_ID: ${{ secrets[format('AWS_ACCOUNT_ID_SERVICES_{0}', needs.build.outputs.target_env_uppercase)] }}
+          AWS_DEFAULT_REGION: us-west-2
+          TF_VAR_permissions_boundary_arn: ${{ secrets[format('PERMISSIONS_BOUNDARY_ARN_{0}', needs.build.outputs.target_env_uppercase)] }}
+          TF_VAR_buckets_name: ${{ secrets[format('BUCKET_{0}', needs.build.outputs.target_env_uppercase)] }}
+          TF_VAR_system_bucket: ${{ secrets[format('SYSTEM_BUCKET_{0}', needs.build.outputs.target_env_uppercase)] }}
+          TF_VAR_dmrpp_url: ${{ secrets.DMRPP_URL }}
+          TF_VAR_aws_security_group_ids: ${{ secrets[format('SECURITY_GROUP_IDS_{0}', needs.build.outputs.target_env_uppercase)] }}
+          TARGET_ENV: ${{ needs.build.outputs.target_env_lowercase }}
+        run: |
+          curl -L -o metadata-aggregator.zip https://github.com/podaac/cumulus-metadata-aggregator/releases/download/v8.7.0-alpha.6-SNAPSHOT/cumulus-metadata-aggregator-8.7.0-alpha.6-SNAPSHOT.zip
+          python3 override.py "$TARGET_ENV"
+          source bin/config.sh "$TARGET_ENV"
+          
+          terraform init
+          terraform plan -var-file=tfvars/"$TARGET_ENV".tfvars -var="app_version=${{ needs.build.outputs.new_version }}" -out=tfplan
+          terraform apply -auto-approve tfplan
