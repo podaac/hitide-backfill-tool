@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       cumulus_files_created: ${{ steps.upload-files.outputs.files_uploaded }}
-      cumulus-node-version: 
+      cumulus_node_version: ${{ steps.get_node_version.outputs.cumulus_node_version }}
     steps:
       - name: Checkout Cumulus Code
         uses: actions/checkout@v4
@@ -46,15 +46,12 @@ jobs:
           cache: 'npm'
           cache-dependency-path: '**/package.json'
 
-      - name: Read .nvmrc version
-        id: parse_version
+      - name: Read .nvmrc file
+        id: get_node_version
         run: |
-          # Read the .nvmrc file content
-          version=$(cat .nvmrc)
-          # Set it as a GitHub environment variable
-          echo "TF_LAMBDA_VERSION=$version" >> $GITHUB_ENV
-
-
+          VERSION=$(cat .nvmrc | cut -d '.' -f 1)
+          FORMATTED_VERSION="nodejs${VERSION}.x"
+          echo "cumulus_node_version=$FORMATTED_VERSION" >> $GITHUB_OUTPUT
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -274,6 +271,7 @@ jobs:
           TF_VAR_system_bucket: ${{ secrets[format('SYSTEM_BUCKET_{0}', needs.build.outputs.target_env_uppercase)] }}
           TF_VAR_dmrpp_url: ${{ secrets.DMRPP_URL }}
           TF_VAR_aws_security_group_ids: ${{ secrets[format('SECURITY_GROUP_IDS_{0}', needs.build.outputs.target_env_uppercase)] }}
+          TF_VAR_cumulus_node_version: ${{ needs.create-zips.outputs.cumulus_node_version }}
           TARGET_ENV: ${{ needs.build.outputs.target_env_lowercase }}
         run: |
           curl -L -o metadata-aggregator.zip https://github.com/podaac/cumulus-metadata-aggregator/releases/download/v8.7.0-alpha.6-SNAPSHOT/cumulus-metadata-aggregator-8.7.0-alpha.6-SNAPSHOT.zip

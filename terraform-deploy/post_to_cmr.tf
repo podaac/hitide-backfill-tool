@@ -3,7 +3,7 @@ resource "aws_lambda_function" "post_to_cmr_task" {
   filename         = "post_to_cmr.zip"
   handler          = "index.handler"
   role             = aws_iam_role.iam_execution.arn
-  runtime          = "nodejs20.x"
+  runtime          = var.cumulus_node_version
   timeout          = 300
   memory_size      = 512
 

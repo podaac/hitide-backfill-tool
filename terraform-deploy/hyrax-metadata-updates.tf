@@ -4,7 +4,7 @@ resource "aws_lambda_function" "hyrax_metadata_updates_task" {
   source_code_hash = filebase64sha256("hyrax-metadata-updates.zip")
   handler          = "index.handler"
   role             = aws_iam_role.iam_execution.arn
-  runtime          = "nodejs20.x"
+  runtime          = var.cumulus_node_version
   timeout          = 300
   memory_size      = 512
 
