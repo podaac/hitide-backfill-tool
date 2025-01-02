@@ -216,7 +216,8 @@ jobs:
       github.ref == 'refs/heads/main' ||
       startsWith(github.ref, 'refs/heads/release') ||
       contains(github.event.head_commit.message, '/deploy sit') ||
-      contains(github.event.head_commit.message, '/deploy uat')    name: Deploy Terraform
+      contains(github.event.head_commit.message, '/deploy uat')
+    name: Deploy Terraform
     runs-on: ubuntu-latest
     
     permissions:
