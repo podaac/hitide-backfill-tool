@@ -26,7 +26,8 @@ if __name__ == '__main__':
             'tig': {'source': json_data.get('tig_source'), 'lambda_container_image_uri': json_data.get('tig_image')},
             'forge_module': {'source': json_data.get('forge_source'), 'lambda_container_image_uri': json_data.get('forge_image')},
             'forge_py_module': {'source': json_data.get('forge_py_source'), 'lambda_container_image_uri': json_data.get('forge_py_image')},
-            'backfill_lambdas': {'source': json_data.get('backfill_lambdas_source')}
+            'backfill_lambdas': {'source': json_data.get('backfill_lambdas_source')},
+            'postworkflow_normalizer_module': {'source': json_data.get('postworkflow_normalizer_source')},
         }
     }
 
