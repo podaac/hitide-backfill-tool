@@ -106,7 +106,4 @@ def parse_args(args=None):
     merged_dict = merge_dicts(default_config, config, args)
     merged_config = Namespace(**merged_dict)
 
-    if merged_config.default_message_config is None:
-        raise Exception("please specify path to default message config")
-
     return merged_config

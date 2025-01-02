@@ -8,13 +8,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+### Deprecated
+### Removed
+### Fixed
+
+
+## [0.10.0]
+
+### Added
 - Added a new input argument *granule-list-file* to input a specific list of granules to process,
   and ignore start-date, end-date, cycles, etc
   - List can be a list of GranuleURs or granule concept-IDs
 - Update db size from t2.micro to t3.micro
-- Made argument *--cumulus-configurations* optional in preview mode
-- Update forge-py to 0.3.0
+- Made arguments *--cumulus-configurations* and *--default-message-config* optional in preview mode
+- Updated forge-py to 0.3.0
+- Updated cumulus-postworkflow-normalizer to 0.4.1
+- Updated hitide-backfill-lambdas to 0.4.1
 - Update metadata aggregator to cumulus-metadata-aggregator-8.7.0-alpha.6-SNAPSHOT
+- Update forge-py memory to 2048
 ### Deprecated
 ### Removed
 ### Fixed

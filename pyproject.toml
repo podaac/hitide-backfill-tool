@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "podaac-hitide-backfill-tool"
-version = "0.11.0-alpha.3"
+version = "0.10.0-rc.12"
 
 description = "Backfill footprints and images for HiTIDE collections"
 authors = ["PO.DAAC <podaac@jpl.nasa.gov>"]
@@ -25,10 +25,10 @@ python-Levenshtein = "^0.26.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^8.0.1"
-moto = {extras = ["sns"], version = "^4.2.6"}
+moto = {extras = ["sns"], version = "^5.0.25"}
 flake8 = "^7.0.0"
 pylint = "^3.0.3"
-pytest-cov = "^5"
+pytest-cov = "^6"
 
 [tool.poetry.scripts]
 backfill = "podaac.hitide_backfill_tool.cli:main"

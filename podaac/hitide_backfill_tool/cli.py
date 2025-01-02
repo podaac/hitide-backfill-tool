@@ -82,7 +82,7 @@ def message_writer_from_args(args, logger):
 
     message_writer = None
 
-    if args.cumulus_configurations:
+    if args.cumulus_configurations and args.default_message_config:
         message_config = get_message_config(args.cumulus, args.default_message_config)
         collection_config = get_collection_config(
             args.cumulus_configurations, args.collection, args.cumulus, logger)
@@ -492,22 +492,33 @@ class Backfiller:
 def verify_inputs(args, granule_options, message_writer, backfiller):
     """Verify inputs from parsed cli args, and raise an exception if any are invalid."""
 
+    if args.default_message_config is None and not args.preview:
+        raise Exception("Please specify path to default message config file")
+
     if args.cumulus_configurations is None and not args.preview:
-        raise Exception("Please specify --cumulus-configurations path")
+        raise Exception("Please specify path to cumulus configurations directory")
 
     # Check forge configurations before running backfill
     backfiller.get_forge_tig_configuration()
 
     if granule_options['footprint_processing'] != "off":
         if backfiller.forge_tig_configuration is None:
-            raise Exception("Cannot find forge tig configuration for this collection")
+            raise Exception("Cannot find forge-tig configuration for this collection")
         footprint_settings = backfiller.forge_tig_configuration.get('footprint')
         if not footprint_settings:
             raise Exception("There is no footprint setting for this collection, please disable footprint for backfilling")
 
     if granule_options['dmrpp_processing'] != "off":
         if message_writer is None:
-            raise Exception("Either disable dmrpp processing or specify --cumulus-configurations path")
+            error_msg = "Dmrpp processing requires "
+            missing = []
+            if args.cumulus_configurations is None:
+                missing.append("cumulus configurations directory")
+            if args.default_message_config is None:
+                missing.append("default message config file")
+
+            error_msg += " and ".join(missing) + " to be specified" if missing else ""
+            raise Exception(error_msg)
 
         files = message_writer.collection_config.get('files', [])
         has_dmrpp_regex = False
@@ -542,7 +553,7 @@ def main(args=None):
         message_writer = message_writer_from_args(args, logger)
         message_senders = message_senders_from_args(args, logger)
         granule_options = granule_options_from_args(args)
-        s3 = S3Reader(logger, args.aws_profile)    # pylint: disable=C0103
+        s3 = S3Reader(logger, args.aws_profile)
         collection = args.collection
     except Exception as exc:
         logger.error(f"Error: {str(exc)}\n")
@@ -555,7 +566,7 @@ def main(args=None):
     try:
         verify_inputs(args, granule_options, message_writer, backfiller)
     except Exception as exc:
-        logger.error(exc)
+        logger.error(f"Error: {str(exc)}\n")                              # pylint: disable=W1203
         return
 
     # run backfiller

@@ -6,13 +6,15 @@ resource "aws_sfn_state_machine" "tig" {
 {
   "Comment": "Image Processing",
   "StartAt": "Normalizer",
+  "TimeoutSeconds": 10800,
   "States": {
     "Normalizer": {
       "Parameters": {
         "cma": {
           "event.$": "$",
           "task_config": {
-            "collection": "{$.meta.collection}"
+            "collection": "{$.meta.collection}",
+            "lambda_ephemeral_storage": 4294967296
           }    
         }
       },
@@ -50,24 +52,11 @@ resource "aws_sfn_state_machine" "tig" {
         {
           "And": [
             {
-              "Variable": "$.meta.collection.meta.workflowChoice.useEcs",
+              "Variable": "$.meta.collection.meta.workflowChoice.ecs_lambda",
               "IsPresent": true
             },
             {
-              "Variable": "$.meta.collection.meta.workflowChoice.useEcs",
-              "BooleanEquals": true
-            }
-          ],
-          "Next": "ECSImageProcess"
-        },
-        {
-          "And": [
-            {
-              "Variable": "$.meta.collection.meta.workflowChoice.image_ecs",
-              "IsPresent": true
-            },
-            {
-              "Variable": "$.meta.collection.meta.workflowChoice.image_ecs",
+              "Variable": "$.meta.collection.meta.workflowChoice.ecs_lambda",
               "BooleanEquals": true
             }
           ],

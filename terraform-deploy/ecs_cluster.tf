@@ -214,5 +214,5 @@ resource "aws_cloudformation_stack" "ecs_instance_autoscaling_group" {
 
 # image type for ECS' EC2
 data "aws_ssm_parameter" "ecs_image_id" {
-  name = "image_id_ecs_amz2"
+  name = "/ngap/amis/image_id_ecs_al2023_x86"
 }
