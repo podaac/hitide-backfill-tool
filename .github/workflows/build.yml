@@ -171,7 +171,7 @@ jobs:
       - name: Update Package Version
         run: poetry version ${{ env.new_version }}
 
-      - name: Install and Test
+      - name: Build, Install and Test
         run: |
           poetry build
           poetry install
