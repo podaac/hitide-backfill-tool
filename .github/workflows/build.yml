@@ -173,6 +173,7 @@ jobs:
 
       - name: Install and Test
         run: |
+          poetry build
           poetry install
           poetry run pylint podaac
           poetry run flake8 podaac
