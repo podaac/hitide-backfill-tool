@@ -218,3 +218,7 @@ variable "ecs_include_docker_cleanup_cronjob" {
   type        = bool
   default     = true
 }
+
+variable "cumulus_node_version" {
+  type        = string
+}
