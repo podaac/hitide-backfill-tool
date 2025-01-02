@@ -21,7 +21,7 @@ env:
 
 jobs:
   create-zips:
-    name: Create Cumulus Dependency Zips
+    name: Create Cumulus Dependency Zips for Backend
     if: |
       github.ref == 'refs/heads/develop' ||
       github.ref == 'refs/heads/main' ||
