@@ -171,8 +171,9 @@ jobs:
       - name: Update Package Version
         run: poetry version ${{ env.new_version }}
 
-      - name: Install and Test
+      - name: Build, Install and Test
         run: |
+          poetry build
           poetry install
           poetry run pylint podaac
           poetry run flake8 podaac
