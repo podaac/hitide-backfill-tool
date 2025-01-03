@@ -58,11 +58,17 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
-      - name: Install Dependencies
+      - name: Build Post to cmr
+        working-directory: tasks/post-to-cmr
         run: |
-          npm install -g lerna
           npm install
-          npm run bootstrap
+          npm run package
+
+      - name: Buiild hyprax metadata updates
+        working-directory: tasks/hyrax-metadata-updates
+        run: |
+          npm install
+          npm run package
 
       - name: Prepare and Upload Files
         id: upload-files
