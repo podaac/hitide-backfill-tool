@@ -76,8 +76,8 @@ jobs:
           npm install
           npm run bootstrap
 
-      - name: Prepare and Upload Files
-        id: upload-files
+      - name: Prepare Files for Upload
+        id: prepare-upload-files
         run: |
           mkdir -p temp
           cp tasks/post-to-cmr/dist/lambda.zip temp/post_to_cmr.zip
