@@ -58,20 +58,23 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
+      - name: Cache npm dependencies
+        uses: actions/cache@v3
+        id: npm-cache
+        with:
+          path: |
+            ${{ steps.npm-cache-dir.outputs.dir }}
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
       - name: Install Dependencies
         run: |
           npm install -g lerna
           npm install
-
-      - name: Build Post to cmr
-        working-directory: tasks/post-to-cmr
-        run: |
-          npm run package
-
-      - name: Buiild hyprax metadata updates
-        working-directory: tasks/hyrax-metadata-updates
-        run: |
-          npm run package
+          npm run bootstrap
 
       - name: Prepare and Upload Files
         id: upload-files
