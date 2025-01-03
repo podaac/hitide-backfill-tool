@@ -1,6 +1,7 @@
 resource "aws_lambda_function" "post_to_cmr_task" {
   function_name    = "${local.resources_name}-PostToCmr"
   filename         = "post_to_cmr.zip"
+  source_code_hash = filebase64sha256("post_to_cmr.zip")
   handler          = "index.handler"
   role             = aws_iam_role.iam_execution.arn
   runtime          = var.cumulus_node_version
