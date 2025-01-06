@@ -17,7 +17,7 @@ module "forge_py_module" {
 
     # Fargate Variables
     ecs_cluster_arn = aws_ecs_cluster.main.arn
-    tig_fargate = true
+    forge_py_fargate = true
     fargate_iam_role = aws_iam_role.fargate_execution.arn
     ecs_cluster_name = aws_ecs_cluster.main.name
     fargate_max_capacity = 100
