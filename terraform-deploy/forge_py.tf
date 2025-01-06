@@ -13,17 +13,17 @@ module "forge_py_module" {
     memory_size = 2048
     timeout = 900
 
-  # ECS Variables
+    # ECS Variables
 
-  # Fargate Variables
-  cluster_arn = aws_ecs_cluster.main.arn
-  tig_fargate = true
-  fargate_iam_role = aws_iam_role.fargate_execution.arn
-  ecs_cluster_name = aws_ecs_cluster.main.name
-  fargate_max_capacity = 100
-  fargate_cpu = 2048
-  fargate_memory = 16384
-  threshold_scale_down = 25
-  period_scale_down = 240
+    # Fargate Variables
+    ecs_cluster_arn = aws_ecs_cluster.main.arn
+    tig_fargate = true
+    fargate_iam_role = aws_iam_role.fargate_execution.arn
+    ecs_cluster_name = aws_ecs_cluster.main.name
+    fargate_max_capacity = 100
+    fargate_cpu = 2048
+    fargate_memory = 16384
+    threshold_scale_down = 25
+    period_scale_down = 240
 
 }
