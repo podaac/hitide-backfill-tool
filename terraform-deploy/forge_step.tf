@@ -57,7 +57,7 @@ resource "aws_sfn_state_machine" "forge" {
             },
             {
               "Variable": "$.meta.collection.meta.workflowChoice.ecs_lambda",
-              "BooleanEquals": true
+              "StringEquals": "ecs"
             }
           ],
           "Next": "FootprintBranchingFargate"
