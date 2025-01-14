@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Deprecated
 ### Removed
 ### Fixed
+- Fixed bug that prevented updating cmr opendap url when dmrpp file already exists
 
 
 ## [0.9.0]

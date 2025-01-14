@@ -363,22 +363,25 @@ class Backfiller:
 
         s3_bucket_info = granule.s3_bucket_info()
         if s3_bucket_info:
-            dmrpp_state = granule.get_dmrpp_state(f's3://{s3_bucket_info["bucket"]}'
-                                                  f'/{s3_bucket_info["key"]}.dmrpp')
-            if dmrpp_state == DmrppState.OLDER_VERSION:
+            if not granule.has_opendap_url():
                 self.update_dmrpp(granule)
-                with self.lock:
-                    self.dmrpp_older_version += 1
-            elif dmrpp_state == DmrppState.MISSING_VERSION:
-                self.update_dmrpp(granule)
-                with self.lock:
-                    self.dmrpp_missing_version += 1
-            elif dmrpp_state == DmrppState.MATCHED_VERSION:
-                with self.lock:
-                    self.dmrpp_unprocessed += 1
-            elif dmrpp_state == DmrppState.NEWER_VERSION:
-                with self.lock:
-                    self.dmrpp_newer_version += 1
+            else:
+                dmrpp_state = granule.get_dmrpp_state(f's3://{s3_bucket_info["bucket"]}'
+                                                      f'/{s3_bucket_info["key"]}.dmrpp')
+                if dmrpp_state == DmrppState.OLDER_VERSION:
+                    self.update_dmrpp(granule)
+                    with self.lock:
+                        self.dmrpp_older_version += 1
+                elif dmrpp_state == DmrppState.MISSING_VERSION:
+                    self.update_dmrpp(granule)
+                    with self.lock:
+                        self.dmrpp_missing_version += 1
+                elif dmrpp_state == DmrppState.MATCHED_VERSION:
+                    with self.lock:
+                        self.dmrpp_unprocessed += 1
+                elif dmrpp_state == DmrppState.NEWER_VERSION:
+                    with self.lock:
+                        self.dmrpp_newer_version += 1
         else:
             with self.lock:
                 self.dmrpp_that_couldnt_be_processed += 1

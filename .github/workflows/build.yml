@@ -81,6 +81,18 @@ jobs:
           key: backfill-tool-cumulus-build-${{ env.CUMULUS_VERSION }}
           retention-days: 150
 
+      - name: Cache npm dependencies
+        uses: actions/cache@v4
+        id: npm-cache
+        with:
+          path: |
+            ${{ steps.npm-cache-dir.outputs.dir }}
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
       - name: Install Dependencies
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: |
@@ -88,7 +100,8 @@ jobs:
           npm install
           npm run bootstrap
 
-      - name: Prepare and Upload Files
+      - name: Prepare Files for Upload
+        id: prepare-upload-files
         run: |
           mkdir -p temp
           cp tasks/post-to-cmr/dist/lambda.zip temp/post_to_cmr.zip
