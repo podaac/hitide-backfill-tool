@@ -141,39 +141,32 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-poetry-
 
-      - name: Set Default Version and Environment
-        id: default-version
+      - name: Version Management
+        id: versioning
         run: |
-          echo "pyproject_name=$(poetry version | awk '{print $1}')" >> $GITHUB_ENV
-          VERSION=$(poetry version | awk '{print $2}')
+          current_version=$(poetry version -s)
+          base_version=$(echo "$current_version" | grep -oE '^[0-9]+\.[0-9]+\.[0-9]+')
           
-          # Set default environment based on branch
+          # Version calculation based on branch
           if [[ "${{ github.ref }}" =~ ^refs/heads/(issue|feature|dependabot)/ ]]; then
+            new_version="${base_version%%-*}+$(git rev-parse --short HEAD)"
             echo "TARGET_ENV_UPPERCASE=SIT" >> $GITHUB_ENV
-            NEW_VERSION="${VERSION}+$(git rev-parse --short HEAD)"
           elif [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
             echo "TARGET_ENV_UPPERCASE=SIT" >> $GITHUB_ENV
-            if [[ ${VERSION} =~ -alpha ]]; then
-              ALPHA_NUM=$(echo "${VERSION}" | grep -oP '(?<=-alpha.)\d+' || echo "0")
-              NEW_VERSION="${VERSION%-alpha.*}-alpha.$((ALPHA_NUM+1))"
-            else
-              NEW_VERSION="${VERSION}-alpha.1"
-            fi
+            new_version=$(poetry version prerelease -s)
           elif [[ "${{ github.ref }}" =~ ^refs/heads/release/ ]]; then
             echo "TARGET_ENV_UPPERCASE=UAT" >> $GITHUB_ENV
-            if [[ ${VERSION} =~ -rc ]]; then
-              RC_NUM=$(echo "${VERSION}" | grep -oP '(?<=-rc.)\d+' || echo "0")
-              NEW_VERSION="${VERSION%-rc.*}-rc.$((RC_NUM+1))"
+            if [[ ${current_version} =~ rc ]]; then
+              new_version=$(poetry version prerelease -s)
             else
-              NEW_VERSION="${VERSION}-rc.1"
+              new_version="${GITHUB_REF#refs/heads/release/}rc1"
             fi
           elif [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
             echo "TARGET_ENV_UPPERCASE=OPS" >> $GITHUB_ENV
-            NEW_VERSION="${VERSION%-rc*}"
-            NEW_VERSION="${NEW_VERSION%-alpha*}"
+            new_version=${base_version}
           fi
           
-          echo "new_version=${NEW_VERSION}" >> $GITHUB_ENV
+          echo "new_version=${new_version}" >> $GITHUB_ENV
 
       - name: Override Environment for Deploy Command
         if: contains(github.event.head_commit.message, '/deploy')
