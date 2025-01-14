@@ -367,7 +367,7 @@ class Backfiller:
                 self.update_dmrpp(granule)
             else:
                 dmrpp_state = granule.get_dmrpp_state(f's3://{s3_bucket_info["bucket"]}'
-                                                    f'/{s3_bucket_info["key"]}.dmrpp')
+                                                      f'/{s3_bucket_info["key"]}.dmrpp')
                 if dmrpp_state == DmrppState.OLDER_VERSION:
                     self.update_dmrpp(granule)
                     with self.lock:
