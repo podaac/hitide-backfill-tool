@@ -93,7 +93,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-npm-
 
-      - name: Install Dependencies
+      - name: Install Dependencies and Build
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: |
           npm install -g lerna
