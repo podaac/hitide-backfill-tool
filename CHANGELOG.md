@@ -21,14 +21,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - List can be a list of GranuleURs or granule concept-IDs
 - Update db size from t2.micro to t3.micro
 - Made arguments *--cumulus-configurations* and *--default-message-config* optional in preview mode
-- Updated forge-py to 0.3.0
+- Updated forge-py to 0.4.0
 - Updated cumulus-postworkflow-normalizer to 0.4.1
 - Updated hitide-backfill-lambdas to 0.4.1
 - Update metadata aggregator to cumulus-metadata-aggregator-8.7.0-alpha.6-SNAPSHOT
 - Update forge-py memory to 2048
 - Added in forge-py fargate
-- Update forge and tig workflow to fork based on granule size when determine lambda or fargate
-- Update github actions workflow and versioning
+- Updated forge and tig workflow to fork based on granule size when determine lambda or fargate
+- Updated github actions workflow and versioning
 ### Deprecated
 ### Removed
 ### Fixed
