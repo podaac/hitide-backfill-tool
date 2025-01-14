@@ -26,6 +26,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated hitide-backfill-lambdas to 0.4.1
 - Update metadata aggregator to cumulus-metadata-aggregator-8.7.0-alpha.6-SNAPSHOT
 - Update forge-py memory to 2048
+- Added in forge-py fargate
+- Update forge and tig workflow to fork based on granule size when determine lambda or fargate
+- Update github actions workflow and versioning
 ### Deprecated
 ### Removed
 ### Fixed
