@@ -495,6 +495,8 @@ class Backfiller:
 def verify_inputs(args, granule_options, message_writer, backfiller):
     """Verify inputs from parsed cli args, and raise an exception if any are invalid."""
 
+    # pylint: disable=too-many-branches
+
     if args.default_message_config is None and not args.preview:
         raise Exception("Please specify path to default message config file")
 
