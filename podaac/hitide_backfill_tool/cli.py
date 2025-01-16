@@ -511,6 +511,13 @@ def verify_inputs(args, granule_options, message_writer, backfiller):
         if not footprint_settings:
             raise Exception("There is no footprint setting for this collection, please disable footprint for backfilling")
 
+    if granule_options['image_processing'] != "off":
+        if backfiller.forge_tig_configuration is None:
+            raise Exception("Cannot find forge-tig configuration for this collection")
+        image_settings = backfiller.forge_tig_configuration.get('imgVariables')
+        if not image_settings:
+            raise Exception("There is no image setting for this collection, please disable image for backfilling")
+
     if granule_options['dmrpp_processing'] != "off":
         if message_writer is None:
             error_msg = "Dmrpp processing requires "
