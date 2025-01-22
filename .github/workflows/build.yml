@@ -182,7 +182,9 @@ jobs:
           echo "new_version=${new_version}" >> $GITHUB_ENV
 
       - name: Override Environment for Deploy Command
-        if: contains(github.event.head_commit.message, '/deploy')
+        if: |
+          github.event.head_commit.message == '/deploy sit' ||
+          github.event.head_commit.message == '/deploy uat'
         run: |
           message="${{ github.event.head_commit.message }}"
           override_env=$(echo "$message" | grep -oE '/deploy (sit|uat)' | awk '{print $2}')
