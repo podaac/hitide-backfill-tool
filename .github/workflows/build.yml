@@ -27,8 +27,8 @@ jobs:
       github.ref == 'refs/heads/develop' ||
       github.ref == 'refs/heads/main' ||
       startsWith(github.ref, 'refs/heads/release') ||
-      contains(github.event.head_commit.message, '/deploy sit') ||
-      contains(github.event.head_commit.message, '/deploy uat')
+      github.event.head_commit.message == '/deploy sit' ||
+      github.event.head_commit.message == '/deploy uat'
     runs-on: ubuntu-latest
     outputs:
       cumulus_files_created: ${{ steps.upload-files.outputs.files_uploaded }}
@@ -265,8 +265,8 @@ jobs:
       github.ref == 'refs/heads/develop' ||
       github.ref == 'refs/heads/main' ||
       startsWith(github.ref, 'refs/heads/release') ||
-      contains(github.event.head_commit.message, '/deploy sit') ||
-      contains(github.event.head_commit.message, '/deploy uat')
+      github.event.head_commit.message == '/deploy sit' ||
+      github.event.head_commit.message == '/deploy uat'
     name: Deploy Backend Infrastructure Terraform
     runs-on: ubuntu-latest
     
