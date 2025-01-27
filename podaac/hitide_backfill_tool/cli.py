@@ -492,10 +492,28 @@ class Backfiller:
             self.forge_tig_configuration = None
 
 
+def validate_arg(name, value, allowed_values):
+    """Raises an exception if the value is invalid."""
+    allowed_values_str = ", ".join(f"'{v}'" for v in allowed_values[:-1]) + f", or '{allowed_values[-1]}'"
+    if value is None:
+        raise Exception(f"Please specify --{name}.  Must be either {allowed_values_str}")
+    if value not in allowed_values:
+        raise Exception(f"Invalid value for --{name}.  Must be either {allowed_values_str}")
+
+
 def verify_inputs(args, granule_options, message_writer, backfiller):
     """Verify inputs from parsed cli args, and raise an exception if any are invalid."""
 
     # pylint: disable=too-many-branches
+
+    allowed_values = ['off', 'on', 'force']
+
+    validate_arg('image', args.image, allowed_values)
+    validate_arg('footprint', args.footprint, allowed_values)
+    validate_arg('dmrpp', args.dmrpp, allowed_values)
+
+    if args.image == "off" and args.footprint == "off" and args.dmrpp == "off":
+        raise Exception("At least one of --image, --footprint, or --dmrpp must be 'on' or 'force'")
 
     if args.default_message_config is None and not args.preview:
         raise Exception("Please specify path to default message config file")

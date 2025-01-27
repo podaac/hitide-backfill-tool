@@ -17,9 +17,6 @@ def merge_dicts(defaults, config, cli):
 
 
 default_config = {
-    "footprint": "on",
-    "image": "on",
-    "dmrpp": "off",
     "dmrpp_min_version": "3.21.0-272",     # Important: Update this version when updating the
                                            #            backend dmrpp_generator
     "preview": False,

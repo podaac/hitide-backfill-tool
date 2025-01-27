@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.10.0]
 
 ### Added
+- Updated to require --image, --footprint, and --dmrpp to be explicitly defined in args or input config
 - Added a new input argument *granule-list-file* to input a specific list of granules to process,
   and ignore start-date, end-date, cycles, etc
   - List can be a list of GranuleURs or granule concept-IDs
