@@ -18,7 +18,7 @@ def test_parsing_args_with_config(tmp_path):
 
     assert config.cmr == "ops"          # specified in config file
     assert config.collection == "abc"   # specified in cli args
-    assert config.footprint == "on"     # specified as default arg
+    assert config.footprint == None     # specified as not input
     assert config.image == "force"      # specified in config file, overridden in cli args
     assert config.preview == True       # flag specified in cli args
     assert config.use_data_url == True  # flag specified in config file, NOT overridden in cli args         

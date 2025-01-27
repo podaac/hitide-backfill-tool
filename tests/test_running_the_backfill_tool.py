@@ -77,6 +77,7 @@ def test_running_the_backfill_tool_will_send_a_message_to_an_sns_topic(sns_topic
           --log-level DEBUG
           --footprint force
           --image force
+          --dmrpp off
           --cumulus-configurations {cumulus_configurations_dir}
           --default_message_config tests/resources/default_message_config.json
         """)
