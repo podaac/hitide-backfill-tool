@@ -55,8 +55,7 @@ class S3Reader:
 
         bucket_name, prefix = self.extract_bucket_and_file(s3_path)
 
-        s3_client = boto3.client("s3")
-        response = s3_client.list_objects_v2(Bucket=bucket_name, Prefix=prefix)
+        response = self.client.list_objects_v2(Bucket=bucket_name, Prefix=prefix)
 
         if "Contents" in response:
             return [obj["Key"] for obj in response["Contents"]]
