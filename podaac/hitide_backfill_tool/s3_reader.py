@@ -45,3 +45,20 @@ class S3Reader:
             return response["Body"].read().decode("ISO-8859-1")
         except ClientError as exc:
             raise Exception(f"S3Reader could not read file at {s3_path}.") from exc
+
+    def list_s3_keys(self, s3_path):
+        """
+        List all keys in a s3 bucket from input s3_path
+
+        :return: List of file keys in the specified directory.
+        """
+
+        bucket_name, prefix = self.extract_bucket_and_file(s3_path)
+
+        s3_client = boto3.client("s3")
+        response = s3_client.list_objects_v2(Bucket=bucket_name, Prefix=prefix)
+        
+        if "Contents" in response:
+            return [obj["Key"] for obj in response["Contents"]]
+        else:
+            return []
