@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Update regression script to test specific forge forge-py tig collections
 ### Deprecated
 ### Removed
 ### Fixed
