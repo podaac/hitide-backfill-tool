@@ -363,22 +363,25 @@ class Backfiller:
 
         s3_bucket_info = granule.s3_bucket_info()
         if s3_bucket_info:
-            dmrpp_state = granule.get_dmrpp_state(f's3://{s3_bucket_info["bucket"]}'
-                                                  f'/{s3_bucket_info["key"]}.dmrpp')
-            if dmrpp_state == DmrppState.OLDER_VERSION:
+            if not granule.has_opendap_url():
                 self.update_dmrpp(granule)
-                with self.lock:
-                    self.dmrpp_older_version += 1
-            elif dmrpp_state == DmrppState.MISSING_VERSION:
-                self.update_dmrpp(granule)
-                with self.lock:
-                    self.dmrpp_missing_version += 1
-            elif dmrpp_state == DmrppState.MATCHED_VERSION:
-                with self.lock:
-                    self.dmrpp_unprocessed += 1
-            elif dmrpp_state == DmrppState.NEWER_VERSION:
-                with self.lock:
-                    self.dmrpp_newer_version += 1
+            else:
+                dmrpp_state = granule.get_dmrpp_state(f's3://{s3_bucket_info["bucket"]}'
+                                                      f'/{s3_bucket_info["key"]}.dmrpp')
+                if dmrpp_state == DmrppState.OLDER_VERSION:
+                    self.update_dmrpp(granule)
+                    with self.lock:
+                        self.dmrpp_older_version += 1
+                elif dmrpp_state == DmrppState.MISSING_VERSION:
+                    self.update_dmrpp(granule)
+                    with self.lock:
+                        self.dmrpp_missing_version += 1
+                elif dmrpp_state == DmrppState.MATCHED_VERSION:
+                    with self.lock:
+                        self.dmrpp_unprocessed += 1
+                elif dmrpp_state == DmrppState.NEWER_VERSION:
+                    with self.lock:
+                        self.dmrpp_newer_version += 1
         else:
             with self.lock:
                 self.dmrpp_that_couldnt_be_processed += 1
@@ -489,8 +492,28 @@ class Backfiller:
             self.forge_tig_configuration = None
 
 
+def validate_arg(name, value, allowed_values):
+    """Raises an exception if the value is invalid."""
+    allowed_values_str = ", ".join(f"'{v}'" for v in allowed_values[:-1]) + f", or '{allowed_values[-1]}'"
+    if value is None:
+        raise Exception(f"Please specify --{name}.  Must be either {allowed_values_str}")
+    if value not in allowed_values:
+        raise Exception(f"Invalid value for --{name}.  Must be either {allowed_values_str}")
+
+
 def verify_inputs(args, granule_options, message_writer, backfiller):
     """Verify inputs from parsed cli args, and raise an exception if any are invalid."""
+
+    # pylint: disable=too-many-branches
+
+    allowed_values = ['off', 'on', 'force']
+
+    validate_arg('image', args.image, allowed_values)
+    validate_arg('footprint', args.footprint, allowed_values)
+    validate_arg('dmrpp', args.dmrpp, allowed_values)
+
+    if args.image == "off" and args.footprint == "off" and args.dmrpp == "off":
+        raise Exception("At least one of --image, --footprint, or --dmrpp must be 'on' or 'force'")
 
     if args.default_message_config is None and not args.preview:
         raise Exception("Please specify path to default message config file")
@@ -507,6 +530,13 @@ def verify_inputs(args, granule_options, message_writer, backfiller):
         footprint_settings = backfiller.forge_tig_configuration.get('footprint')
         if not footprint_settings:
             raise Exception("There is no footprint setting for this collection, please disable footprint for backfilling")
+
+    if granule_options['image_processing'] != "off":
+        if backfiller.forge_tig_configuration is None:
+            raise Exception("Cannot find forge-tig configuration for this collection")
+        image_settings = backfiller.forge_tig_configuration.get('imgVariables')
+        if not image_settings:
+            raise Exception("There is no image setting for this collection, please disable image for backfilling")
 
     if granule_options['dmrpp_processing'] != "off":
         if message_writer is None:

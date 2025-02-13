@@ -22,7 +22,7 @@ variable "profile" {
 
 variable "cma_version" {
   type    = string
-  default = "v2.0.3"
+  default = "v2.0.4"
 }
 
 variable "metadata_aggregator_version" {

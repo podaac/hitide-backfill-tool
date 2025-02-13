@@ -18,6 +18,7 @@ env:
   PYTHON_VERSION: '3.10'
   POETRY_VERSION: '1.8.5'
   TERRAFORM_VERSION: '1.5.3'
+  CUMULUS_VERSION: 'v18.5.3'
 
 jobs:
   create-zips:
@@ -26,8 +27,8 @@ jobs:
       github.ref == 'refs/heads/develop' ||
       github.ref == 'refs/heads/main' ||
       startsWith(github.ref, 'refs/heads/release') ||
-      contains(github.event.head_commit.message, '/deploy sit') ||
-      contains(github.event.head_commit.message, '/deploy uat')
+      github.event.head_commit.message == '/deploy sit' ||
+      github.event.head_commit.message == '/deploy uat'
     runs-on: ubuntu-latest
     outputs:
       cumulus_files_created: ${{ steps.upload-files.outputs.files_uploaded }}
@@ -37,7 +38,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: nasa/cumulus
-          ref: v18.5.2
+          ref: ${{ env.CUMULUS_VERSION }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -53,19 +59,49 @@ jobs:
           FORMATTED_VERSION="nodejs${VERSION}.x"
           echo "cumulus_node_version=$FORMATTED_VERSION" >> $GITHUB_OUTPUT
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      # Cache the node_modules
+      - name: Cache Node Modules
+        id: cache-node-modules
+        uses: actions/cache@v4
         with:
-          python-version: ${{ env.PYTHON_VERSION }}
+          path: |
+            node_modules
+            */*/node_modules
+          key: node-modules-${{ env.CUMULUS_VERSION }}-${{ hashFiles('**/package-lock.json') }}
 
-      - name: Install Dependencies
+      # Cache the build outputs
+      - name: Cache Build Outputs
+        id: cache-build
+        uses: actions/cache@v4
+        with:
+          path: |
+            tasks/post-to-cmr/dist
+            tasks/hyrax-metadata-updates/dist
+            tf-modules/cumulus
+          key: backfill-tool-cumulus-build-${{ env.CUMULUS_VERSION }}
+          retention-days: 150
+
+      - name: Cache npm dependencies
+        uses: actions/cache@v4
+        id: npm-cache
+        with:
+          path: |
+            ${{ steps.npm-cache-dir.outputs.dir }}
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      - name: Install Dependencies and Build
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: |
           npm install -g lerna
           npm install
           npm run bootstrap
 
-      - name: Prepare and Upload Files
-        id: upload-files
+      - name: Prepare Files for Upload
+        id: prepare-upload-files
         run: |
           mkdir -p temp
           cp tasks/post-to-cmr/dist/lambda.zip temp/post_to_cmr.zip
@@ -118,42 +154,37 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-poetry-
 
-      - name: Set Default Version and Environment
-        id: default-version
+      - name: Version Management
+        id: versioning
         run: |
-          echo "pyproject_name=$(poetry version | awk '{print $1}')" >> $GITHUB_ENV
-          VERSION=$(poetry version | awk '{print $2}')
+          current_version=$(poetry version -s)
+          base_version=$(echo "$current_version" | grep -oE '^[0-9]+\.[0-9]+\.[0-9]+')
           
-          # Set default environment based on branch
+          # Version calculation based on branch
           if [[ "${{ github.ref }}" =~ ^refs/heads/(issue|feature|dependabot)/ ]]; then
+            new_version="${base_version%%-*}+$(git rev-parse --short HEAD)"
             echo "TARGET_ENV_UPPERCASE=SIT" >> $GITHUB_ENV
-            NEW_VERSION="${VERSION}+$(git rev-parse --short HEAD)"
           elif [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
             echo "TARGET_ENV_UPPERCASE=SIT" >> $GITHUB_ENV
-            if [[ ${VERSION} =~ -alpha ]]; then
-              ALPHA_NUM=$(echo "${VERSION}" | grep -oP '(?<=-alpha.)\d+' || echo "0")
-              NEW_VERSION="${VERSION%-alpha.*}-alpha.$((ALPHA_NUM+1))"
-            else
-              NEW_VERSION="${VERSION}-alpha.1"
-            fi
+            new_version=$(poetry version prerelease -s)
           elif [[ "${{ github.ref }}" =~ ^refs/heads/release/ ]]; then
             echo "TARGET_ENV_UPPERCASE=UAT" >> $GITHUB_ENV
-            if [[ ${VERSION} =~ -rc ]]; then
-              RC_NUM=$(echo "${VERSION}" | grep -oP '(?<=-rc.)\d+' || echo "0")
-              NEW_VERSION="${VERSION%-rc.*}-rc.$((RC_NUM+1))"
+            if [[ ${current_version} =~ rc ]]; then
+              new_version=$(poetry version prerelease -s)
             else
-              NEW_VERSION="${VERSION}-rc.1"
+              new_version="${GITHUB_REF#refs/heads/release/}rc1"
             fi
           elif [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
             echo "TARGET_ENV_UPPERCASE=OPS" >> $GITHUB_ENV
-            NEW_VERSION="${VERSION%-rc*}"
-            NEW_VERSION="${NEW_VERSION%-alpha*}"
+            new_version=${base_version}
           fi
           
-          echo "new_version=${NEW_VERSION}" >> $GITHUB_ENV
+          echo "new_version=${new_version}" >> $GITHUB_ENV
 
       - name: Override Environment for Deploy Command
-        if: contains(github.event.head_commit.message, '/deploy')
+        if: |
+          github.event.head_commit.message == '/deploy sit' ||
+          github.event.head_commit.message == '/deploy uat'
         run: |
           message="${{ github.event.head_commit.message }}"
           override_env=$(echo "$message" | grep -oE '/deploy (sit|uat)' | awk '{print $2}')
@@ -234,8 +265,8 @@ jobs:
       github.ref == 'refs/heads/develop' ||
       github.ref == 'refs/heads/main' ||
       startsWith(github.ref, 'refs/heads/release') ||
-      contains(github.event.head_commit.message, '/deploy sit') ||
-      contains(github.event.head_commit.message, '/deploy uat')
+      github.event.head_commit.message == '/deploy sit' ||
+      github.event.head_commit.message == '/deploy uat'
     name: Deploy Backend Infrastructure Terraform
     runs-on: ubuntu-latest
     
