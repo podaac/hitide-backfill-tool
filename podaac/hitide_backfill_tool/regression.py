@@ -1,3 +1,5 @@
+# pylint: disable=line-too-long, too-many-locals
+
 """
 ==============
 regression.py
@@ -8,6 +10,9 @@ Test TIG on all our collections.
 import argparse
 import os
 import subprocess
+import json
+from collections import defaultdict
+from pathlib import Path
 import requests
 
 
@@ -39,22 +44,49 @@ def download_configs(config_dir):
 
 
 def main():
-    """main function for regression"""
+    """Main function for regression"""
     parser = argparse.ArgumentParser()
-    parser.add_argument('--backfill_config', type=str,
-                        help="path to backfill config", required=True)
+    parser.add_argument('--backfill_config', type=str, required=True, help="Path to backfill config")
+    parser.add_argument('--type', type=str, choices=['forge', 'tig', 'forge-py'], help="Regression type")
+
     args = parser.parse_args()
 
-    test_dir = os.path.dirname(os.path.realpath(__file__))
-    config_directory = f'{test_dir}/dl_configs'
+    config_directory = Path(__file__).resolve().parent / "dl_configs"
     download_configs(config_directory)
+    files = list(config_directory.glob("*.cfg"))  # Only process .cfg files
 
-    files = os.listdir(config_directory)
-    print(files)
+    file_categories = defaultdict(list)
 
-    for _file in files:
-        collection = _file.strip('.cfg')
-        cli_command = f'backfill --config {args.backfill_config} --collection {collection}'
+    for file_path in files:
+        with file_path.open("r") as open_file:
+            data = json.load(open_file)
+
+        if data.get("footprint"):
+            key = "forge_py" if data.get("footprinter") == "forge-py" else "forge"
+            file_categories[key].append(file_path.name)
+
+        if data.get("imgVariables"):
+            file_categories["tig"].append(file_path.name)
+
+    # Extract and sort lists
+    forge_py_file = sorted(file_categories["forge_py"])
+    forge_file = sorted(file_categories["forge"])
+    tig_file = sorted(file_categories["tig"])
+
+    # Define regression type mapping
+    regression_args = {
+        "forge": ("--image off --footprint force --dmrpp off", forge_file),
+        "tig": ("--image force --footprint off --dmrpp off", tig_file),
+        "forge-py": ("--image off --footprint force --dmrpp off", forge_py_file),
+    }
+
+    additional_arguments, regression_files_list = regression_args.get(args.type, (None, [f.name for f in files]))
+
+    for file_name in regression_files_list:
+        collection = Path(file_name).stem  # Removes the .cfg extension
+        cli_command = f'backfill --config {args.backfill_config} --collection {collection} '
+        if additional_arguments:
+            cli_command += additional_arguments
         result = make_cli_call(cli_command)
         print(result)
 
