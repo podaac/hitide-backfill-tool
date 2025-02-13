@@ -8,7 +8,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Update regression script to test specific forge forge-py tig collections
 ### Deprecated
 ### Removed
 ### Fixed
@@ -32,6 +31,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added in forge-py fargate
 - Updated forge and tig workflow to fork based on granule size when determine lambda or fargate
 - Updated github actions workflow and versioning
+- Update regression script to test specific forge forge-py tig collections
+- Update forge to 0.12.1
+- Update tig to 0.13.1
 ### Deprecated
 ### Removed
 ### Fixed
