@@ -22,22 +22,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - List can be a list of GranuleURs or granule concept-IDs
 - Update db size from t2.micro to t3.micro
 - Made arguments *--cumulus-configurations* and *--default-message-config* optional in preview mode
-- Added check before backfilling images--make sure it is enabled in forge-tig configuration
-- Updated forge-py to 0.4.0
+- Added check before backfilling images to verify if image generation is enabled in forge-tig configuration
 - Updated cumulus-postworkflow-normalizer to 0.4.1
 - Updated hitide-backfill-lambdas to 0.4.1
-- Update metadata aggregator to cumulus-metadata-aggregator-8.7.0-alpha.6-SNAPSHOT
+- Update metadata aggregator to cumulus-metadata-aggregator-8.10.0-alpha.2-SNAPSHOT
 - Update forge-py memory to 2048
 - Added in forge-py fargate
 - Updated forge and tig workflow to fork based on granule size when determine lambda or fargate
 - Updated github actions workflow and versioning
 - Update regression script to test specific forge forge-py tig collections
+- Updated forge-py to 0.4.0
 - Update forge to 0.12.1
 - Update tig to 0.13.1
 ### Deprecated
 ### Removed
 ### Fixed
 - Fixed bug that prevented updating cmr opendap url when dmrpp file already exists
+- Fixed bug with footprints less than 3 points (Ring has fewer than 3 points, so orientation cannot be determined)
 
 
 ## [0.9.0]
