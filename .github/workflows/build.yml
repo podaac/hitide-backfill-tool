@@ -124,6 +124,7 @@ jobs:
     permissions:
       contents: write
       packages: write
+      id-token: write     # IMPORTANT: this permission is mandatory for trusted publishing
 
     outputs:  # Define outputs for this job
       target_env_uppercase: ${{ steps.set-env.outputs.target_env_uppercase }}
@@ -236,28 +237,32 @@ jobs:
             git push --follow-tags
           fi
 
-      - name: Publish to Test PyPI
+      - name: Publish to test.pypi.org
+        id: pypi-test-publish
         if: |
           github.ref == 'refs/heads/develop' ||
           startsWith(github.ref, 'refs/heads/release')
-        env:
-          POETRY_PYPI_TOKEN_TESTPYPI: ${{ secrets.TEST_PYPI_API_TOKEN }}
-        run: |
-          poetry config repositories.testpypi https://test.pypi.org/legacy/
-          poetry publish -r testpypi
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
 
-      - name: Publish to PyPI
-        if: github.ref == 'refs/heads/main'
-        env:
-          POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_API_TOKEN }}
-        run: poetry publish --skip-existing
+      - name: Publish to pypi.org
+        if: |
+          github.ref == 'refs/heads/main'
+        id: pypi-publish
+        uses: pypa/gh-action-pypi-publish@release/v1
 
-      - name: Set Environment Output
-        id: set-env
-        run: |
-          echo "target_env_uppercase=${{ env.TARGET_ENV_UPPERCASE }}" >> $GITHUB_OUTPUT
-          echo "target_env_lowercase=${{ env.TARGET_ENV_LOWERCASE }}" >> $GITHUB_OUTPUT
-          echo "new_version=${{ env.new_version }}" >> $GITHUB_OUTPUT
+      - name: Create Release
+        id: create_release
+        if: |
+          github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.new_version }}  # Use the tag that triggered the action
+          name: Release v${{ env.new_version }}
+          draft: false
+          generate_release_notes: true
+          token: ${{ secrets.GITHUB_TOKEN }}
 
   terraform-deploy:
     needs: [create-zips, build]
