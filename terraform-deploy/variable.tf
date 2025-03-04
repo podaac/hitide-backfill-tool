@@ -22,7 +22,7 @@ variable "profile" {
 
 variable "cma_version" {
   type    = string
-  default = "v2.0.3"
+  default = "v2.0.4"
 }
 
 variable "metadata_aggregator_version" {
@@ -82,7 +82,7 @@ variable "step_retry"{
 
 variable "db_instance_class"{
   type = string
-  default = "db.t2.micro"
+  default = "db.t3.micro"
 }
 
 variable "db_storage_size"{
@@ -217,4 +217,8 @@ variable "system_bucket" {
 variable "ecs_include_docker_cleanup_cronjob" {
   type        = bool
   default     = true
+}
+
+variable "cumulus_node_version" {
+  type        = string
 }

@@ -17,9 +17,6 @@ def merge_dicts(defaults, config, cli):
 
 
 default_config = {
-    "footprint": "on",
-    "image": "on",
-    "dmrpp": "off",
     "dmrpp_min_version": "3.21.0-272",     # Important: Update this version when updating the
                                            #            backend dmrpp_generator
     "preview": False,
@@ -47,6 +44,13 @@ def create_parser():
     parser.add_argument("--launchpad-token")
     parser.add_argument("--cmr-search-after")
 
+    parser.add_argument(
+        "--granule-list-file",
+        help=("Process only this list of granuleURs or concept-IDs, and ignore start-date, "
+              "end-date, cycles, etc."),
+        default=None
+    )
+
     parser.add_argument("-g", "--geometry", dest="geometries",
                         action="append", default=None)
     parser.add_argument("--footprint", choices=["on", "off", "force"])
@@ -57,7 +61,7 @@ def create_parser():
 
     parser.add_argument("--cumulus", choices=["ops", "uat", "sit",
                                               "swot-sit", "swot-uat", "swot-ops"])
-    parser.add_argument("--cumulus-configurations")
+    parser.add_argument("--cumulus-configurations", default=None)
 
     parser.add_argument("--preview", action="store_true", default=None)
     parser.add_argument("--sns-arn")
@@ -98,8 +102,5 @@ def parse_args(args=None):
     args = vars(args)
     merged_dict = merge_dicts(default_config, config, args)
     merged_config = Namespace(**merged_dict)
-
-    if merged_config.default_message_config is None:
-        raise Exception("please specify path to default message config")
 
     return merged_config

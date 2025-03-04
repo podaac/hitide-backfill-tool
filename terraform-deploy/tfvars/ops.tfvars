@@ -14,10 +14,10 @@ throttle_limit = 500
 
 # Many DMRPP EC2 Strategy
 
-ecs_cluster_desired_size = 10
-ecs_cluster_min_size = 10
-ecs_cluster_max_size = 11
-dmrpp_desired_count = 10
+ecs_cluster_desired_size = 3
+ecs_cluster_min_size = 3
+ecs_cluster_max_size = 4
+dmrpp_desired_count = 3
 dmrpp_ecs_cpu = 1800
 dmrpp_memory_reservation = 900
 ecs_cluster_instance_type = "t3a.medium"

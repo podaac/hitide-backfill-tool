@@ -6,6 +6,7 @@ resource "aws_sfn_state_machine" "forge" {
 {
   "Comment": "Footprint Processing",
   "StartAt": "Normalizer",
+  "TimeoutSeconds": 10800,
   "States": {
     "Normalizer": {
       "Parameters": {
@@ -50,15 +51,15 @@ resource "aws_sfn_state_machine" "forge" {
         {
           "And": [
             {
-              "Variable": "$.meta.collection.meta.workflowChoice.useEcs",
+              "Variable": "$.meta.collection.meta.workflowChoice.ecs_lambda",
               "IsPresent": true
             },
             {
-              "Variable": "$.meta.collection.meta.workflowChoice.useEcs",
-              "BooleanEquals": true
+              "Variable": "$.meta.collection.meta.workflowChoice.ecs_lambda",
+              "StringEquals": "ecs"
             }
           ],
-          "Next": "FootprintProcessFargate"
+          "Next": "FootprintBranchingFargate"
         }
       ],
       "Default": "FootprintBranching"
@@ -98,6 +99,60 @@ resource "aws_sfn_state_machine" "forge" {
       ],
       "Next": "FootprintBranchChoice"
     },
+    "FootprintBranchingFargate": {
+      "Parameters": {
+        "cma": {
+          "event.$": "$",
+          "task_config": {
+            "execution_name": "{$.cumulus_meta.execution_name}",
+            "collection": "{$.meta.collection}",
+            "cumulus_message": {
+              "input": "{$.payload}"
+            }
+          }
+        }
+      },
+      "Type": "Task",
+      "Resource": "${module.forge_py_module.forge_branch_task_lambda_arn}",
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "ResultPath": "$.exception",
+          "Next": "WorkflowFailed"
+        }
+      ],
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "IntervalSeconds": 5,
+          "MaxAttempts": 2
+        }
+      ],
+      "Next": "FootprintFargateBranchChoice"
+    },
+    "FootprintFargateBranchChoice": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "And": [
+            {
+              "Variable": "$.meta.collection.meta.workflowChoice.forge_version",
+              "IsPresent": true
+            },
+            {
+              "Variable": "$.meta.collection.meta.workflowChoice.forge_version",
+              "StringEquals": "forge-py"
+            }
+          ],
+          "Next": "ForgePyProcessFargate"
+        }
+      ],
+      "Default": "FootprintProcessFargate"
+    },
     "FootprintBranchChoice": {
       "Type": "Choice",
       "Choices": [
@@ -132,6 +187,42 @@ resource "aws_sfn_state_machine" "forge" {
       },
       "Type": "Task",
       "Resource": "${module.forge_py_module.forge_py_task_lambda_arn}",
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "ResultPath": "$.exception",
+          "Next": "WorkflowFailed"
+        }
+      ],
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "IntervalSeconds": 5,
+          "MaxAttempts": 2
+        }
+      ],
+      "Next": "MetadataAggregator"
+    },
+    "ForgePyProcessFargate": {
+      "Parameters": {
+        "cma": {
+          "event.$": "$",
+          "task_config": {
+            "execution_name": "{$.cumulus_meta.execution_name}",
+            "collection": "{$.meta.collection}",
+            "cumulus_message": {
+              "input": "{$.payload}"
+            }
+          }
+        }
+      },
+      "Type": "Task",
+      "Resource": "${module.forge_py_module.forge_py_ecs_task_id}",
+      "TimeoutSeconds": 10800,
       "Catch": [
         {
           "ErrorEquals": [

@@ -1,222 +1,216 @@
-# Build Pipeline for hitide-backfill-lambdas
-name: Build
-# Controls when the workflow will run
-on:
-  # Triggers the workflow on push events
-  push:
-    branches: [ develop, release/**, main, feature/**, issue/**, issues/**, dependabot/** ]
+name: Build and Deploy
 
-  # Allows you to run this workflow manually from the Actions tab
+on:
+  push:
+    branches: 
+      - develop
+      - main
+      - 'release/**'
+      - 'feature/**'
+      - 'issue/**'
+      - 'issues/**'
+      - 'dependabot/**'
   workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  PYTHON_VERSION: '3.10'
+  POETRY_VERSION: '1.8.5'
+  TERRAFORM_VERSION: '1.5.3'
+  CUMULUS_VERSION: 'v18.5.3'
 
 jobs:
-  # First job in the workflow installs and verifies the software
-  build:
-    name: Build, Test, Verify, Publish
-    # The type of runner that the job will run on
+  create-zips:
+    name: Create Cumulus Dependency Zips for Backend
+    if: |
+      github.ref == 'refs/heads/develop' ||
+      github.ref == 'refs/heads/main' ||
+      startsWith(github.ref, 'refs/heads/release') ||
+      github.event.head_commit.message == '/deploy sit' ||
+      github.event.head_commit.message == '/deploy uat'
     runs-on: ubuntu-latest
+    outputs:
+      cumulus_files_created: ${{ steps.upload-files.outputs.files_uploaded }}
+      cumulus_node_version: ${{ steps.get_node_version.outputs.cumulus_node_version }}
     steps:
-      #########################################################################
-      # Environment Setup
-      #########################################################################
-      # NOTE: This step is platform-specific
-      # Checks out this repository and sets up the build/test environment with 
-      # gradle
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Checkout Cumulus Code
+        uses: actions/checkout@v4
         with:
-          python-version: '3.10'
+          repository: nasa/cumulus
+          ref: ${{ env.CUMULUS_VERSION }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+          cache-dependency-path: '**/package.json'
+
+      - name: Read .nvmrc file
+        id: get_node_version
+        run: |
+          VERSION=$(cat .nvmrc | cut -d '.' -f 1)
+          FORMATTED_VERSION="nodejs${VERSION}.x"
+          echo "cumulus_node_version=$FORMATTED_VERSION" >> $GITHUB_OUTPUT
+
+      # Cache the node_modules
+      - name: Cache Node Modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: node-modules-${{ env.CUMULUS_VERSION }}-${{ hashFiles('**/package-lock.json') }}
+
+      # Cache the build outputs
+      - name: Cache Build Outputs
+        id: cache-build
+        uses: actions/cache@v4
+        with:
+          path: |
+            tasks/post-to-cmr/dist
+            tasks/hyrax-metadata-updates/dist
+            tf-modules/cumulus
+          key: backfill-tool-cumulus-build-${{ env.CUMULUS_VERSION }}
+          retention-days: 150
+
+      - name: Cache npm dependencies
+        uses: actions/cache@v4
+        id: npm-cache
+        with:
+          path: |
+            ${{ steps.npm-cache-dir.outputs.dir }}
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      - name: Install Dependencies and Build
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: |
+          npm install -g lerna
+          npm install
+          npm run bootstrap
+
+      - name: Prepare Files for Upload
+        id: prepare-upload-files
+        run: |
+          mkdir -p temp
+          cp tasks/post-to-cmr/dist/lambda.zip temp/post_to_cmr.zip
+          cp tasks/hyrax-metadata-updates/dist/lambda.zip temp/hyrax-metadata-updates.zip
+          cp tf-modules/cumulus/ecs_cluster_instance_autoscaling_cf_template.yml.tmpl temp/
+          cp tf-modules/cumulus/task-reaper.sh temp/
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: cumulus-files
+          path: temp/
+          retention-days: 1
+
+  build:
+    if: always()
+    name: Build and Test CLI Tool
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write
+      packages: write
+
+    outputs:  # Define outputs for this job
+      target_env_uppercase: ${{ steps.set-env.outputs.target_env_uppercase }}
+      target_env_lowercase: ${{ steps.set-env.outputs.target_env_lowercase }}
+      new_version: ${{ steps.set-env.outputs.new_version }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Install Poetry
         uses: abatilo/actions-poetry@v3
         with:
-          poetry-version: 1.8.1
+          poetry-version: ${{ env.POETRY_VERSION }}
 
-      #########################################################################
-      # Versioning (featuring weird gradle output work-arounds)
-      #########################################################################
-      # NOTE: This step is platform-specific
-      # Retrieve version information for use in the other versioning steps
-      - name: Get version
-        id: get-version
-        run: |
-          echo "the_service=${{ github.event.repository.name }}" >> $GITHUB_ENV
-          echo "the_env=$(printenv)" >> $GITHUB_ENV
-          echo "${{ github.event.repository.name }}"
-          echo "pyproject_name=$(poetry version | awk '{print $1}')" >> $GITHUB_ENV
-          poetry version > .temp_version.out
-          cat .temp_version.out
-          the_version=$(cat .temp_version.out |grep -v Downloading |grep -v '%' |sed -e 's/podaac-hitide-backfill-tool *//')
-          rm .temp_version.out
-          echo "old_version=$the_version" >> $GITHUB_ENV
-          echo "the_version=$the_version" >> $GITHUB_ENV
-          echo "Initial Version: $the_version"
+      - name: Cache Poetry Dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pypoetry
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-poetry-
 
-      # Pre-Alpha Logic - Use the project version number and add the short hash
-      # to it
-      - name: Bump pre-alpha version
-        # If triggered by push to a feature branch
-        if: |
-          startsWith(github.ref, 'refs/heads/issue') || 
-          startsWith(github.ref, 'refs/heads/dependabot/') || 
-          startsWith(github.ref, 'refs/heads/feature/')
-        # At pre-alpha, append git-commit to version, set it into gradle
-        # property, read the version out and set to build_service_version
+      - name: Version Management
+        id: versioning
         run: |
-          the_version=$(echo "${{ env.the_version }}" | sed -e "s/-alpha.*//g")
-          the_version=$(echo "$the_version" | sed -e "s/-rc.*//g")
-          new_version="${the_version}+$(git rev-parse --short HEAD)"
-          echo "the_version=${new_version}" >> $GITHUB_ENV
-          echo "software_version=${new_version}" >> $GITHUB_ENV
+          current_version=$(poetry version -s)
+          base_version=$(echo "$current_version" | grep -oE '^[0-9]+\.[0-9]+\.[0-9]+')
+          
+          # Version calculation based on branch
+          if [[ "${{ github.ref }}" =~ ^refs/heads/(issue|feature|dependabot)/ ]]; then
+            new_version="${base_version%%-*}+$(git rev-parse --short HEAD)"
+            echo "TARGET_ENV_UPPERCASE=SIT" >> $GITHUB_ENV
+          elif [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
+            echo "TARGET_ENV_UPPERCASE=SIT" >> $GITHUB_ENV
+            new_version=$(poetry version prerelease -s)
+          elif [[ "${{ github.ref }}" =~ ^refs/heads/release/ ]]; then
+            echo "TARGET_ENV_UPPERCASE=UAT" >> $GITHUB_ENV
+            if [[ ${current_version} =~ rc ]]; then
+              new_version=$(poetry version prerelease -s)
+            else
+              new_version="${GITHUB_REF#refs/heads/release/}rc1"
+            fi
+          elif [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "TARGET_ENV_UPPERCASE=OPS" >> $GITHUB_ENV
+            new_version=${base_version}
+          fi
+          
           echo "new_version=${new_version}" >> $GITHUB_ENV
-          echo "Github REF: ${{ github.ref }}"
-          echo "TARGET_ENV_UPPERCASE=SIT" >> $GITHUB_ENV
 
-      # Alpha Logic - Use the project version number and add -alpha.1 or bump
-      # alpha number
-      - name: Bump alpha version
-        env:
-          VERSION: ${{ env.the_version }}
-        # If triggered by push to the develop branch
-        if: ${{ github.ref == 'refs/heads/develop' }}
+      - name: Override Environment for Deploy Command
+        if: |
+          github.event.head_commit.message == '/deploy sit' ||
+          github.event.head_commit.message == '/deploy uat'
         run: |
-          if [[ ${VERSION} == *"-alpha"* ]]; then
-            alpha_number=$(echo "${VERSION}" | sed -e "s/^.*-alpha.//g")
-            alpha_number=$(echo "$alpha_number" | sed -e "s/-rc.*//g")
-            alpha_number=$((alpha_number+1))
-            the_version=$(echo "$the_version" | sed -e "s/-alpha.*//g")
-            the_version=$(echo "$the_version" | sed -e "s/-rc.*//g")
-            the_version="${the_version}-alpha.$alpha_number"
-            echo "software_version=${the_version}" >> $GITHUB_ENV
-            echo "the_version=${the_version}" >> $GITHUB_ENV
-          else
-            the_version="${{ env.the_version }}-alpha.1"
-            echo "software_version=${the_version}" >> $GITHUB_ENV
-            echo "the_version=${the_version}" >> $GITHUB_ENV
+          message="${{ github.event.head_commit.message }}"
+          override_env=$(echo "$message" | grep -oE '/deploy (sit|uat)' | awk '{print $2}')
+          if [[ -n "$override_env" ]]; then
+            override_env_upper=$(echo "$override_env" | tr '[:lower:]' '[:upper:]')
+            echo "TARGET_ENV_UPPERCASE=${override_env_upper}" >> $GITHUB_ENV
+            echo "TARGET_ENV_LOWERCASE=${override_env}" >> $GITHUB_ENV
+            echo "Overriding deployment target to: ${override_env_upper}"
           fi
-          echo "new_version=${the_version}" >> $GITHUB_ENV
-          echo "venue=sit" >> $GITHUB_ENV
-          echo "TARGET_ENV_UPPERCASE=SIT" >> $GITHUB_ENV
 
-      # Release Candidate Logic - Remove -alpha* and add -rc.1, or bump the rc
-      # number
-      - name: Bump rc version
-        if: ${{ startsWith(github.ref, 'refs/heads/release/') }}
-        env:
-          VERSION: ${{ env.the_version }}
-          COMMIT_VERSION: ${{ github.ref }}
+      - name: Set Lowercase Environment
         run: |
-          commit_version=$COMMIT_VERSION
-          commit_version=$(echo "${commit_version}" |sed -e "s/^.*\///g")
-          commit_version=$(echo "${commit_version}" |sed -e "s/-alpha.*//g")
-          commit_version=$(echo "${commit_version}" |sed -e "s/-rc.*//g")
-          echo "COMMIT VERSION: $commit_version"
-          file_version=${VERSION}
-          file_version=$(echo "${file_version}" |sed -e "s/-alpha.*//g")
-          file_version=$(echo "${file_version}" |sed -e "s/-rc.*//g")
-          echo "FILE VERSION: $file_version"
-          if [[ "$commit_version" != "$file_version" ]]; then
-            echo "Commit version and file version are different, using commit version"
-            VERSION=$commit_version
-          fi
-          if [[ ${VERSION} == *"-rc"* ]]; then
-            echo "Bumping up the release candidate number from ${VERSION}"
-            rc_number=$(echo "${VERSION}" | sed -e "s/^.*-rc.//g")
-            rc_number=$(echo "${rc_number}" | sed -e "s/-alpha.*//g")
-            rc_number=$((rc_number+1))
-            the_version=$(echo "$the_version" | sed -e "s/-rc.*//g")
-            the_version=$(echo "$the_version" | sed -e "s/-alpha.*//g")
-            VERSION="${the_version}-rc.${rc_number}"
-          else
-            echo "Initializing the first release candidate for ${VERSION}"
-            VERSION=$(echo "${VERSION}" |sed -e "s/-alpha.*//g")
-            VERSION="${VERSION}-rc.1"
-          fi
-          echo "software_version=${VERSION}" >> $GITHUB_ENV
-          echo "the_version=${VERSION}" >> $GITHUB_ENV
-          echo "new_version=${VERSION}" >> $GITHUB_ENV
-          echo "venue=uat" >> $GITHUB_ENV
-          echo "TARGET_ENV_UPPERCASE=UAT" >> $GITHUB_ENV
+          echo "TARGET_ENV_LOWERCASE=$(echo ${{ env.TARGET_ENV_UPPERCASE }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
+      - name: Update Package Version
+        run: poetry version ${{ env.new_version }}
 
-      # Release Logic
-      - name: Release version
-        # If triggered by push to the main branch
-        if: ${{ startsWith(github.ref, 'refs/heads/main') }}
-        env:
-          VERSION: ${{ env.the_version }}
-        # Remove -rc.* from end of version string
+      - name: Build, Install and Test
         run: |
-          software_version=$(echo "${VERSION}" | sed -e s/-rc.*//g)
-          software_version=$(echo "${software_version}" | sed -e s/-alpha.*//g)
-          echo "software_version=$software_version" >> $GITHUB_ENV
-          echo "new_version=$software_version" >> $GITHUB_ENV
-          echo "the_version=$software_version" >> $GITHUB_ENV
-          echo "venue=ops" >> $GITHUB_ENV
-          echo "TARGET_ENV_UPPERCASE=OPS" >> $GITHUB_ENV
-
-
-      #########################################################################
-      # Versioning Summary
-      #########################################################################
-      - name: Versioning Summary
-        run: |
-          echo "the_service: ${{ env.the_service }}"
-          echo "old version : ${{ env.old_version }}"
-          echo "new version : ${{ env.new_version }}"
-          echo "the_env: ${{ env.the_env }}"
-          echo "software_version: ${{ env.software_version }}"
-          echo "GITHUB REF: ${{ github.ref }}"
-          echo "VENUE: ${{ env.venue }}"
-          echo "Target Env Uppercase: ${{ env.TARGET_ENV_UPPERCASE }}"
-
-          original_env_value="${TARGET_ENV_UPPERCASE}"
-          lowercase_value=$(echo "${original_env_value}" | tr '[:upper:]' '[:lower:]')
-          echo "TARGET_ENV_LOWERCASE=${lowercase_value}" >> $GITHUB_ENV
-
-      # NOTE: This step is platform-specific
-      # Update the version number in the application package itself
-      - name: Update version number in the application package
-        run: |
-          poetry version ${{ env.the_version }}
-
-
-      #########################################################################
-      # Install & Test & Snyk
-      #########################################################################
-      # NOTE: This step is platform-specific
-      # These are gradle-specific steps for installing the application
-      - name: Install Software
-        run: |
-          pip install pylint
-          pip install pytest
           poetry build
           poetry install
-
-      # This is where tests go
-      - name: Run Poetry Tests
-        run: |
           poetry run pylint podaac
           poetry run flake8 podaac
           poetry run pytest --junitxml=build/reports/pytest.xml --cov=podaac/ --cov-report=html -m "not aws and not integration" tests/
 
-      - name: Run Snyk as a blocking step
-        uses: snyk/actions/python@master
-        env:
-            SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          command: test
-          args: >
-              --org=${{ secrets.SNYK_ORG_ID }}
-              --project-name=${{ github.repository }}
-              --severity-threshold=high
-              --fail-on=all
-
-      - name: Run Snyk on Python
+      - name: Run Snyk Security Scan
         uses: snyk/actions/python@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
@@ -225,123 +219,97 @@ jobs:
           args: >
             --org=${{ secrets.SNYK_ORG_ID }}
             --project-name=${{ github.repository }}
+            --severity-threshold=high
+            --fail-on=all
 
-
-      #########################################################################
-      # Publish new version numbers
-      #########################################################################
-      
-      - name: Quick check for changes
-        id: check_changes
+      - name: Commit Version Changes
         if: |
           github.ref == 'refs/heads/develop' ||
-          github.ref == 'refs/heads/main'    ||
+          github.ref == 'refs/heads/main' ||
           startsWith(github.ref, 'refs/heads/release')
         run: |
-          if [ -n "$(git status --porcelain)" ]; then
-            echo "changes=true" >> $GITHUB_OUTPUT
-          else
-            echo "changes=false" >> $GITHUB_OUTPUT
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git config user.name "${GITHUB_ACTOR}"
+            git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+            git commit -am "/version ${{ env.new_version }}"
+            git tag -a "${{ env.new_version }}" -m "Version ${{ env.new_version }}"
+            git push --follow-tags
           fi
-      
-      - name: Commit Version Bump
-        # If building develop, a release branch, or main then we commit the version bump back to the repo
-        if: steps.check_changes.outputs.changes == 'true'
-        run: |
-          git config user.name "${GITHUB_ACTOR}"
-          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-          git commit -am "/version ${{ env.the_version }}"
-          git push
 
-      - name: Push Tag
-        env:
-          VERSION: ${{ env.the_version }}
-        if: |
-          github.ref == 'refs/heads/develop' ||
-          github.ref == 'refs/heads/main'    ||
-          startsWith(github.ref, 'refs/heads/release')
-        run: |
-          git config user.name "${GITHUB_ACTOR}"
-          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-          git tag -a "${VERSION}" -m "Version ${VERSION}"
-          git push origin "${VERSION}"
-
-
-      #########################################################################
-      # Publish to pypi.org
-      #########################################################################
-      - name: Publish to test.pypi.org
-        id: pypi-test-publish
+      - name: Publish to Test PyPI
         if: |
           github.ref == 'refs/heads/develop' ||
           startsWith(github.ref, 'refs/heads/release')
         env:
-          POETRY_PYPI_TOKEN_TESTPYPI: ${{secrets.TEST_PYPI_API_TOKEN}}
+          POETRY_PYPI_TOKEN_TESTPYPI: ${{ secrets.TEST_PYPI_API_TOKEN }}
         run: |
           poetry config repositories.testpypi https://test.pypi.org/legacy/
           poetry publish -r testpypi
 
-      - name: Publish to pypi.org
-        if: ${{ github.ref == 'refs/heads/main' }}
-        id: pypi-publish
+      - name: Publish to PyPI
+        if: github.ref == 'refs/heads/main'
         env:
-          POETRY_PYPI_TOKEN_PYPI: ${{secrets.PYPI_API_TOKEN}}
+          POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_API_TOKEN }}
+        run: poetry publish --skip-existing
+
+      - name: Set Environment Output
+        id: set-env
         run: |
-          poetry publish --skip-existing
+          echo "target_env_uppercase=${{ env.TARGET_ENV_UPPERCASE }}" >> $GITHUB_OUTPUT
+          echo "target_env_lowercase=${{ env.TARGET_ENV_LOWERCASE }}" >> $GITHUB_OUTPUT
+          echo "new_version=${{ env.new_version }}" >> $GITHUB_OUTPUT
 
-      ## Due to observed delays between upload and availability, wait for the package to become available
-      - name: Wait for package
-        if: |
-          steps.pypi-test-publish.conclusion == 'success' ||
-          steps.pypi-publish.conclusion == 'success'
-        run: |
-          pip install tenacity logging 
-          python3 ${GITHUB_WORKSPACE}/.github/workflows/wait-for-pypi.py ${{env.pyproject_name}}==${{ env.software_version }}
-
-
-      #########################################################################
-      # Deploy to AWS via Terraform
-      #########################################################################
-      - name: Deploy Env Override
-        if: |
-          github.event.head_commit.message == '/deploy sit' ||
-          github.event.head_commit.message == '/deploy uat'
-        run: |
-          message="${{ github.event.head_commit.message }}"
-          trimmed_message=${message:1}  # Remove leading slash
-          override_env=$(echo "$trimmed_message" | grep -oE '[^[:space:]]+$')
-          override_env_upper=$(echo "$trimmed_message" | awk '{print toupper($NF)}')
-          echo "THE_ENV=${override_env}" >> $GITHUB_ENV
-          echo "TARGET_ENV_LOWERCASE=${override_env}" >> $GITHUB_ENV
-          echo "TARGET_ENV_UPPERCASE=${override_env_upper}" >> $GITHUB_ENV
-
-      - uses: hashicorp/setup-terraform@v3
+  terraform-deploy:
+    needs: [create-zips, build]
+    if: |
+      github.ref == 'refs/heads/develop' ||
+      github.ref == 'refs/heads/main' ||
+      startsWith(github.ref, 'refs/heads/release') ||
+      github.event.head_commit.message == '/deploy sit' ||
+      github.event.head_commit.message == '/deploy uat'
+    name: Deploy Backend Infrastructure Terraform
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write
+      packages: write
+      
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
         with:
-          terraform_version: 1.5.3
-
-      - name: Deploy Terraform
-        if: |
-          github.ref == 'refs/heads/develop' ||
-          github.ref == 'refs/heads/main'    ||
-          startsWith(github.ref, 'refs/heads/release') ||
-          github.event.head_commit.message == '/deploy sit' ||
-          github.event.head_commit.message == '/deploy uat'
+          fetch-depth: 0
+          
+      - name: Download Cumulus Files
+        uses: actions/download-artifact@v4
+        with:
+          name: cumulus-files
+          path: ./terraform-deploy
+          
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
+          
+      - name: Deploy with Terraform
         working-directory: terraform-deploy/
         env:
-          AWS_ACCESS_KEY_ID:       ${{ secrets[format('AWS_ACCESS_KEY_ID_SERVICES_{0}', env.TARGET_ENV_UPPERCASE)] }}
-          AWS_SECRET_ACCESS_KEY:   ${{ secrets[format('AWS_SECRET_ACCESS_KEY_SERVICES_{0}', env.TARGET_ENV_UPPERCASE)] }}
-          AWS_ACCOUNT_ID:          ${{ secrets[format('AWS_ACCOUNT_ID_SERVICES_{0}', env.TARGET_ENV_UPPERCASE)] }}
-          AWS_DEFAULT_REGION:      us-west-2
-
-          TF_VAR_permissions_boundary_arn: ${{ secrets[format('PERMISSIONS_BOUNDARY_ARN_{0}', env.TARGET_ENV_UPPERCASE)] }}
-          TF_VAR_buckets_name: ${{ secrets[format('BUCKET_{0}', env.TARGET_ENV_UPPERCASE)] }}
-          TF_VAR_system_bucket: ${{ secrets[format('SYSTEM_BUCKET_{0}', env.TARGET_ENV_UPPERCASE)] }}
+          AWS_ACCESS_KEY_ID: ${{ secrets[format('AWS_ACCESS_KEY_ID_SERVICES_{0}', needs.build.outputs.target_env_uppercase)] }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets[format('AWS_SECRET_ACCESS_KEY_SERVICES_{0}', needs.build.outputs.target_env_uppercase)] }}
+          AWS_ACCOUNT_ID: ${{ secrets[format('AWS_ACCOUNT_ID_SERVICES_{0}', needs.build.outputs.target_env_uppercase)] }}
+          AWS_DEFAULT_REGION: us-west-2
+          TF_VAR_permissions_boundary_arn: ${{ secrets[format('PERMISSIONS_BOUNDARY_ARN_{0}', needs.build.outputs.target_env_uppercase)] }}
+          TF_VAR_buckets_name: ${{ secrets[format('BUCKET_{0}', needs.build.outputs.target_env_uppercase)] }}
+          TF_VAR_system_bucket: ${{ secrets[format('SYSTEM_BUCKET_{0}', needs.build.outputs.target_env_uppercase)] }}
           TF_VAR_dmrpp_url: ${{ secrets.DMRPP_URL }}
-          TF_VAR_aws_security_group_ids: ${{ secrets[format('SECURITY_GROUP_IDS_{0}', env.TARGET_ENV_UPPERCASE)] }}
-
+          TF_VAR_aws_security_group_ids: ${{ secrets[format('SECURITY_GROUP_IDS_{0}', needs.build.outputs.target_env_uppercase)] }}
+          TF_VAR_cumulus_node_version: ${{ needs.create-zips.outputs.cumulus_node_version }}
+          TARGET_ENV: ${{ needs.build.outputs.target_env_lowercase }}
         run: |
-          curl -L -o metadata-aggregator.zip https://github.com/podaac/cumulus-metadata-aggregator/releases/download/v8.6.0/cumulus-metadata-aggregator-8.6.0.zip
-          python3 override.py "${{ env.TARGET_ENV_LOWERCASE }}"
-          source bin/config.sh ${{ env.TARGET_ENV_LOWERCASE }}
-          terraform plan -var-file=tfvars/"${{ env.TARGET_ENV_LOWERCASE }}".tfvars -var="app_version=${{ env.the_version }}" -out="tfplan"
+          curl -L -o metadata-aggregator.zip https://github.com/podaac/cumulus-metadata-aggregator/releases/download/v8.10.0-alpha.2-SNAPSHOT/cumulus-metadata-aggregator-8.10.0-alpha.2-SNAPSHOT.zip
+          python3 override.py "$TARGET_ENV"
+          source bin/config.sh "$TARGET_ENV"
+          
+          terraform init
+          terraform plan -var-file=tfvars/"$TARGET_ENV".tfvars -var="app_version=${{ needs.build.outputs.new_version }}" -out=tfplan
           terraform apply -auto-approve tfplan

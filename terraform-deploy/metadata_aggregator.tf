@@ -4,7 +4,7 @@ resource "aws_lambda_function" "metadata_aggregator_task" {
   source_code_hash = filebase64sha256("metadata-aggregator.zip")
   handler       = "gov.nasa.cumulus.metadata.aggregator.MetadataAggregatorHandler::handleRequestStreams"
   role          = aws_iam_role.iam_execution.arn
-  runtime       = "java11"
+  runtime       = "java17"
   timeout       = 300
   memory_size   = 512
 

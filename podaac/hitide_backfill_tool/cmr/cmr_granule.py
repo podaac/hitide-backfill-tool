@@ -11,7 +11,7 @@ class CmrGranule:
     #   of data when attempting access (e.g. TypeError, IndexError, KeyError, ...)
     # pylint: disable=broad-except
 
-    # pylint: disable=too-many-instance-attributes
+    # pylint: disable=too-many-instance-attributes,too-many-positional-arguments
     # pylint: disable-next=too-many-arguments
     def __init__(self,
                  umm_granule,

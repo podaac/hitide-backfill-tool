@@ -3,7 +3,7 @@ import pytest
 from podaac.hitide_backfill_tool.cli import main
 from moto.core import DEFAULT_ACCOUNT_ID
 from moto.sns import sns_backends
-from moto import mock_sns, mock_s3
+from moto import mock_aws
 import boto3
 import json
 from podaac.hitide_backfill_tool.file_util import make_absolute
@@ -25,7 +25,7 @@ def aws_credentials():
 
 @pytest.fixture(scope='function')
 def sns(aws_credentials):
-    with mock_sns():
+    with mock_aws():
         yield boto3.client('sns')
 
 
@@ -38,7 +38,7 @@ def sns_topic(sns):
 
 @pytest.fixture(scope='function')
 def s3(aws_credentials):
-    with mock_s3():
+    with mock_aws():
         yield boto3.client('s3')
 
 @pytest.fixture(scope='function')
@@ -60,7 +60,7 @@ def s3_object(s3):
 #
 #     Tests
 #
-@mock_s3
+@mock_aws
 @pytest.mark.e2e
 def test_running_the_backfill_tool_will_send_a_message_to_an_sns_topic(sns_topic):
     cumulus_configurations_dir = make_absolute('resources/cumulus_configurations', relative_to=__file__)
@@ -77,6 +77,7 @@ def test_running_the_backfill_tool_will_send_a_message_to_an_sns_topic(sns_topic
           --log-level DEBUG
           --footprint force
           --image force
+          --dmrpp off
           --cumulus-configurations {cumulus_configurations_dir}
           --default_message_config tests/resources/default_message_config.json
         """)

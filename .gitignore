@@ -147,3 +147,5 @@ build-info.yaml
 result_images
 requirements.txt
 snyk-report.json
+
+*.cfg
