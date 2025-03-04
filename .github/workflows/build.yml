@@ -79,7 +79,6 @@ jobs:
             tasks/hyrax-metadata-updates/dist
             tf-modules/cumulus
           key: backfill-tool-cumulus-build-${{ env.CUMULUS_VERSION }}
-          retention-days: 150
 
       - name: Cache npm dependencies
         uses: actions/cache@v4
@@ -114,7 +113,6 @@ jobs:
         with:
           name: cumulus-files
           path: temp/
-          retention-days: 1
 
   build:
     if: always()
