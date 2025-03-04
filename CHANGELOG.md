@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 
-## [0.10.1]
+## [0.10.2]
 
 ### Added
 - Updated releasing to pypi.org and test.pypi.org using trusted publishing
