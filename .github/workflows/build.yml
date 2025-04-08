@@ -18,7 +18,7 @@ env:
   PYTHON_VERSION: '3.10'
   POETRY_VERSION: '1.8.5'
   TERRAFORM_VERSION: '1.5.3'
-  CUMULUS_VERSION: 'v20.0.1'
+  CUMULUS_VERSION: 'v18.5.3'
 
 jobs:
   create-zips:
@@ -161,7 +161,8 @@ jobs:
           
           # Version calculation based on branch
           if [[ "${{ github.ref }}" =~ ^refs/heads/(issue|feature|dependabot)/ ]]; then
-            new_version="${base_version%%-*}+$(git rev-parse --short HEAD)"
+            TIMESTAMP=$(date -u +"%Y%m%d%H%M")
+            new_version="${base_version}a${TIMESTAMP}"
             echo "TARGET_ENV_UPPERCASE=SIT" >> $GITHUB_ENV
           elif [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
             echo "TARGET_ENV_UPPERCASE=SIT" >> $GITHUB_ENV
@@ -239,7 +240,9 @@ jobs:
         id: pypi-test-publish
         if: |
           github.ref == 'refs/heads/develop' ||
-          startsWith(github.ref, 'refs/heads/release')
+          startsWith(github.ref, 'refs/heads/release') ||
+          github.event.head_commit.message == '/deploy sit' ||
+          github.event.head_commit.message == '/deploy uat'
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           repository-url: https://test.pypi.org/legacy/
