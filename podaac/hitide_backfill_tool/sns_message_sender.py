@@ -25,13 +25,6 @@ class SnsMessageSender:
         else:
             self.client = boto3.client('sns', config=config)
 
-        # check access to sns
-        try:
-            self.client.list_topics()
-            logger.debug("SnsMessageSender able to connect to SNS")
-        except ClientError as exc:
-            raise Exception("SnsMessageSender couldn't connect to SNS") from exc
-
         # check "connection" to sns topic
         try:
             self.client.get_topic_attributes(
