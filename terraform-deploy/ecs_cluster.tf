@@ -177,10 +177,15 @@ locals {
   all_bucket_names = [for k, v in local.buckets : v.name]
 }
 
+# image type for ECS' EC2
+data "aws_ssm_parameter" "ecs_image_id" {
+  name = "/ngap/amis/image_id_ecs_al2023_x86"
+}
+
 resource "aws_launch_template" "ecs_cluster_instance" {
   name_prefix   = "${var.prefix}_ecs_cluster_template"
   key_name               = var.key_name
-  image_id      = var.ecs_cluster_instance_image_id
+  image_id               = data.aws_ssm_parameter.ecs_image_id.value,
   instance_type = var.ecs_cluster_instance_type
   vpc_security_group_ids = local.security_group_ids
   block_device_mappings {
