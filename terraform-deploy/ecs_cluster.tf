@@ -185,7 +185,7 @@ data "aws_ssm_parameter" "ecs_image_id" {
 resource "aws_launch_template" "ecs_cluster_instance" {
   name_prefix   = "${var.prefix}_ecs_cluster_template"
   key_name               = var.key_name
-  image_id               = data.aws_ssm_parameter.ecs_image_id.value,
+  image_id               = data.aws_ssm_parameter.ecs_image_id.value
   instance_type = var.ecs_cluster_instance_type
   vpc_security_group_ids = local.security_group_ids
   block_device_mappings {
