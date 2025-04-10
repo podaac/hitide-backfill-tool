@@ -23,7 +23,7 @@ data "aws_iam_policy_document" "sns-topic-policy" {
     ]
 
     condition {
-      test     = "StringLike"
+      test     = "StringEquals"
       variable = "SNS:Endpoint"
 
       values = [
@@ -31,18 +31,28 @@ data "aws_iam_policy_document" "sns-topic-policy" {
       ]
     }
 
+    condition {
+      test     = "StringEquals"
+      variable = "aws:PrincipalAccount"
+      values = [
+        data.aws_caller_identity.current.account_id
+      ]
+    }
+
     effect = "Allow"
 
     principals {
       type        = "AWS"
-      identifiers = ["*"]
+      identifiers = [
+        "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+      ]
     }
 
     resources = [
       "arn:aws:sns:${var.region}:${data.aws_caller_identity.current.account_id}:${local.sns-name}"
     ]
 
-    sid = "sid-101"
+    sid = "AllowSQSSubscription"
   }
 
   statement {
@@ -62,7 +72,7 @@ data "aws_iam_policy_document" "sns-topic-policy" {
       "arn:aws:sns:${var.region}:${data.aws_caller_identity.current.account_id}:${local.sns-name}"
     ]
 
-    sid = "sid-102"
+    sid = "AllowSNSPublish"
   }
 
 }
