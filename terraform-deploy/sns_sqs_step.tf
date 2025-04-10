@@ -1,5 +1,5 @@
 data "aws_secretsmanager_secret" "secret_roles" {
-  name = "backfill_tool_secret"  # Replace with your secret ID
+  name = "backfill_tool_sns_permission_roles_secret"
 }
 
 data "aws_secretsmanager_secret_version" "secret_roles" {
