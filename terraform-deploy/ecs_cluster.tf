@@ -218,7 +218,7 @@ resource "aws_autoscaling_group" "ecs_cluster_instance" {
   desired_capacity    = var.ecs_cluster_desired_size
   max_size            = var.ecs_cluster_max_size
   min_size            = var.ecs_cluster_min_size
-  vpc_zone_identifier = var.ecs_cluster_instance_subnet_ids
+  vpc_zone_identifier = data.aws_subnets.private.ids
 
   instance_refresh {
     strategy = "Rolling"
