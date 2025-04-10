@@ -323,6 +323,8 @@ jobs:
           python3 override.py "$TARGET_ENV"
           source bin/config.sh "$TARGET_ENV"
           
+          export TF_LOG=ERROR
+
           terraform init
           terraform plan -var-file=tfvars/"$TARGET_ENV".tfvars -var="app_version=${{ needs.build.outputs.new_version }}" -out=tfplan
           terraform apply -auto-approve tfplan
