@@ -106,7 +106,6 @@ jobs:
           cp tasks/post-to-cmr/dist/lambda.zip temp/post_to_cmr.zip
           cp tasks/hyrax-metadata-updates/dist/lambda.zip temp/hyrax-metadata-updates.zip
           cp tf-modules/cumulus/ecs_cluster_instance_autoscaling_user_data.tmpl temp/
-          cp tf-modules/cumulus/ecs_cluster.tf temp/
           cp tf-modules/cumulus/task-reaper.sh temp/
 
       - name: Upload Artifacts
