@@ -170,10 +170,11 @@ locals {
   security_group_ids = compact(concat(
     [
       aws_security_group.ecs_cluster_instance.id,
-      var.rds_security_group
     ],
     var.ecs_custom_sg_ids
   ))
+
+  all_bucket_names = [for k, v in local.buckets : v.name]
 }
 
 resource "aws_launch_template" "ecs_cluster_instance" {
