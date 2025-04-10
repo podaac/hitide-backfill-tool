@@ -18,7 +18,7 @@ env:
   PYTHON_VERSION: '3.10'
   POETRY_VERSION: '1.8.5'
   TERRAFORM_VERSION: '1.5.3'
-  CUMULUS_VERSION: 'v18.5.3'
+  CUMULUS_VERSION: 'v20.0.2'
 
 jobs:
   create-zips:
@@ -105,7 +105,8 @@ jobs:
           mkdir -p temp
           cp tasks/post-to-cmr/dist/lambda.zip temp/post_to_cmr.zip
           cp tasks/hyrax-metadata-updates/dist/lambda.zip temp/hyrax-metadata-updates.zip
-          cp tf-modules/cumulus/ecs_cluster_instance_autoscaling_cf_template.yml.tmpl temp/
+          cp tf-modules/cumulus/ecs_cluster_instance_autoscaling_user_data.tmpl temp/
+          cp tf-modules/cumulus/ecs_cluster.tf temp/
           cp tf-modules/cumulus/task-reaper.sh temp/
 
       - name: Upload Artifacts
