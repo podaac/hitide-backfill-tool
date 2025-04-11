@@ -164,7 +164,7 @@ locals {
     efs_mount_point           = var.ecs_efs_config == null ? null : var.ecs_efs_config.mount_point,
     include_docker_cleanup_cronjob = var.ecs_include_docker_cleanup_cronjob,
     region                    = data.aws_region.current.name
-    task_reaper_object        = aws_s3_bucket_object.task_reaper
+    task_reaper_object        = aws_s3_object.task_reaper
   }
 
   security_group_ids = compact(concat(
