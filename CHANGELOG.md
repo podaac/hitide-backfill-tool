@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Added test to test env module urls
+- **PODAAC-6829**
+  - Update dmrpp to version 6.1.1
+  - Update cumulus to 20.0.2
+  - Update sns topic permission to allow cross publish from cumulus env
 ### Deprecated
 ### Removed
 ### Fixed
@@ -18,10 +22,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Updated releasing to pypi.org and test.pypi.org using trusted publishing
-- **PODAAC-6829**
-  - Update dmrpp to version 6.1.1
-  - Update cumulus to 20.0.2
-  - Update sns topic permission to allow cross publish from cumulus env
 ### Deprecated
 ### Removed
 ### Fixed
