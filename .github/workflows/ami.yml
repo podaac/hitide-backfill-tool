@@ -1,0 +1,63 @@
+name: Compare Deployed AMI to SSM Parameter
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * *'
+
+jobs:
+  compare-ami:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        env: [sit, uat, ops]
+
+    name: Compare AMI for ${{ matrix.env }}
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2  # change this if needed
+
+      - name: Get deployed AMI ID
+        id: deployed
+        run: |
+          TAG_NAME="${{ matrix.env }}-hitide-backfill-tool-CumulusECSCluster"
+          DEPLOYED_AMI=$(aws ec2 describe-instances \
+            --filters "Name=tag:Name,Values=$TAG_NAME" \
+            --query "Reservations[].Instances[].ImageId" \
+            --output text | tr '\t' '\n' | sort | uniq)
+          echo "Deployed AMI for $TAG_NAME: $DEPLOYED_AMI"
+          echo "ami_id=$DEPLOYED_AMI" >> "$GITHUB_OUTPUT"
+
+      - name: Get SSM AMI ID
+        id: ssm
+        run: |
+          SSM_PARAM="/hitide/${{ matrix.env }}/backfill-ami-id"
+          PARAM_AMI=$(aws ssm get-parameter \
+            --name "$SSM_PARAM" \
+            --with-decryption \
+            --query "Parameter.Value" \
+            --output text)
+          echo "SSM AMI for $SSM_PARAM: $PARAM_AMI"
+          echo "ami_id=$PARAM_AMI" >> "$GITHUB_OUTPUT"
+
+      - name: Compare AMI IDs
+        run: |
+          DEPLOYED="${{ steps.deployed.outputs.ami_id }}"
+          EXPECTED="${{ steps.ssm.outputs.ami_id }}"
+
+          echo "Comparing for ${{ matrix.env }}:"
+          echo "Deployed: $DEPLOYED"
+          echo "Expected: $EXPECTED"
+
+          if [ "$DEPLOYED" != "$EXPECTED" ]; then
+            echo "❌ AMI Mismatch in ${{ matrix.env }}!"
+            exit 1
+          fi
+
+          echo "✅ AMI Match for ${{ matrix.env }}!"
+
