@@ -1,4 +1,4 @@
-name: Compare Deployed AMI to SSM Parameter
+name: AMI Update
 
 on:
   workflow_dispatch:
