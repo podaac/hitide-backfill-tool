@@ -139,10 +139,13 @@ jobs:
       - name: Check Step Functions Running Count
         id: check-executions
         run: |
+          STATE_MACHINE_ARN="arn:aws:states:us-west-2:${{ secrets[format('AWS_ACCOUNT_ID_SERVICES_{0}', env.UPPERCASE)] }}:stateMachine:podaac-services-${{ env.lowercase }}-hitide-backfill-dmrpp"
+
           COUNT=$(aws stepfunctions list-executions \
-            --state-machine-arn ${{ secrets.STATE_MACHINE_ARN }} \
+            --state-machine-arn "$STATE_MACHINE_ARN" \
             --status RUNNING \
             --query 'length(executions[])')
+            
           echo "Running executions count: $COUNT"
           echo "execution_count=$COUNT" >> $GITHUB_OUTPUT
           if [ "$COUNT" -eq 0 ]; then
@@ -241,11 +244,17 @@ jobs:
           name: cumulus-files
           path: ./terraform-deploy
 
+      - name: Version Management
+        id: versioning
+        run: |
+          current_version=$(poetry version -s)
+          echo "current_version=$current_version" >> $GITHUB_OUTPUT
+
       - name: Deploy with Terraform
         if: steps.compare.outputs.mismatch == 'true' && steps.check-executions.outputs.execution_count_zero == 'true'
         working-directory: terraform-deploy/
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets[format('AWS_ACCESS_KEY_ID_SERVICES_{0}', env.lowercase)] }}
+          AWS_ACCESS_KEY_ID: ${{ secrets[format('AWS_ACCESS_KEY_ID_SERVICES_{0}', env.UPPERCASE)] }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets[format('AWS_SECRET_ACCESS_KEY_SERVICES_{0}', env.UPPERCASE)] }}
           AWS_ACCOUNT_ID: ${{ secrets[format('AWS_ACCOUNT_ID_SERVICES_{0}', env.UPPERCASE)] }}
           AWS_DEFAULT_REGION: us-west-2
@@ -255,13 +264,13 @@ jobs:
           TF_VAR_dmrpp_url: ${{ secrets.DMRPP_URL }}
           TF_VAR_aws_security_group_ids: ${{ secrets[format('SECURITY_GROUP_IDS_{0}', env.UPPERCASE)] }}
           TF_VAR_cumulus_node_version: ${{ needs.create-zips.outputs.cumulus_node_version }}
-          TARGET_ENV: ${{ env.UPPERCASE }}
+          TARGET_ENV: ${{ env.lowercase }}
         run: |
           curl -L -o metadata-aggregator.zip https://github.com/podaac/cumulus-metadata-aggregator/releases/download/v8.10.0-alpha.2-SNAPSHOT/cumulus-metadata-aggregator-8.10.0-alpha.2-SNAPSHOT.zip
           python3 override.py "$TARGET_ENV"
           source bin/config.sh "$TARGET_ENV"
           
           terraform init
-          terraform plan -var-file=tfvars/"$TARGET_ENV".tfvars -var="app_version=${{ needs.build.outputs.new_version }}" -out=tfplan
+          terraform plan -var-file=tfvars/"$TARGET_ENV".tfvars -var="app_version=${{ env.current_version }}" -out=tfplan
 
 
