@@ -18,17 +18,24 @@ jobs:
     name: Compare AMI for ${{ matrix.env }}
 
     steps:
+
+      - name: Set environment variables
+        run: |
+          # Set both upper and lower case versions of the environment dynamically
+          echo "UPPERCASE=${{ matrix.env }}" >> $GITHUB_ENV
+          echo "lowercase=${{ matrix.env | toLowerCase }}" >> $GITHUB_ENV
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ secrets['AWS_ACCESS_KEY_ID_SERVICES_' + env.UPPERCASE] }}
+          aws-secret-access-key: ${{ secrets['AWS_SECRET_ACCESS_KEY_SERVICES_' + env.UPPERCASE] }}
           aws-region: us-west-2  # change this if needed
 
       - name: Get deployed AMI ID
         id: deployed
         run: |
-          TAG_NAME="${{ matrix.env }}-hitide-backfill-tool-CumulusECSCluster"
+          TAG_NAME="${{ env.lowercase }}-hitide-backfill-tool-CumulusECSCluster"
           DEPLOYED_AMI=$(aws ec2 describe-instances \
             --filters "Name=tag:Name,Values=$TAG_NAME" \
             --query "Reservations[].Instances[].ImageId" \
@@ -39,7 +46,7 @@ jobs:
       - name: Get SSM AMI ID
         id: ssm
         run: |
-          SSM_PARAM="/hitide/${{ matrix.env }}/backfill-ami-id"
+          SSM_PARAM="/hitide/${{ env.lowercase }}/backfill-ami-id"
           PARAM_AMI=$(aws ssm get-parameter \
             --name "$SSM_PARAM" \
             --with-decryption \
