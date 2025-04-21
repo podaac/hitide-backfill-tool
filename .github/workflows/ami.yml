@@ -72,6 +72,13 @@ jobs:
             echo "mismatch=false" >> $GITHUB_OUTPUT
           fi
 
+
+      - name: Initial checkout
+        if: steps.compare.outputs.mismatch == 'true'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # This ensures we get all branches
+
       - name: Set branch name
         id: set-branch
         if: steps.compare.outputs.mismatch == 'true'
