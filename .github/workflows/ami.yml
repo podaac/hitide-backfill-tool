@@ -45,7 +45,7 @@ jobs:
       - name: Get SSM AMI ID
         id: ssm
         run: |
-          SSM_PARAM="/hitide/${{ env.lowercase }}/backfill-ami-id"
+          SSM_PARAM="/ngap/amis/image_id_ecs_al2023_x86"
           PARAM_AMI=$(aws ssm get-parameter \
             --name "$SSM_PARAM" \
             --with-decryption \
