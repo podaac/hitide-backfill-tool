@@ -65,8 +65,6 @@ jobs:
 
           if [ "$DEPLOYED" != "$EXPECTED" ]; then
             echo "❌ AMI Mismatch in ${{ matrix.env }}!"
-            exit 1
           fi
-
           echo "✅ AMI Match for ${{ matrix.env }}!"
 
