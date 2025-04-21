@@ -8,16 +8,121 @@ on:
     branches:
       - '*'  # This will trigger for pushes to any branch
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  PYTHON_VERSION: '3.10'
+  POETRY_VERSION: '1.8.5'
+  TERRAFORM_VERSION: '1.5.3'
+  CUMULUS_VERSION: 'v18.5.3'
+
 jobs:
+
+  create-zips:
+    name: Create Cumulus Dependency Zips for Backend
+    runs-on: ubuntu-latest
+    outputs:
+      cumulus_files_created: ${{ steps.upload-files.outputs.files_uploaded }}
+      cumulus_node_version: ${{ steps.get_node_version.outputs.cumulus_node_version }}
+    steps:
+      - name: Checkout Cumulus Code
+        uses: actions/checkout@v4
+        with:
+          repository: nasa/cumulus
+          ref: ${{ env.CUMULUS_VERSION }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+          cache-dependency-path: '**/package.json'
+
+      - name: Read .nvmrc file
+        id: get_node_version
+        run: |
+          VERSION=$(cat .nvmrc | cut -d '.' -f 1)
+          FORMATTED_VERSION="nodejs${VERSION}.x"
+          echo "cumulus_node_version=$FORMATTED_VERSION" >> $GITHUB_OUTPUT
+
+      # Cache the node_modules
+      - name: Cache Node Modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: node-modules-${{ env.CUMULUS_VERSION }}-${{ hashFiles('**/package-lock.json') }}
+
+      # Cache the build outputs
+      - name: Cache Build Outputs
+        id: cache-build
+        uses: actions/cache@v4
+        with:
+          path: |
+            tasks/post-to-cmr/dist
+            tasks/hyrax-metadata-updates/dist
+            tf-modules/cumulus
+          key: backfill-tool-cumulus-build-${{ env.CUMULUS_VERSION }}
+
+      - name: Cache npm dependencies
+        uses: actions/cache@v4
+        id: npm-cache
+        with:
+          path: |
+            ${{ steps.npm-cache-dir.outputs.dir }}
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      - name: Install Dependencies and Build
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: |
+          npm install -g lerna
+          npm install
+          npm run bootstrap
+
+      - name: Prepare Files for Upload
+        id: prepare-upload-files
+        run: |
+          mkdir -p temp
+          cp tasks/post-to-cmr/dist/lambda.zip temp/post_to_cmr.zip
+          cp tasks/hyrax-metadata-updates/dist/lambda.zip temp/hyrax-metadata-updates.zip
+          cp tf-modules/cumulus/ecs_cluster_instance_autoscaling_cf_template.yml.tmpl temp/
+          cp tf-modules/cumulus/task-reaper.sh temp/
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: cumulus-files
+          path: temp/
+
   compare-ami:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         env: [sit, uat, ops]
-
     name: Compare AMI for ${{ matrix.env }}
-
+    needs: [create-zips]
     steps:
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install Poetry
+        uses: abatilo/actions-poetry@v3
+        with:
+          poetry-version: ${{ env.POETRY_VERSION }}
 
       - name: Set environment variables
         run: |
@@ -30,6 +135,21 @@ jobs:
           aws-access-key-id: ${{ secrets[format('AWS_ACCESS_KEY_ID_SERVICES_{0}', env.UPPERCASE)] }}
           aws-secret-access-key: ${{ secrets[format('AWS_SECRET_ACCESS_KEY_SERVICES_{0}', env.UPPERCASE)] }}
           aws-region: us-west-2  # change this if needed
+
+      - name: Check Step Functions Running Count
+        id: check-executions
+        run: |
+          COUNT=$(aws stepfunctions list-executions \
+            --state-machine-arn ${{ secrets.STATE_MACHINE_ARN }} \
+            --status RUNNING \
+            --query 'length(executions[])')
+          echo "Running executions count: $COUNT"
+          echo "execution_count=$COUNT" >> $GITHUB_OUTPUT
+          if [ "$COUNT" -eq 0 ]; then
+            echo "execution_count_zero=true" >> $GITHUB_OUTPUT
+          else
+            echo "execution_count_zero=false" >> $GITHUB_OUTPUT
+          fi
 
       - name: Get deployed AMI ID
         id: deployed
@@ -72,16 +192,15 @@ jobs:
             echo "mismatch=false" >> $GITHUB_OUTPUT
           fi
 
-
       - name: Initial checkout
-        if: steps.compare.outputs.mismatch == 'true'
+        if: steps.compare.outputs.mismatch == 'true' && steps.check-executions.outputs.execution_count_zero == 'true'
         uses: actions/checkout@v4
         with:
           fetch-depth: 0  # This ensures we get all branches
 
       - name: Set branch name
         id: set-branch
-        if: steps.compare.outputs.mismatch == 'true'
+        if: steps.compare.outputs.mismatch == 'true' && steps.check-executions.outputs.execution_count_zero == 'true'
         run: |
           if [ "${{ matrix.env }}" = "sit" ]; then
             echo "branch=develop" >> $GITHUB_OUTPUT
@@ -106,9 +225,43 @@ jobs:
           echo "Selected branch for ${{ matrix.env }}: $(cat $GITHUB_OUTPUT | grep branch | cut -d'=' -f2)"
 
       - name: Checkout appropriate branch
-        if: steps.compare.outputs.mismatch == 'true'
+        if: steps.compare.outputs.mismatch == 'true' && steps.check-executions.outputs.execution_count_zero == 'true'
         uses: actions/checkout@v4
         with:
           ref: ${{ steps.set-branch.outputs.branch }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
+
+      - name: Download Cumulus Files
+        uses: actions/download-artifact@v4
+        with:
+          name: cumulus-files
+          path: ./terraform-deploy
+
+      - name: Deploy with Terraform
+        if: steps.compare.outputs.mismatch == 'true' && steps.check-executions.outputs.execution_count_zero == 'true'
+        working-directory: terraform-deploy/
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets[format('AWS_ACCESS_KEY_ID_SERVICES_{0}', env.lowercase)] }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets[format('AWS_SECRET_ACCESS_KEY_SERVICES_{0}', env.UPPERCASE)] }}
+          AWS_ACCOUNT_ID: ${{ secrets[format('AWS_ACCOUNT_ID_SERVICES_{0}', env.UPPERCASE)] }}
+          AWS_DEFAULT_REGION: us-west-2
+          TF_VAR_permissions_boundary_arn: ${{ secrets[format('PERMISSIONS_BOUNDARY_ARN_{0}', env.UPPERCASE)] }}
+          TF_VAR_buckets_name: ${{ secrets[format('BUCKET_{0}', env.UPPERCASE)] }}
+          TF_VAR_system_bucket: ${{ secrets[format('SYSTEM_BUCKET_{0}', env.UPPERCASE)] }}
+          TF_VAR_dmrpp_url: ${{ secrets.DMRPP_URL }}
+          TF_VAR_aws_security_group_ids: ${{ secrets[format('SECURITY_GROUP_IDS_{0}', env.UPPERCASE)] }}
+          TF_VAR_cumulus_node_version: ${{ needs.create-zips.outputs.cumulus_node_version }}
+          TARGET_ENV: ${{ env.UPPERCASE }}
+        run: |
+          curl -L -o metadata-aggregator.zip https://github.com/podaac/cumulus-metadata-aggregator/releases/download/v8.10.0-alpha.2-SNAPSHOT/cumulus-metadata-aggregator-8.10.0-alpha.2-SNAPSHOT.zip
+          python3 override.py "$TARGET_ENV"
+          source bin/config.sh "$TARGET_ENV"
+          
+          terraform init
+          terraform plan -var-file=tfvars/"$TARGET_ENV".tfvars -var="app_version=${{ needs.build.outputs.new_version }}" -out=tfplan
 
 
