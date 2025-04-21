@@ -72,33 +72,36 @@ jobs:
             echo "mismatch=false" >> $GITHUB_OUTPUT
           fi
 
+      - name: Set branch name
+        id: set-branch
+        if: steps.compare.outputs.mismatch == 'true'
+        run: |
+          if [ "${{ matrix.env }}" = "sit" ]; then
+            echo "branch=develop" >> $GITHUB_OUTPUT
+          elif [ "${{ matrix.env }}" = "ops" ]; then
+            echo "branch=main" >> $GITHUB_OUTPUT
+          elif [ "${{ matrix.env }}" = "uat" ]; then
+            # Fetch all branches to ensure we have latest release branches
+            git fetch --all
+            # Check for release branches and get the latest one
+            if git ls-remote --heads origin 'release/*' | grep .; then
+              LATEST_RELEASE=$(git ls-remote --heads origin 'release/*' | sort -t '/' -k 3 -V | tail -n 1 | awk '{print $2}' | sed 's/refs\/heads\///')
+              echo "Found release branch: $LATEST_RELEASE"
+              echo "branch=$LATEST_RELEASE" >> $GITHUB_OUTPUT
+            else
+              echo "No release branch found, using main"
+              echo "branch=main" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "❌ Invalid environment: ${{ matrix.env }}"
+            exit 1
+          fi
+          echo "Selected branch for ${{ matrix.env }}: $(cat $GITHUB_OUTPUT | grep branch | cut -d'=' -f2)"
+
       - name: Checkout appropriate branch
         if: steps.compare.outputs.mismatch == 'true'
         uses: actions/checkout@v4
         with:
-          ref: ${{ 
-            matrix.env == 'sit' && 'develop' ||
-            matrix.env == 'ops' && 'main' ||
-            'placeholder'
-          }}
-
-      - name: Check for release branch (UAT only)
-        if: matrix.env == 'uat' && steps.compare.outputs.mismatch == 'true'
-        id: check-release
-        run: |
-          git fetch --all
-          if git ls-remote --heads origin 'release/*' | grep .; then
-            RELEASE_BRANCH=$(git ls-remote --heads origin 'release/*' | sort -t '/' -k 3 -V | tail -n 1 | awk '{print $2}' | sed 's/refs\/heads\///')
-            echo "branch=$RELEASE_BRANCH" >> $GITHUB_OUTPUT
-          else
-            echo "branch=main" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Checkout UAT branch
-        if: matrix.env == 'uat' && steps.compare.outputs.mismatch == 'true'
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ steps.check-release.outputs.branch }}
-
+          ref: ${{ steps.set-branch.outputs.branch }}
 
 
