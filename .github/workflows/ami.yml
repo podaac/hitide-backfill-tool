@@ -124,6 +124,11 @@ jobs:
         with:
           poetry-version: ${{ env.POETRY_VERSION }}
 
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
+
       - name: Set environment variables
         run: |
           echo "UPPERCASE=${{ matrix.env }}" >> $GITHUB_ENV
@@ -145,7 +150,7 @@ jobs:
             --state-machine-arn "$STATE_MACHINE_ARN" \
             --status RUNNING \
             --query 'length(executions[])')
-            
+
           echo "Running executions count: $COUNT"
           echo "execution_count=$COUNT" >> $GITHUB_OUTPUT
           if [ "$COUNT" -eq 0 ]; then
@@ -233,18 +238,15 @@ jobs:
         with:
           ref: ${{ steps.set-branch.outputs.branch }}
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: ${{ env.TERRAFORM_VERSION }}
-
       - name: Download Cumulus Files
+        if: steps.compare.outputs.mismatch == 'true' && steps.check-executions.outputs.execution_count_zero == 'true'
         uses: actions/download-artifact@v4
         with:
           name: cumulus-files
           path: ./terraform-deploy
 
       - name: Version Management
+        if: steps.compare.outputs.mismatch == 'true' && steps.check-executions.outputs.execution_count_zero == 'true'
         id: versioning
         run: |
           current_version=$(poetry version -s)
