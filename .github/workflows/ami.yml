@@ -55,6 +55,7 @@ jobs:
           echo "ami_id=$PARAM_AMI" >> "$GITHUB_OUTPUT"
 
       - name: Compare AMI IDs
+        id: compare
         run: |
           DEPLOYED="${{ steps.deployed.outputs.ami_id }}"
           EXPECTED="${{ steps.ssm.outputs.ami_id }}"
@@ -65,6 +66,39 @@ jobs:
 
           if [ "$DEPLOYED" != "$EXPECTED" ]; then
             echo "❌ AMI Mismatch in ${{ matrix.env }}!"
+            echo "mismatch=true" >> $GITHUB_OUTPUT
+          else
+            echo "✅ AMI Match for ${{ matrix.env }}!"
+            echo "mismatch=false" >> $GITHUB_OUTPUT
           fi
-          echo "✅ AMI Match for ${{ matrix.env }}!"
+
+      - name: Checkout appropriate branch
+        if: steps.compare.outputs.mismatch == 'true'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ 
+            matrix.env == 'sit' && 'develop' ||
+            matrix.env == 'ops' && 'main' ||
+            'placeholder'
+          }}
+
+      - name: Check for release branch (UAT only)
+        if: matrix.env == 'uat' && steps.compare.outputs.mismatch == 'true'
+        id: check-release
+        run: |
+          git fetch --all
+          if git ls-remote --heads origin 'release/*' | grep .; then
+            RELEASE_BRANCH=$(git ls-remote --heads origin 'release/*' | sort -t '/' -k 3 -V | tail -n 1 | awk '{print $2}' | sed 's/refs\/heads\///')
+            echo "branch=$RELEASE_BRANCH" >> $GITHUB_OUTPUT
+          else
+            echo "branch=main" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Checkout UAT branch
+        if: matrix.env == 'uat' && steps.compare.outputs.mismatch == 'true'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.check-release.outputs.branch }}
+
+
 
