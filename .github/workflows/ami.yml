@@ -19,11 +19,10 @@ jobs:
 
     steps:
 
-      - name: Set environment variables
-        run: |
-          # Set both upper and lower case versions of the environment dynamically
-          echo "UPPERCASE=${{ matrix.env }}" >> $GITHUB_ENV
-          echo "lowercase=${{ matrix.env | toLowerCase }}" >> $GITHUB_ENV
+    - name: Set environment variables
+      run: |
+        echo "UPPERCASE=${{ matrix.env }}" >> $GITHUB_ENV
+        echo "lowercase=${{ toLower(matrix.env) }}" >> $GITHUB_ENV
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
