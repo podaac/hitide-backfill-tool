@@ -27,8 +27,8 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-access-key-id: ${{ secrets['AWS_ACCESS_KEY_ID_SERVICES_' + env.UPPERCASE] }}
-          aws-secret-access-key: ${{ secrets['AWS_SECRET_ACCESS_KEY_SERVICES_' + env.UPPERCASE] }}
+          aws-access-key-id: ${{ secrets[format('AWS_ACCESS_KEY_ID_SERVICES_{0}', env.UPPERCASE)] }}
+          aws-secret-access-key: ${{ secrets[format('AWS_SECRET_ACCESS_KEY_SERVICES_{0}', env.UPPERCASE)] }}
           aws-region: us-west-2  # change this if needed
 
       - name: Get deployed AMI ID
