@@ -11,7 +11,7 @@ env:
   PYTHON_VERSION: '3.10'
   POETRY_VERSION: '1.8.5'
   TERRAFORM_VERSION: '1.5.3'
-  CUMULUS_VERSION: 'v18.5.3'
+  CUMULUS_VERSION: 'v20.0.2'
 
 jobs:
 
@@ -141,16 +141,30 @@ jobs:
       - name: Check Step Functions Running Count
         id: check-executions
         run: |
-          STATE_MACHINE_ARN="arn:aws:states:us-west-2:${{ secrets[format('AWS_ACCOUNT_ID_SERVICES_{0}', env.UPPERCASE)] }}:stateMachine:podaac-services-${{ env.lowercase }}-hitide-backfill-dmrpp"
 
-          COUNT=$(aws stepfunctions list-executions \
-            --state-machine-arn "$STATE_MACHINE_ARN" \
-            --status RUNNING \
-            --query 'length(executions[])')
+          DMRPP_STATE_MACHINE_ARN="arn:aws:states:us-west-2:${{ secrets[format('AWS_ACCOUNT_ID_SERVICES_{0}', env.UPPERCASE)] }}:stateMachine:podaac-services-${{ env.lowercase }}-hitide-backfill-dmrpp"
+          TIG_STATE_MACHINE_ARN="arn:aws:states:us-west-2:${{ secrets[format('AWS_ACCOUNT_ID_SERVICES_{0}', env.UPPERCASE)] }}:stateMachine:podaac-services-${{ env.lowercase }}-hitide-backfill-tig"
+          FORGET_STATE_MACHINE_ARN="arn:aws:states:us-west-2:${{ secrets[format('AWS_ACCOUNT_ID_SERVICES_{0}', env.UPPERCASE)] }}:stateMachine:podaac-services-${{ env.lowercase }}-hitide-backfill-forge"
 
-          echo "Running executions count: $COUNT"
-          echo "execution_count=$COUNT" >> $GITHUB_OUTPUT
-          if [ "$COUNT" -eq 0 ]; then
+          ARNS=("$DMRPP_STATE_MACHINE_ARN" "$TIG_STATE_MACHINE_ARN" "$FORGET_STATE_MACHINE_ARN")
+
+          TOTAL_RUNNING=0
+
+          for ARN in "${ARNS[@]}"; do
+            COUNT=$(aws stepfunctions list-executions \
+              --state-machine-arn "$ARN" \
+              --status RUNNING \
+              --query 'length(executions[])' \
+              --output text)
+            
+            echo "Running executions for $ARN: $COUNT"
+            TOTAL_RUNNING=$((TOTAL_RUNNING + COUNT))
+          done
+
+          echo "Total running executions: $TOTAL_RUNNING"
+          echo "execution_count=$TOTAL_RUNNING" >> $GITHUB_OUTPUT
+
+          if [ "$TOTAL_RUNNING" -eq 0 ]; then
             echo "execution_count_zero=true" >> $GITHUB_OUTPUT
           else
             echo "execution_count_zero=false" >> $GITHUB_OUTPUT
@@ -271,5 +285,3 @@ jobs:
           
           terraform init
           terraform plan -var-file=tfvars/"$TARGET_ENV".tfvars -var="app_version=${{ env.current_version }}" -out=tfplan
-          terraform apply -auto-approve tfplan
-
