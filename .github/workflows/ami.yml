@@ -106,7 +106,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        env: [sit, uat, ops]
+        env: [sit, uat]
     name: Compare AMI for ${{ matrix.env }}
     needs: [create-zips]
     steps:
@@ -271,5 +271,5 @@ jobs:
           
           terraform init
           terraform plan -var-file=tfvars/"$TARGET_ENV".tfvars -var="app_version=${{ env.current_version }}" -out=tfplan
-
+          terraform apply -auto-approve tfplan
 
