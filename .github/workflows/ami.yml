@@ -285,3 +285,5 @@ jobs:
           
           terraform init
           terraform plan -var-file=tfvars/"$TARGET_ENV".tfvars -var="app_version=${{ env.current_version }}" -out=tfplan
+          terraform apply -auto-approve tfplan
+
