@@ -330,7 +330,6 @@ jobs:
           terraform plan \
             -var-file="tfvars/${TARGET_ENV}.tfvars" \
             -var="app_version=${{ needs.build.outputs.new_version }}" \
-            -var="backfill_tool_metadata=$(jq -c . backfill_tool_metadata.json)" \
             -out=tfplan
 
             terraform apply -auto-approve tfplan

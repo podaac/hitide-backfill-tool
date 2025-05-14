@@ -223,7 +223,14 @@ variable "cumulus_node_version" {
   type        = string
 }
 
+locals {
+  backfill_tool_metadata = try(
+    jsondecode(file("${path.module}/backfill_tool_metadata.json")),
+    {}
+  )
+}
+
 variable "backfill_tool_metadata" {
-  type = string
-  default = ""
+  type    = map(any)
+  default = local.backfill_tool_metadata
 }
