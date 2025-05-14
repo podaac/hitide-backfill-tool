@@ -326,9 +326,11 @@ jobs:
           python3 override.py "$TARGET_ENV" "$COMMIT_URL" "$BRANCH_URL" "${{ needs.build.outputs.new_version }}"
           source bin/config.sh "$TARGET_ENV"
 
-          cat backfill_tool_metadata.json | jq .
-          echo "TF_VAR_backfill_tool_metadata=$(jq -c . backfill_tool_metadata.json)" >> $GITHUB_ENV
-
           terraform init
-          terraform plan -var-file=tfvars/"$TARGET_ENV".tfvars -var="app_version=${{ needs.build.outputs.new_version }}" -out=tfplan
-          terraform apply -auto-approve tfplan
+          terraform plan \
+            -var-file="tfvars/${TARGET_ENV}.tfvars" \
+            -var="app_version=${{ needs.build.outputs.new_version }}" \
+            -var="backfill_tool_metadata=$(jq -c . backfill_tool_metadata.json)" \
+            -out=tfplan
+
+            terraform apply -auto-approve tfplan
