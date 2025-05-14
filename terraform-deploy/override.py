@@ -11,14 +11,6 @@ def read_json_file(file_path):
         print(f"Error: Invalid JSON in file '{file_path}'.")
     return {}
 
-def wrap_as_variables(flat_dict):
-    return {
-        "variable": {
-            key: {"default": value}
-            for key, value in flat_dict.items() if value is not None
-        }
-    }
-
 if __name__ == '__main__':
     if len(sys.argv) < 5:
         print("Usage: python script.py <env> <commit_url> <branch_url> <app_version>")
@@ -65,7 +57,5 @@ if __name__ == '__main__':
     metadata_inputs["branch_url"] = branch_url
     metadata_inputs["app_version"] = str(app_version)
 
-    metadata_variables = wrap_as_variables(metadata_inputs)
-
     with open('backfill_tool_metadata.json', 'w') as f:
-        json.dump(metadata_variables, f, indent=2)
+        json.dump(metadata_inputs, f, indent=2)
