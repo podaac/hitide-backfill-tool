@@ -63,7 +63,7 @@ if __name__ == '__main__':
     metadata_inputs = dict(json_data)  # copy all original values
     metadata_inputs["commit_url"] = commit_url
     metadata_inputs["branch_url"] = branch_url
-    metadata_inputs["app_version"] = app_version
+    metadata_inputs["app_version"] = str(app_version)
 
     metadata_variables = wrap_as_variables(metadata_inputs)
 

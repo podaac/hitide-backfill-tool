@@ -1,6 +1,7 @@
-# Read and decode the JSON file
+# Check if the JSON file exists
 locals {
-  backfill_tool_metadata = jsondecode(file("${path.module}/backfill_tool_metadata.json"))
+  file_exists = fileexists("${path.module}/backfill_tool_metadata.json")
+  backfill_tool_metadata = local.file_exists ? jsondecode(file("${path.module}/backfill_tool_metadata.json")) : {}
 }
 
 resource "aws_ssm_parameter" "backfill_tool_deploy_metadata" {
