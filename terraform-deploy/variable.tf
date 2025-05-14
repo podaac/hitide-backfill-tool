@@ -225,5 +225,5 @@ variable "cumulus_node_version" {
 
 variable "backfill_tool_metadata" {
   type = string
-  defautl = ""
+  default = ""
 }
