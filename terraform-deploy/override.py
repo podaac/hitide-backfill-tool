@@ -1,5 +1,6 @@
 import sys
 import json
+import re
 
 def read_json_file(file_path):
     try:
@@ -56,6 +57,17 @@ if __name__ == '__main__':
     metadata_inputs["commit_url"] = commit_url
     metadata_inputs["branch_url"] = branch_url
     metadata_inputs["app_version"] = str(app_version)
+
+    with open("dmrpp.tf", "r") as file:
+        file_content = file.read()
+
+    # Regular expression to extract docker image version
+    pattern = r'docker_image\s*=\s*"\$\{[^}]+\}:v([\d\.]+)"'
+    match = re.search(pattern, file_content)
+
+    if match:
+        docker_version = match.group(1)
+        metadata_inputs["dmrpp_version"] = str(docker_version)
 
     with open('backfill_tool_metadata.json', 'w') as f:
         json.dump(metadata_inputs, f, indent=2)
