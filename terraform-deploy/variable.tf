@@ -229,8 +229,3 @@ locals {
     {}
   )
 }
-
-variable "backfill_tool_metadata" {
-  type    = map(any)
-  default = local.backfill_tool_metadata
-}
