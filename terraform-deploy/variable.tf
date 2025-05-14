@@ -222,10 +222,3 @@ variable "ecs_include_docker_cleanup_cronjob" {
 variable "cumulus_node_version" {
   type        = string
 }
-
-locals {
-  backfill_tool_metadata = try(
-    jsondecode(file("${path.module}/backfill_tool_metadata.json")),
-    {}
-  )
-}
