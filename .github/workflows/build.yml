@@ -333,7 +333,7 @@ jobs:
                 "commit_url": { "default": $commit_url },
                 "branch_url": { "default": $branch_url }
               }' override.tf.json > override.patched.tf.json
-          echo "TF_VAR_backfill_tool_metadata=$(jq -c . metadata.json)" >> $GITHUB_ENV
+          echo "TF_VAR_backfill_tool_metadata=$(jq -c . override.patched.tf.json)" >> $GITHUB_ENV
 
           terraform init
           terraform plan -var-file=tfvars/"$TARGET_ENV".tfvars -var="app_version=${{ needs.build.outputs.new_version }}" -out=tfplan
