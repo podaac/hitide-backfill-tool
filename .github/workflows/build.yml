@@ -318,13 +318,12 @@ jobs:
           TF_VAR_aws_security_group_ids: ${{ secrets[format('SECURITY_GROUP_IDS_{0}', needs.build.outputs.target_env_uppercase)] }}
           TF_VAR_cumulus_node_version: ${{ needs.create-zips.outputs.cumulus_node_version }}
           TARGET_ENV: ${{ needs.build.outputs.target_env_lowercase }}
+          COMMIT_URL: "https://github.com/${{ github.repository }}/commit/${{ github.sha }}"
+          BRANCH_URL: "https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}"
         run: |
 
-          COMMIT_URL="https://github.com/${{ github.repository }}/commit/${{ github.sha }}"
-          BRANCH_URL="https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}"
-
           curl -L -o metadata-aggregator.zip https://github.com/podaac/cumulus-metadata-aggregator/releases/download/v8.10.0-alpha.2-SNAPSHOT/cumulus-metadata-aggregator-8.10.0-alpha.2-SNAPSHOT.zip
-          python3 override.py "$TARGET_ENV" "$COMMIT_URL" "$BRANCH_URL"
+          python3 override.py "$TARGET_ENV" "$COMMIT_URL" "$BRANCH_URL" "${{ needs.build.outputs.new_version }}"
           source bin/config.sh "$TARGET_ENV"
           echo "TF_VAR_backfill_tool_metadata=$(jq -c . backfill_tool_metadata.json)" >> $GITHUB_ENV
 

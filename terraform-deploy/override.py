@@ -20,13 +20,14 @@ def wrap_as_variables(flat_dict):
     }
 
 if __name__ == '__main__':
-    if len(sys.argv) < 4:
-        print("Usage: python script.py <env> <commit_url> <branch_url>")
+    if len(sys.argv) < 5:
+        print("Usage: python script.py <env> <commit_url> <branch_url> <app_version>")
         sys.exit(1)
 
     env = sys.argv[1]
     commit_url = sys.argv[2]
     branch_url = sys.argv[3]
+    app_version = sys.argv[4]
 
     # Load environment-specific data
     file_path = f'terraform_env/{env}.json'
@@ -59,10 +60,10 @@ if __name__ == '__main__':
     with open('override.tf.json', 'w') as f:
         json.dump(override_data, f, indent=2)
 
-    # === 2. github_metadata_override.tf.json ===
     metadata_inputs = dict(json_data)  # copy all original values
     metadata_inputs["commit_url"] = commit_url
     metadata_inputs["branch_url"] = branch_url
+    metadata_inputs["app_version"] = app_version
 
     metadata_variables = wrap_as_variables(metadata_inputs)
 
