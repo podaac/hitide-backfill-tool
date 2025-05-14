@@ -319,10 +319,22 @@ jobs:
           TF_VAR_cumulus_node_version: ${{ needs.create-zips.outputs.cumulus_node_version }}
           TARGET_ENV: ${{ needs.build.outputs.target_env_lowercase }}
         run: |
+
           curl -L -o metadata-aggregator.zip https://github.com/podaac/cumulus-metadata-aggregator/releases/download/v8.10.0-alpha.2-SNAPSHOT/cumulus-metadata-aggregator-8.10.0-alpha.2-SNAPSHOT.zip
           python3 override.py "$TARGET_ENV"
           source bin/config.sh "$TARGET_ENV"
           
+          COMMIT_URL="https://github.com/${{ github.repository }}/commit/${{ github.sha }}"
+          BRANCH_URL="https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}"
+          
+          jq --arg commit_url "$COMMIT_URL" \
+             --arg branch_url "$BRANCH_URL" \
+             '.variable += {
+                "commit_url": { "default": $commit_url },
+                "branch_url": { "default": $branch_url }
+              }' override.tf.json > override.patched.tf.json
+          echo "TF_VAR_backfill_tool_metadata=$(jq -c . metadata.json)" >> $GITHUB_ENV
+
           terraform init
           terraform plan -var-file=tfvars/"$TARGET_ENV".tfvars -var="app_version=${{ needs.build.outputs.new_version }}" -out=tfplan
           terraform apply -auto-approve tfplan

@@ -222,3 +222,8 @@ variable "ecs_include_docker_cleanup_cronjob" {
 variable "cumulus_node_version" {
   type        = string
 }
+
+variable "backfill_tool_metadata" {
+  type = string
+  defautl = ""
+}
