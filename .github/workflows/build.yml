@@ -18,7 +18,7 @@ env:
   PYTHON_VERSION: '3.10'
   POETRY_VERSION: '1.8.5'
   TERRAFORM_VERSION: '1.5.3'
-  CUMULUS_VERSION: 'v18.5.3'
+  CUMULUS_VERSION: 'v20.1.2'
 
 jobs:
   create-zips:
@@ -105,7 +105,7 @@ jobs:
           mkdir -p temp
           cp tasks/post-to-cmr/dist/lambda.zip temp/post_to_cmr.zip
           cp tasks/hyrax-metadata-updates/dist/lambda.zip temp/hyrax-metadata-updates.zip
-          cp tf-modules/cumulus/ecs_cluster_instance_autoscaling_cf_template.yml.tmpl temp/
+          cp tf-modules/cumulus/ecs_cluster_instance_autoscaling_user_data.tmpl temp/
           cp tf-modules/cumulus/task-reaper.sh temp/
 
       - name: Upload Artifacts
@@ -161,7 +161,8 @@ jobs:
           
           # Version calculation based on branch
           if [[ "${{ github.ref }}" =~ ^refs/heads/(issue|feature|dependabot)/ ]]; then
-            new_version="${base_version%%-*}+$(git rev-parse --short HEAD)"
+            TIMESTAMP=$(date -u +"%Y%m%d%H%M")
+            new_version="${base_version}a${TIMESTAMP}"
             echo "TARGET_ENV_UPPERCASE=SIT" >> $GITHUB_ENV
           elif [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
             echo "TARGET_ENV_UPPERCASE=SIT" >> $GITHUB_ENV
@@ -239,7 +240,9 @@ jobs:
         id: pypi-test-publish
         if: |
           github.ref == 'refs/heads/develop' ||
-          startsWith(github.ref, 'refs/heads/release')
+          startsWith(github.ref, 'refs/heads/release') ||
+          github.event.head_commit.message == '/deploy sit' ||
+          github.event.head_commit.message == '/deploy uat'
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           repository-url: https://test.pypi.org/legacy/
@@ -315,11 +318,18 @@ jobs:
           TF_VAR_aws_security_group_ids: ${{ secrets[format('SECURITY_GROUP_IDS_{0}', needs.build.outputs.target_env_uppercase)] }}
           TF_VAR_cumulus_node_version: ${{ needs.create-zips.outputs.cumulus_node_version }}
           TARGET_ENV: ${{ needs.build.outputs.target_env_lowercase }}
+          COMMIT_URL: "https://github.com/${{ github.repository }}/commit/${{ github.sha }}"
+          BRANCH_URL: "https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}"
         run: |
+
           curl -L -o metadata-aggregator.zip https://github.com/podaac/cumulus-metadata-aggregator/releases/download/v8.10.0-alpha.2-SNAPSHOT/cumulus-metadata-aggregator-8.10.0-alpha.2-SNAPSHOT.zip
-          python3 override.py "$TARGET_ENV"
+          python3 override.py "$TARGET_ENV" "$COMMIT_URL" "$BRANCH_URL" "${{ needs.build.outputs.new_version }}"
           source bin/config.sh "$TARGET_ENV"
-          
+
           terraform init
-          terraform plan -var-file=tfvars/"$TARGET_ENV".tfvars -var="app_version=${{ needs.build.outputs.new_version }}" -out=tfplan
-          terraform apply -auto-approve tfplan
+          terraform plan \
+            -var-file="tfvars/${TARGET_ENV}.tfvars" \
+            -var="app_version=${{ needs.build.outputs.new_version }}" \
+            -out=tfplan
+
+            terraform apply -auto-approve tfplan
