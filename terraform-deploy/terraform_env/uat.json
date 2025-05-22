@@ -1,10 +1,10 @@
 {
-   "tig_source":"https://github.com/podaac/tig/releases/download/0.13.2rc1/tig-terraform-0.13.2rc1.zip",
-   "tig_image":"ghcr.io/podaac/tig:0.13.2rc1",
+   "tig_source":"https://github.com/podaac/tig/releases/download/0.13.2rc3/tig-terraform-0.13.2rc3.zip",
+   "tig_image":"ghcr.io/podaac/tig:0.13.2rc3",
    "forge_source":"https://github.com/podaac/forge/releases/download/0.12.1-rc.1/forge-0.12.1-rc.1.zip",
    "forge_image":"ghcr.io/podaac/forge:0.12.1-rc.1",
-   "forge_py_source" : "https://github.com/podaac/forge-py/releases/download/0.4.0rc5/forge-py-terraform-0.4.0rc5.zip",
-   "forge_py_image": "ghcr.io/podaac/forge-py:0.4.0rc5",
+   "forge_py_source" : "https://github.com/podaac/forge-py/releases/download/0.5.0rc3/forge-py-terraform-0.5.0rc3.zip",
+   "forge_py_image": "ghcr.io/podaac/forge-py:0.5.0rc3",
    "backfill_lambdas_source": "https://github.com/podaac/hitide-backfill-lambdas/releases/download/0.4.1rc3/hitide-backfill-lambdas-0.4.1rc3.zip",
    "postworkflow_normalizer_source": "https://github.com/podaac/cumulus-postworkflow-normalizer/releases/download/0.4.1rc2/postworkflow-normalizer-0.4.1rc2.zip"
 }
