@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Update sns topic permission to allow cross publish from cumulus env
 - [issue/59] (https://github.com/podaac/hitide-backfill-tool/issues/59): Update dmrpp-generator to 6.1.1
 - [issue/62] (https://github.com/podaac/hitide-backfill-tool/issues/62): Rotate backfill-tool EC2 images
-- [issue/63] (https://github.com/podaac/hitide-backfill-tool/issues/63): Add tig release and forge-py release to backfill tool
+- [issue/63] (https://github.com/podaac/hitide-backfill-tool/issues/63): Updated tig release to 0.13.2 and forge-py release to 0.5.0
 ### Deprecated
 ### Removed
 ### Fixed
