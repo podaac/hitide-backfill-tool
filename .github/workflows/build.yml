@@ -332,4 +332,4 @@ jobs:
             -var="app_version=${{ needs.build.outputs.new_version }}" \
             -out=tfplan
 
-            terraform apply -auto-approve tfplan
+          terraform apply -auto-approve tfplan
