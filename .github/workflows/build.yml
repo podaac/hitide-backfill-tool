@@ -320,6 +320,7 @@ jobs:
           TARGET_ENV: ${{ needs.build.outputs.target_env_lowercase }}
           COMMIT_URL: "https://github.com/${{ github.repository }}/commit/${{ github.sha }}"
           BRANCH_URL: "https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}"
+          TF_LOG: DEBUG
         run: |
 
           curl -L -o metadata-aggregator.zip https://github.com/podaac/cumulus-metadata-aggregator/releases/download/v8.10.0-alpha.2-SNAPSHOT/cumulus-metadata-aggregator-8.10.0-alpha.2-SNAPSHOT.zip
