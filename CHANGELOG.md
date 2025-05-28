@@ -8,6 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+### Deprecated
+### Removed
+### Fixed
+
+
+## [0.11.0]
+
+### Added
 - Added test to test env module urls
 - Update poetry version to 2.1.3
 - **PODAAC-6829**
