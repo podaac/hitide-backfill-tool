@@ -322,7 +322,7 @@ jobs:
           BRANCH_URL: "https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}"
         run: |
 
-          curl -L -o metadata-aggregator.zip https://github.com/podaac/cumulus-metadata-aggregator/releases/tag/v8.10.0
+          curl -L -o metadata-aggregator.zip https://github.com/podaac/cumulus-metadata-aggregator/releases/download/v8.10.0/cumulus-metadata-aggregator-8.10.0.zip
           python3 override.py "$TARGET_ENV" "$COMMIT_URL" "$BRANCH_URL" "${{ needs.build.outputs.new_version }}"
           source bin/config.sh "$TARGET_ENV"
 
