@@ -327,9 +327,5 @@ jobs:
           source bin/config.sh "$TARGET_ENV"
 
           terraform init
-          terraform plan \
-            -var-file="tfvars/${TARGET_ENV}.tfvars" \
-            -var="app_version=${{ needs.build.outputs.new_version }}" \
-            -out=tfplan
-
+          terraform plan -var-file=tfvars/"$TARGET_ENV".tfvars -var="app_version=${{ needs.build.outputs.new_version }}" -out=tfplan
           terraform apply -auto-approve tfplan
