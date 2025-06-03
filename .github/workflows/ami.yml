@@ -279,7 +279,7 @@ jobs:
           TF_VAR_cumulus_node_version: ${{ needs.create-zips.outputs.cumulus_node_version }}
           TARGET_ENV: ${{ env.lowercase }}
         run: |
-          curl -L -o metadata-aggregator.zip https://github.com/podaac/cumulus-metadata-aggregator/releases/download/v8.10.0-alpha.2-SNAPSHOT/cumulus-metadata-aggregator-8.10.0-alpha.2-SNAPSHOT.zip
+          curl -L -o metadata-aggregator.zip https://github.com/podaac/cumulus-metadata-aggregator/releases/download/v8.10.0/cumulus-metadata-aggregator-8.10.0.zip
           python3 override.py "$TARGET_ENV"
           source bin/config.sh "$TARGET_ENV"
           
