@@ -17,14 +17,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Added test to test env module urls
-- Update poetry version to 2.1.3
+- Updated poetry version to 2.1.3
+- Updated cumulus-metadata_aggregator to release 8.10.0
 - **PODAAC-6829**
-  - Update dmrpp to version 6.1.1
-  - Update cumulus to 20.1.2
-  - Update sns topic permission to allow cross publish from cumulus env
+  - Updated dmrpp to version 6.1.1
+  - Updated cumulus to 20.1.2
+  - Updated sns topic permission to allow cross publish from cumulus env
 - [issue/59] (https://github.com/podaac/hitide-backfill-tool/issues/59): Update dmrpp-generator to 6.1.1
 - [issue/62] (https://github.com/podaac/hitide-backfill-tool/issues/62): Rotate backfill-tool EC2 images
-- [issue/63] (https://github.com/podaac/hitide-backfill-tool/issues/63): Updated tig release to 0.13.2 and forge-py release to 0.5.0
+- [issue/63] (https://github.com/podaac/hitide-backfill-tool/issues/63): Update tig release to 0.13.2 and forge-py release to 0.5.0
 ### Deprecated
 ### Removed
 ### Fixed
