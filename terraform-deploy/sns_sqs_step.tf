@@ -1,5 +1,15 @@
+data "aws_secretsmanager_secret" "secret_roles" {
+  name = "backfill_tool_sns_permission_roles_secret"
+}
+
+data "aws_secretsmanager_secret_version" "secret_roles" {
+  secret_id = data.aws_secretsmanager_secret.secret_roles.id
+}
+
 # Create some locals for SQS and SNS names
 locals {
+  secret_json = jsondecode(data.aws_secretsmanager_secret_version.secret_roles.secret_string)
+  roles       = local.secret_json.roles
   sqs-name = "${local.resources_name}-sqs"
   sns-name = "${local.resources_name}-sns"
 }
@@ -13,12 +23,19 @@ data "aws_iam_policy_document" "sns-topic-policy" {
     ]
 
     condition {
-      test     = "StringLike"
+      test     = "StringEquals"
       variable = "SNS:Endpoint"
 
-      # In order to avoid circular dependencies, we must create the ARN ourselves
       values = [
         "arn:aws:sqs:${var.region}:${data.aws_caller_identity.current.account_id}:${local.sqs-name}",
+      ]
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "aws:PrincipalAccount"
+      values = [
+        data.aws_caller_identity.current.account_id
       ]
     }
 
@@ -26,15 +43,38 @@ data "aws_iam_policy_document" "sns-topic-policy" {
 
     principals {
       type        = "AWS"
-      identifiers = ["*"]
+      identifiers = [
+        "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+      ]
     }
 
     resources = [
       "arn:aws:sns:${var.region}:${data.aws_caller_identity.current.account_id}:${local.sns-name}"
     ]
 
-    sid = "sid-101"
+    sid = "AllowSQSSubscription"
   }
+
+  statement {
+    actions = [
+      "SNS:Publish",
+      "SNS:GetTopicAttributes"
+    ]
+
+    effect = "Allow"
+
+    principals {
+      type        = "AWS"
+      identifiers = local.roles  # Use the roles from the secret
+    }
+
+    resources = [
+      "arn:aws:sns:${var.region}:${data.aws_caller_identity.current.account_id}:${local.sns-name}"
+    ]
+
+    sid = "AllowSNSPublish"
+  }
+
 }
 
 # Create a queue policy. This allows for the SNS topic to be able to publish messages to the SQS queue

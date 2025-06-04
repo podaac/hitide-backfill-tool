@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "hitide-backfill-tool"
-version = "0.10.2"
+version = "0.11.0rc13"
 
 description = "Backfill footprints and images for HiTIDE collections"
 authors = ["PO.DAAC <podaac@jpl.nasa.gov>"]
@@ -23,7 +23,7 @@ pyyaml = "^6.0"
 fuzzywuzzy = "^0.18.0"
 python-Levenshtein = "^0.26.0"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 pytest = "^8.0.1"
 moto = {extras = ["sns"], version = "^5.0.25"}
 flake8 = "^7.0.0"

@@ -1,0 +1,291 @@
+name: AMI Update
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 8 * * 1'  # At 08:00 UTC on Monday (00:00/12:00 AM PST/PDT)
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  PYTHON_VERSION: '3.10'
+  POETRY_VERSION: '1.8.5'
+  TERRAFORM_VERSION: '1.5.3'
+  CUMULUS_VERSION: 'v20.1.2'
+
+jobs:
+
+  create-zips:
+    name: Create Cumulus Dependency Zips for Backend
+    runs-on: ubuntu-latest
+    outputs:
+      cumulus_files_created: ${{ steps.upload-files.outputs.files_uploaded }}
+      cumulus_node_version: ${{ steps.get_node_version.outputs.cumulus_node_version }}
+    steps:
+      - name: Checkout Cumulus Code
+        uses: actions/checkout@v4
+        with:
+          repository: nasa/cumulus
+          ref: ${{ env.CUMULUS_VERSION }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+          cache-dependency-path: '**/package.json'
+
+      - name: Read .nvmrc file
+        id: get_node_version
+        run: |
+          VERSION=$(cat .nvmrc | cut -d '.' -f 1)
+          FORMATTED_VERSION="nodejs${VERSION}.x"
+          echo "cumulus_node_version=$FORMATTED_VERSION" >> $GITHUB_OUTPUT
+
+      # Cache the node_modules
+      - name: Cache Node Modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: node-modules-${{ env.CUMULUS_VERSION }}-${{ hashFiles('**/package-lock.json') }}
+
+      # Cache the build outputs
+      - name: Cache Build Outputs
+        id: cache-build
+        uses: actions/cache@v4
+        with:
+          path: |
+            tasks/post-to-cmr/dist
+            tasks/hyrax-metadata-updates/dist
+            tf-modules/cumulus
+          key: backfill-tool-cumulus-build-${{ env.CUMULUS_VERSION }}
+
+      - name: Cache npm dependencies
+        uses: actions/cache@v4
+        id: npm-cache
+        with:
+          path: |
+            ${{ steps.npm-cache-dir.outputs.dir }}
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      - name: Install Dependencies and Build
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: |
+          npm install -g lerna
+          npm install
+          npm run bootstrap
+
+      - name: Prepare Files for Upload
+        id: prepare-upload-files
+        run: |
+          mkdir -p temp
+          cp tasks/post-to-cmr/dist/lambda.zip temp/post_to_cmr.zip
+          cp tasks/hyrax-metadata-updates/dist/lambda.zip temp/hyrax-metadata-updates.zip
+          cp tf-modules/cumulus/ecs_cluster_instance_autoscaling_user_data.tmpl temp/
+          cp tf-modules/cumulus/task-reaper.sh temp/
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: cumulus-files
+          path: temp/
+
+  compare-ami:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        env: [sit, uat]
+    name: Compare AMI for ${{ matrix.env }}
+    needs: [create-zips]
+    steps:
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install Poetry
+        uses: abatilo/actions-poetry@v3
+        with:
+          poetry-version: ${{ env.POETRY_VERSION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
+
+      - name: Set environment variables
+        run: |
+          echo "UPPERCASE=$(echo "${{ matrix.env }}" | tr '[:lower:]' '[:upper:]')" >> $GITHUB_ENV
+          echo "lowercase=${{ matrix.env }}" >> $GITHUB_ENV
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets[format('AWS_ACCESS_KEY_ID_SERVICES_{0}', env.UPPERCASE)] }}
+          aws-secret-access-key: ${{ secrets[format('AWS_SECRET_ACCESS_KEY_SERVICES_{0}', env.UPPERCASE)] }}
+          aws-region: us-west-2  # change this if needed
+
+      - name: Check Step Functions Running Count
+        id: check-executions
+        run: |
+
+          DMRPP_STATE_MACHINE_ARN="arn:aws:states:us-west-2:${{ secrets[format('AWS_ACCOUNT_ID_SERVICES_{0}', env.UPPERCASE)] }}:stateMachine:podaac-services-${{ env.lowercase }}-hitide-backfill-dmrpp"
+          TIG_STATE_MACHINE_ARN="arn:aws:states:us-west-2:${{ secrets[format('AWS_ACCOUNT_ID_SERVICES_{0}', env.UPPERCASE)] }}:stateMachine:podaac-services-${{ env.lowercase }}-hitide-backfill-tig"
+          FORGET_STATE_MACHINE_ARN="arn:aws:states:us-west-2:${{ secrets[format('AWS_ACCOUNT_ID_SERVICES_{0}', env.UPPERCASE)] }}:stateMachine:podaac-services-${{ env.lowercase }}-hitide-backfill-forge"
+
+          ARNS=("$DMRPP_STATE_MACHINE_ARN" "$TIG_STATE_MACHINE_ARN" "$FORGET_STATE_MACHINE_ARN")
+
+          TOTAL_RUNNING=0
+
+          for ARN in "${ARNS[@]}"; do
+            COUNT=$(aws stepfunctions list-executions \
+              --state-machine-arn "$ARN" \
+              --status RUNNING \
+              --query 'length(executions[])' \
+              --output text)
+            
+            echo "Running executions for $ARN: $COUNT"
+            TOTAL_RUNNING=$((TOTAL_RUNNING + COUNT))
+          done
+
+          echo "Total running executions: $TOTAL_RUNNING"
+          echo "execution_count=$TOTAL_RUNNING" >> $GITHUB_OUTPUT
+
+          if [ "$TOTAL_RUNNING" -eq 0 ]; then
+            echo "execution_count_zero=true" >> $GITHUB_OUTPUT
+          else
+            echo "execution_count_zero=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Get deployed AMI ID
+        id: deployed
+        run: |
+          TAG_NAME="${{ env.lowercase }}-hitide-backfill-tool-CumulusECSCluster"
+          DEPLOYED_AMI=$(aws ec2 describe-instances \
+            --filters "Name=tag:Name,Values=$TAG_NAME" \
+            --query "Reservations[].Instances[].ImageId" \
+            --output text | tr '\t' '\n' | sort | uniq)
+          echo "Deployed AMI for $TAG_NAME: $DEPLOYED_AMI"
+          echo "ami_id=$DEPLOYED_AMI" >> "$GITHUB_OUTPUT"
+
+      - name: Get SSM AMI ID
+        id: ssm
+        run: |
+          SSM_PARAM="/ngap/amis/image_id_ecs_al2023_x86"
+          PARAM_AMI=$(aws ssm get-parameter \
+            --name "$SSM_PARAM" \
+            --with-decryption \
+            --query "Parameter.Value" \
+            --output text)
+          echo "SSM AMI for $SSM_PARAM: $PARAM_AMI"
+          echo "ami_id=$PARAM_AMI" >> "$GITHUB_OUTPUT"
+
+      - name: Compare AMI IDs
+        id: compare
+        run: |
+          DEPLOYED="${{ steps.deployed.outputs.ami_id }}"
+          EXPECTED="${{ steps.ssm.outputs.ami_id }}"
+
+          echo "Comparing for ${{ matrix.env }}:"
+          echo "Deployed: $DEPLOYED"
+          echo "Expected: $EXPECTED"
+
+          if [ "$DEPLOYED" != "$EXPECTED" ]; then
+            echo "❌ AMI Mismatch in ${{ matrix.env }}!"
+            echo "mismatch=true" >> $GITHUB_OUTPUT
+          else
+            echo "✅ AMI Match for ${{ matrix.env }}!"
+            echo "mismatch=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Initial checkout
+        if: steps.compare.outputs.mismatch == 'true' && steps.check-executions.outputs.execution_count_zero == 'true'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # This ensures we get all branches
+
+      - name: Set branch name
+        id: set-branch
+        if: steps.compare.outputs.mismatch == 'true' && steps.check-executions.outputs.execution_count_zero == 'true'
+        run: |
+          if [ "${{ matrix.env }}" = "sit" ]; then
+            echo "branch=develop" >> $GITHUB_OUTPUT
+          elif [ "${{ matrix.env }}" = "ops" ]; then
+            echo "branch=main" >> $GITHUB_OUTPUT
+          elif [ "${{ matrix.env }}" = "uat" ]; then
+            # Fetch all branches to ensure we have latest release branches
+            git fetch --all
+            # Check for release branches and get the latest one
+            if git ls-remote --heads origin 'release/*' | grep .; then
+              LATEST_RELEASE=$(git ls-remote --heads origin 'release/*' | sort -t '/' -k 3 -V | tail -n 1 | awk '{print $2}' | sed 's/refs\/heads\///')
+              echo "Found release branch: $LATEST_RELEASE"
+              echo "branch=$LATEST_RELEASE" >> $GITHUB_OUTPUT
+            else
+              echo "No release branch found, using main"
+              echo "branch=main" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "❌ Invalid environment: ${{ matrix.env }}"
+            exit 1
+          fi
+          echo "Selected branch for ${{ matrix.env }}: $(cat $GITHUB_OUTPUT | grep branch | cut -d'=' -f2)"
+
+      - name: Checkout appropriate branch
+        if: steps.compare.outputs.mismatch == 'true' && steps.check-executions.outputs.execution_count_zero == 'true'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.set-branch.outputs.branch }}
+
+      - name: Download Cumulus Files
+        if: steps.compare.outputs.mismatch == 'true' && steps.check-executions.outputs.execution_count_zero == 'true'
+        uses: actions/download-artifact@v4
+        with:
+          name: cumulus-files
+          path: ./terraform-deploy
+
+      - name: Version Management
+        if: steps.compare.outputs.mismatch == 'true' && steps.check-executions.outputs.execution_count_zero == 'true'
+        id: versioning
+        run: |
+          current_version=$(poetry version -s)
+          echo "current_version=$current_version" >> $GITHUB_OUTPUT
+
+      - name: Deploy with Terraform
+        if: steps.compare.outputs.mismatch == 'true' && steps.check-executions.outputs.execution_count_zero == 'true'
+        working-directory: terraform-deploy/
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets[format('AWS_ACCESS_KEY_ID_SERVICES_{0}', env.UPPERCASE)] }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets[format('AWS_SECRET_ACCESS_KEY_SERVICES_{0}', env.UPPERCASE)] }}
+          AWS_ACCOUNT_ID: ${{ secrets[format('AWS_ACCOUNT_ID_SERVICES_{0}', env.UPPERCASE)] }}
+          AWS_DEFAULT_REGION: us-west-2
+          TF_VAR_permissions_boundary_arn: ${{ secrets[format('PERMISSIONS_BOUNDARY_ARN_{0}', env.UPPERCASE)] }}
+          TF_VAR_buckets_name: ${{ secrets[format('BUCKET_{0}', env.UPPERCASE)] }}
+          TF_VAR_system_bucket: ${{ secrets[format('SYSTEM_BUCKET_{0}', env.UPPERCASE)] }}
+          TF_VAR_dmrpp_url: ${{ secrets.DMRPP_URL }}
+          TF_VAR_aws_security_group_ids: ${{ secrets[format('SECURITY_GROUP_IDS_{0}', env.UPPERCASE)] }}
+          TF_VAR_cumulus_node_version: ${{ needs.create-zips.outputs.cumulus_node_version }}
+          TARGET_ENV: ${{ env.lowercase }}
+          COMMIT_URL: "https://github.com/${{ github.repository }}/commit/${{ github.sha }}"
+          BRANCH_URL: "https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}"        
+        run: |
+          curl -L -o metadata-aggregator.zip https://github.com/podaac/cumulus-metadata-aggregator/releases/download/v8.10.0/cumulus-metadata-aggregator-8.10.0.zip
+          python3 override.py "$TARGET_ENV" "$COMMIT_URL" "$BRANCH_URL" "${{ env.current_version }}"
+          source bin/config.sh "$TARGET_ENV"
+          
+          terraform init
+          terraform plan -var-file=tfvars/"$TARGET_ENV".tfvars -var="app_version=${{ env.current_version }}" -out=tfplan
+          terraform apply -auto-approve tfplan
+
