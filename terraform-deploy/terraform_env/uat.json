@@ -1,6 +1,6 @@
 {
-   "tig_source":"https://github.com/podaac/tig/releases/download/0.13.2rc3/tig-terraform-0.13.2rc3.zip",
-   "tig_image":"ghcr.io/podaac/tig:0.13.2rc3",
+   "tig_source":"https://github.com/podaac/tig/releases/download/0.13.3rc1/tig-terraform-0.13.3rc1.zip",
+   "tig_image":"ghcr.io/podaac/tig:0.13.3rc1",
    "forge_source":"https://github.com/podaac/forge/releases/download/0.12.1-rc.1/forge-0.12.1-rc.1.zip",
    "forge_image":"ghcr.io/podaac/forge:0.12.1-rc.1",
    "forge_py_source" : "https://github.com/podaac/forge-py/releases/download/0.5.0rc3/forge-py-terraform-0.5.0rc3.zip",
