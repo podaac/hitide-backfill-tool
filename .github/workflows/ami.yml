@@ -249,6 +249,13 @@ jobs:
         with:
           ref: ${{ steps.set-branch.outputs.branch }}
 
+      - name: Get checked out branch info
+        if: steps.compare.outputs.mismatch == 'true' && steps.check-executions.outputs.execution_count_zero == 'true'
+        id: checkedout
+        run: |
+          echo "branch_name=$(git rev-parse --abbrev-ref HEAD)" >> $GITHUB_OUTPUT
+          echo "commit_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
       - name: Download Cumulus Files
         if: steps.compare.outputs.mismatch == 'true' && steps.check-executions.outputs.execution_count_zero == 'true'
         uses: actions/download-artifact@v4
@@ -278,8 +285,8 @@ jobs:
           TF_VAR_aws_security_group_ids: ${{ secrets[format('SECURITY_GROUP_IDS_{0}', env.UPPERCASE)] }}
           TF_VAR_cumulus_node_version: ${{ needs.create-zips.outputs.cumulus_node_version }}
           TARGET_ENV: ${{ env.lowercase }}
-          COMMIT_URL: "https://github.com/${{ github.repository }}/commit/${{ github.sha }}"
-          BRANCH_URL: "https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}"        
+          COMMIT_URL: "https://github.com/${{ github.repository }}/commit/${{ steps.checkedout.outputs.commit_sha }}"
+          BRANCH_URL: "https://github.com/${{ github.repository }}/tree/${{ steps.checkedout.outputs.branch_name }}"
         run: |
           curl -L -o metadata-aggregator.zip https://github.com/podaac/cumulus-metadata-aggregator/releases/download/v8.10.0/cumulus-metadata-aggregator-8.10.0.zip
           python3 override.py "$TARGET_ENV" "$COMMIT_URL" "$BRANCH_URL" "${{ env.current_version }}"
