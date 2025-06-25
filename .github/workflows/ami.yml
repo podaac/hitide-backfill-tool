@@ -261,7 +261,7 @@ jobs:
         id: versioning
         run: |
           current_version=$(poetry version -s)
-          echo "current_version=$current_version" >> $GITHUB_OUTPUT
+          echo "current_version=$current_version" >> $GITHUB_ENV
 
       - name: Deploy with Terraform
         if: steps.compare.outputs.mismatch == 'true' && steps.check-executions.outputs.execution_count_zero == 'true'
