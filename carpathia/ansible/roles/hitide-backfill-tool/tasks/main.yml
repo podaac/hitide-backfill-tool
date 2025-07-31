@@ -1,0 +1,25 @@
+- name: Build pipx install command
+  set_fact:
+    pipx_install_cmd: >-
+      pipx install
+      'hitide-backfill-tool{{ "==" + hitide_backfill_tool_version if hitide_backfill_tool_version is defined else "" }}'
+      --global
+      {{ "--pip-args '--index-url " + pip_index_url + "'" if pip_index_url is defined else "" }}
+
+- name: Install hitide-backfill-tool
+  ansible.builtin.shell:
+    cmd: "{{ pipx_install_cmd }}"
+  args:
+    executable: /bin/bash
+
+- name: Check if folder already exists
+  ansible.builtin.stat:
+    path: /home/ssm-user/hitide-backfill-tool
+  register: hitide_backfill_tool_exists
+
+- name: Create home folders
+  ansible.builtin.file:
+    path: /home/ssm-user/hitide-backfill-tool/templates
+    state: directory
+    mode: '0755'
+  when: not hitide_backfill_tool_exists.stat.exists
