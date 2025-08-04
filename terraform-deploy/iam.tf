@@ -88,6 +88,16 @@ data "aws_iam_policy_document" "iam_policy" {
     resources = ["*"]
   }
 
+  statement {
+    actions = ["secretsmanager:GetSecretValue"]
+    resources = ["*"]
+  }
+
+  statement {
+    actions = ["sts:AssumeRole"]
+    resources = $data.aws_ssm_parameter.assume_role_list.value
+  }
+
 }
 
 resource "aws_iam_role" "iam_execution" {

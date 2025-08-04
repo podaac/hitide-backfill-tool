@@ -116,6 +116,11 @@ data "aws_iam_policy_document" "fargate_policy" {
     resources = ["arn:aws:sqs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:*"]
   }
 
+  statement {
+    actions = ["sts:AssumeRole"]
+    resources = $data.aws_ssm_parameter.assume_role_list.value
+  }
+
 }
 
 resource "aws_iam_role" "fargate_execution" {

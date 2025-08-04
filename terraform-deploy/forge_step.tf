@@ -179,6 +179,7 @@ resource "aws_sfn_state_machine" "forge" {
           "task_config": {
             "execution_name": "{$.cumulus_meta.execution_name}",
             "collection": "{$.meta.collection}",
+            "role_mappings": ${data.aws_ssm_parameter.role_mappings.value},
             "cumulus_message": {
               "input": "{$.payload}"
             }
@@ -214,6 +215,7 @@ resource "aws_sfn_state_machine" "forge" {
           "task_config": {
             "execution_name": "{$.cumulus_meta.execution_name}",
             "collection": "{$.meta.collection}",
+            "role_mappings": ${data.aws_ssm_parameter.role_mappings.value},
             "cumulus_message": {
               "input": "{$.payload}"
             }
@@ -250,6 +252,7 @@ resource "aws_sfn_state_machine" "forge" {
           "task_config": {
             "execution_name": "{$.cumulus_meta.execution_name}",
             "collection": "{$.meta.collection}",
+            "role_mappings": ${data.aws_ssm_parameter.role_mappings.value},
             "cumulus_message": {
               "input": "{$.payload}",
               "outputs": [
@@ -291,6 +294,7 @@ resource "aws_sfn_state_machine" "forge" {
           "task_config": {
             "execution_name": "{$.cumulus_meta.execution_name}",
             "collection": "{$.meta.collection}",
+            "role_mappings": ${data.aws_ssm_parameter.role_mappings.value},
             "cumulus_message": {
               "input": "{$.payload}",
               "outputs": [
