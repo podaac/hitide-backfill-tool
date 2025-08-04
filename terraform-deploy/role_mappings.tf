@@ -3,5 +3,4 @@ resource "aws_ssm_parameter" "role_mappings" {
   type      = "String"
   value     = "{}"
   tags      = local.default_tags
-  overwrite = true
 } 
