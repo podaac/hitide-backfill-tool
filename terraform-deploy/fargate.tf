@@ -118,7 +118,7 @@ data "aws_iam_policy_document" "fargate_policy" {
 
   statement {
     actions = ["sts:AssumeRole"]
-    resources = jsondecode(data.aws_ssm_parameter.role_mappings.value)
+    resources = jsondecode(data.aws_ssm_parameter.assume_role_list.value)
   }
 
 }
