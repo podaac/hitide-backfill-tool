@@ -71,7 +71,7 @@ resource "aws_sfn_state_machine" "tig" {
           "task_config": {
             "collection": "{$.meta.collection}",
             "buckets": "{$.meta.buckets}",
-            "role_mappings": "${data.aws_ssm_parameter.role_mappings.value}",
+            "role_mappings": "${jsonencode(data.aws_ssm_parameter.role_mappings.value)}",
             "cumulus_message": {
               "input": "{$.payload}"
             }
