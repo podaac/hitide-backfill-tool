@@ -13,7 +13,8 @@ resource "aws_sfn_state_machine" "forge" {
         "cma": {
           "event.$": "$",
           "task_config": {
-            "collection": "{$.meta.collection}"
+            "collection": "{$.meta.collection}",
+            "role_mappings": ${data.aws_ssm_parameter.role_mappings.value},
           }    
         }
       },
