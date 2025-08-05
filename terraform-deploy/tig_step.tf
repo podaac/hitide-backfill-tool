@@ -14,7 +14,7 @@ resource "aws_sfn_state_machine" "tig" {
           "event.$": "$",
           "task_config": {
             "collection": "{$.meta.collection}",
-            "role_mappings": ${data.aws_ssm_parameter.role_mappings.value},
+            "role_mappings": ${data.aws_ssm_parameter.role_mappings.value}
           }    
         }
       },
