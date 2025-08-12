@@ -330,6 +330,22 @@ jobs:
           terraform plan -var-file=tfvars/"$TARGET_ENV".tfvars -var="app_version=${{ needs.build.outputs.new_version }}" -out=tfplan
           terraform apply -auto-approve tfplan
 
+
+  deploy-ansible:
+    name: Deploy Ansible
+    needs: [build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Ensure deploy.sh is executable
+        working-directory: carpathia/terraform/bin
+        run: chmod +x deploy.sh
       - name: Deploy Ansible
         working-directory: carpathia/terraform/bin
         env:
