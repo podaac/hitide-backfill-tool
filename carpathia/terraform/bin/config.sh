@@ -21,6 +21,6 @@ export TF_VAR_stage="$VENUE"
 
 echo "VENUE: $VENUE"
 echo "REGION: $REGION"
-echo "BUCKET: $BUCKET
+echo "BUCKET: $BUCKET"
 
 terraform init -reconfigure -backend-config="bucket=$BUCKET" -backend-config="region=$REGION"
