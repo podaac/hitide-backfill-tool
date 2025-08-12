@@ -343,9 +343,16 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
+
       - name: Ensure deploy.sh is executable
         working-directory: carpathia/terraform/bin
         run: chmod +x deploy.sh
+        
       - name: Deploy Ansible
         working-directory: carpathia/terraform/bin
         env:
