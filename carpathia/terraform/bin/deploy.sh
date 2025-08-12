@@ -9,13 +9,17 @@ fi
 ENV="$1"
 shift
 
-source "$(dirname $BASH_SOURCE)/config.sh" "$ENV"
+# Get absolute path to the terraform root
+TERRAFORM_ROOT="$(cd "$(dirname "$BASH_SOURCE")/.." && pwd)"
 
-TFVARS_FILE="../tfvars/${ENV}.tfvars"
+source "$TERRAFORM_ROOT/bin/config.sh" "$ENV"
+
+TFVARS_FILE="$TERRAFORM_ROOT/tfvars/${ENV}.tfvars"
 
 if [ ! -f "$TFVARS_FILE" ]; then
     echo "tfvars file not found: $TFVARS_FILE"
     exit 1
 fi
 
+cd "$TERRAFORM_ROOT"
 terraform apply -var-file="$TFVARS_FILE"
