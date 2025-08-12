@@ -4,7 +4,9 @@
       pipx install
       'hitide-backfill-tool{{ "==" + hitide_backfill_tool_version if hitide_backfill_tool_version is defined else "" }}'
       --global
-      {{ "--pip-args '--index-url " + pip_index_url + "'" if pip_index_url is defined else "" }}
+      --python python3.11
+      {{ "--pip-args '--index-url " + pip_index_url +
+         (" --extra-index-url " + pip_extra_index_url if pip_extra_index_url is defined else "") + "'" if pip_index_url is defined else "" }}
 
 - name: Install hitide-backfill-tool
   ansible.builtin.shell:
@@ -12,14 +14,14 @@
   args:
     executable: /bin/bash
 
-- name: Check if folder already exists
-  ansible.builtin.stat:
-    path: /home/ssm-user/hitide-backfill-tool
-  register: hitide_backfill_tool_exists
-
-- name: Create home folders
+- name: Ensure cumulus-configurations folder exists
   ansible.builtin.file:
-    path: /home/ssm-user/hitide-backfill-tool/templates
+    path: /home/ssm-user/hitide-backfill-tool/cumulus-configurations
     state: directory
     mode: '0755'
-  when: not hitide_backfill_tool_exists.stat.exists
+
+- name: Ensure backfill-configs folder exists
+  ansible.builtin.file:
+    path: /home/ssm-user/hitide-backfill-tool/backfill-configs
+    state: directory
+    mode: '0755'

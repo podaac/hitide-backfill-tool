@@ -3,7 +3,6 @@ terraform {
 
   backend "s3" {
     key = "services/hitide-backfill-tool-carpathia/terraform.tfstate"
-    bucket = "sliu-tf-state"
   }
 
   required_providers {
