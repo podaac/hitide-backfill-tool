@@ -349,12 +349,8 @@ jobs:
         with:
           terraform_version: ${{ env.TERRAFORM_VERSION }}
 
-      - name: Ensure deploy.sh is executable
-        working-directory: carpathia/terraform/bin
-        run: chmod +x deploy.sh
-        
       - name: Deploy Ansible
-        working-directory: carpathia/terraform/bin
+        working-directory: carpathia/terraform/
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets[format('AWS_ACCESS_KEY_ID_SERVICES_{0}', needs.build.outputs.target_env_uppercase)] }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets[format('AWS_SECRET_ACCESS_KEY_SERVICES_{0}', needs.build.outputs.target_env_uppercase)] }}
@@ -362,4 +358,7 @@ jobs:
           AWS_DEFAULT_REGION: us-west-2
           TARGET_ENV: ${{ needs.build.outputs.target_env_lowercase }}
         run: |
-          ./deploy.sh "$TARGET_ENV"
+          source bin/config.sh "$TARGET_ENV"
+          terraform init
+          terraform plan -var-file=tfvars/"$TARGET_ENV".tfvars -out=tfplan
+          terraform apply -auto-approve tfplan
