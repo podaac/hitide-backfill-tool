@@ -1,5 +1,0 @@
-stage = "test"
-region = "us-west-2"
-cumulus_prefix = "sliu"
-system_prefix = "sliu"
-system_bucket = "sliu-carpathia-ec2"
