@@ -330,6 +330,25 @@ jobs:
           terraform plan -var-file=tfvars/"$TARGET_ENV".tfvars -var="app_version=${{ needs.build.outputs.new_version }}" -out=tfplan
           terraform apply -auto-approve tfplan
 
+
+  deploy-ansible:
+    name: Deploy Ansible
+    needs: [build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
+
       - name: Deploy Ansible
         working-directory: carpathia/terraform/
         env:
@@ -343,5 +362,4 @@ jobs:
           terraform init
           terraform plan -var-file=tfvars/"$TARGET_ENV".tfvars -out=tfplan
           terraform apply -auto-approve tfplan
-
 
