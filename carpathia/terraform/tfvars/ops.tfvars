@@ -1,5 +1,1 @@
-stage = "test"
-region = "us-west-2"
 cumulus_prefix = "podaac-ops-cumulus"
-system_prefix = "sliu"
-system_bucket = "sliu-carpathia-ec2"
