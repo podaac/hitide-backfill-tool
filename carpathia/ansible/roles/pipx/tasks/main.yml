@@ -16,16 +16,3 @@
   when: pipx_exists.stdout == "1"
   ansible.builtin.shell:
     cmd: python3 -m pipx ensurepath --global
-
-- name: Ensure ssm-user exists
-  ansible.builtin.user:
-    name: ssm-user
-    state: present
-    
-- name: Create /usr/share/ssm-user directory
-  ansible.builtin.file:
-    path: /usr/share/ssm-user
-    state: directory
-    owner: ssm-user
-    group: ssm-user
-    mode: '0755'
