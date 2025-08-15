@@ -30,7 +30,7 @@ data "aws_iam_policy_document" "hitide_backfill_tools" {
       "sns:Publish",
       "sns:GetTopicAttributes"
     ]
-    resources = var.sns_backfill_arns
+    resources = [var.sns_backfill_arns]
   }
 }
 
