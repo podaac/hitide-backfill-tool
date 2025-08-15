@@ -13,7 +13,7 @@ data "aws_iam_policy_document" "hitide_backfill_tools" {
       "s3:GetObject",
       "s3:ListBucket"
     ]
-    resources = var.protected_buckets
+    resources = var.protected_bucket_permission
   }
 
   statement {
