@@ -21,9 +21,7 @@
   ansible.builtin.user:
     name: ssm-user
     state: present
-    groups: sudo
-    append: yes
-    
+
 - name: Create /usr/share/ssm-user directory
   ansible.builtin.file:
     path: /usr/share/ssm-user
