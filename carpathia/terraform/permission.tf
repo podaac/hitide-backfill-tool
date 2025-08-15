@@ -14,7 +14,10 @@ data "aws_iam_policy_document" "hitide_backfill_tools" {
       "s3:GetObject",
       "s3:ListBucket"
     ]
-    resources = ["podaac-sit-cumulus-protected"]
+    resources = [
+      "arn:aws:s3:::podaac-sit-cumulus-protected",
+      "arn:aws:s3:::podaac-sit-cumulus-protected/*"
+    ]
   }
 
 }
