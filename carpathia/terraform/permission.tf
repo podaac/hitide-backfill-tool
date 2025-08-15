@@ -1,0 +1,26 @@
+locals {
+  system_iam_role_name = "${local.system_prefix}-ec2-role"
+}
+
+data "aws_iam_role" "ec2" {
+  name = local.system_iam_role_name
+}
+
+data "aws_iam_policy_document" "hitide_backfill_tools" {
+
+  statement {
+    sid = "AllowS3ReadOnly"
+    actions = [
+      "s3:GetObject",
+      "s3:ListBucket"
+    ]
+    resources = ["podaac-sit-cumulus-protected"]
+  }
+
+}
+
+resource "aws_iam_role_policy" "hitide_backfill_tools" {
+  name_prefix = "hitide-backfill-tools-Policy"
+  role = data.aws_iam_role.ec2.name
+  policy = data.aws_iam_policy_document.hitide_backfill_tools.minified_json
+}
