@@ -16,3 +16,16 @@
   when: pipx_exists.stdout == "1"
   ansible.builtin.shell:
     cmd: python3 -m pipx ensurepath --global
+
+- name: Ensure ssm-user exists
+  ansible.builtin.user:
+    name: ssm-user
+    state: present
+
+- name: Change ownership
+  ansible.builtin.file:
+    path: /bootstrap/hitide-backfill-tool/
+    owner: ssm-user
+    group: ssm-user
+    recurse: yes
+  become: yes
