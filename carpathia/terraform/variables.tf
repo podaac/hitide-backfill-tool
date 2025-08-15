@@ -24,3 +24,13 @@ variable "system_bucket" {
   type = string
   default = null
 }
+
+variable "protected_bucket_permission" {
+  type = list
+  default = []
+}
+
+variable "sns_backfill_arns" {
+  type    = any
+  default = []
+}

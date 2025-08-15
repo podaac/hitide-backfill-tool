@@ -7,19 +7,31 @@ data "aws_iam_role" "ec2" {
 }
 
 data "aws_iam_policy_document" "hitide_backfill_tools" {
-
   statement {
     sid = "AllowS3ReadOnly"
     actions = [
       "s3:GetObject",
       "s3:ListBucket"
     ]
-    resources = [
-      "arn:aws:s3:::podaac-sit-cumulus-protected",
-      "arn:aws:s3:::podaac-sit-cumulus-protected/*"
-    ]
+    resources = var.protected_buckets
   }
 
+  statement {
+    sid = "AllowListAllBuckets"
+    actions = [
+      "s3:ListAllMyBuckets"
+    ]
+    resources = ["*"]
+  }
+
+  statement {
+    sid = "SNSPermissions"
+    actions = [
+      "sns:Publish",
+      "sns:GetTopicAttributes"
+    ]
+    resources = var.sns_backfill_arns
+  }
 }
 
 resource "aws_iam_role_policy" "hitide_backfill_tools" {
