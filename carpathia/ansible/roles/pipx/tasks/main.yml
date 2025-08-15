@@ -17,15 +17,17 @@
   ansible.builtin.shell:
     cmd: python3 -m pipx ensurepath --global
 
-- name: Ensure ssm-user exists
+- name: Ensure ssm-user exists and keep groups
   ansible.builtin.user:
     name: ssm-user
     state: present
-
-- name: Change ownership
+    groups: sudo
+    append: yes
+    
+- name: Create /usr/share/ssm-user directory
   ansible.builtin.file:
-    path: /bootstrap/hitide-backfill-tool/
+    path: /usr/share/ssm-user
+    state: directory
     owner: ssm-user
     group: ssm-user
-    recurse: yes
-  become: yes
+    mode: '0755'
