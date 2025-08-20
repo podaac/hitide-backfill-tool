@@ -338,9 +338,9 @@ jobs:
       - name: Deploy Ansible
         working-directory: carpathia/terraform/
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets[format('AWS_ACCESS_KEY_ID_SERVICES_{0}', needs.build.outputs.target_env_uppercase)] }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets[format('AWS_SECRET_ACCESS_KEY_SERVICES_{0}', needs.build.outputs.target_env_uppercase)] }}
-          AWS_ACCOUNT_ID: ${{ secrets[format('AWS_ACCOUNT_ID_SERVICES_{0}', needs.build.outputs.target_env_uppercase)] }}
+          AWS_ACCESS_KEY_ID: ${{ secrets[format('AWS_ACCESS_KEY_ID_CUMULUS_{0}', needs.build.outputs.target_env_uppercase)] }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets[format('AWS_SECRET_ACCESS_KEY_CUMULUS_{0}', needs.build.outputs.target_env_uppercase)] }}
+          AWS_ACCOUNT_ID: ${{ secrets[format('AWS_ACCOUNT_ID_CUMULUS_{0}', needs.build.outputs.target_env_uppercase)] }}
           AWS_DEFAULT_REGION: us-west-2
           TF_VAR_sns_backfill_arns: "\"${{ secrets[format('BACKFILL_SNS_SERVICES_{0}', needs.build.outputs.target_env_uppercase)] }}\""
           TARGET_ENV: ${{ needs.build.outputs.target_env_lowercase }}
