@@ -1,0 +1,54 @@
+name: Deploy Carpathia Ansible
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Deployment environment (sit, uat, ops)"
+        required: true
+        type: choice
+        options:
+          - sit
+          - uat
+          - ops
+      version:
+        description: "Version to deploy"
+        required: true
+        default: "latest"
+
+jobs:
+  ansible-deploy:
+    needs: [create-zips, build]
+    name: Deploy Backend Infrastructure Terraform
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+      - name: Set environment variables
+        id: set-env
+        run: |
+          echo "target_env=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
+          echo "target_env_upper=$(echo ${{ github.event.inputs.environment }} | tr '[:lower:]' '[:upper:]')" >> $GITHUB_ENV
+
+      - name: Create YAML file with version
+        working-directory: carpathia/ansible/roles/hitide-backfill-tool/tasks/vars
+        run: |
+          echo "hitide_backfill_tool_version: \"${{ github.event.inputs.version }}\"" > hitide.yml
+
+      - name: Deploy Ansible
+        working-directory: carpathia/terraform/
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets[format('AWS_ACCESS_KEY_ID_CUMULUS_{0}', env.target_env_upper)] }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets[format('AWS_SECRET_ACCESS_KEY_CUMULUS_{0}', env.target_env_upper)] }}
+          AWS_ACCOUNT_ID: ${{ secrets[format('AWS_ACCOUNT_ID_CUMULUS_{0}', env.target_env_upper)] }}
+          AWS_DEFAULT_REGION: us-west-2
+          TF_VAR_sns_backfill_arns: "\"${{ secrets[format('BACKFILL_SNS_SERVICES_{0}', env.target_env_upper)] }}\""
+          TARGET_ENV: ${{ env.target_env }}
+        run: |
+          source bin/config.sh "$TARGET_ENV"
+          terraform init
+          terraform plan -var-file=tfvars/"$TARGET_ENV".tfvars -out=tfplan
+          terraform apply -auto-approve tfplan
