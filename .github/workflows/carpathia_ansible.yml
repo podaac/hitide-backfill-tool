@@ -14,7 +14,6 @@ on:
       version:
         description: "Version to deploy"
         required: true
-        default: "latest"
 
 jobs:
   ansible-deploy:
