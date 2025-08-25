@@ -18,7 +18,6 @@ on:
 
 jobs:
   ansible-deploy:
-    needs: [create-zips, build]
     name: Deploy Backend Infrastructure Terraform
     runs-on: ubuntu-latest
 
