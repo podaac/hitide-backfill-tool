@@ -1,1 +1,11 @@
+name: Deploy Carpathia Ansible
 
+on:
+  workflow_dispatch:
+
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print greeting
+        run: echo "Hello from GitHub Actions!"
