@@ -1,12 +1,12 @@
 module "dmrpp-generator" {
 
   // Required parameters
-  source = "https://github.com/ghrcdaac/dmrpp-generator/releases/download/v6.1.1/dmrpp-generator.zip"
+  source = "https://github.com/ghrcdaac/dmrpp-generator/releases/download/v6.1.4/dmrpp-generator.zip"
   cluster_arn = aws_ecs_cluster.default.arn
   log_destination_arn = var.log_destination_arn
   region = var.region
   prefix = var.prefix
-  docker_image = "${var.dmrpp_url}:v6.1.1"
+  docker_image = "${var.dmrpp_url}:v6.1.4"
   // Optional parameters
   cpu = var.dmrpp_ecs_cpu // default to 512
   memory_reservation = var.dmrpp_memory_reservation // default to 512Mb
