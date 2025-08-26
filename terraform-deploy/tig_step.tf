@@ -71,7 +71,7 @@ resource "aws_sfn_state_machine" "tig" {
           "task_config": {
             "collection": "{$.meta.collection}",
             "buckets": "{$.meta.buckets}",
-            "requester_pay", true,
+            "requester_pay": true,
             "cumulus_message": {
               "input": "{$.payload}"
             }
@@ -107,7 +107,7 @@ resource "aws_sfn_state_machine" "tig" {
           "task_config": {
             "collection": "{$.meta.collection}",
             "buckets": "{$.meta.buckets}",
-            "requester_pay", true,
+            "requester_pay": true,
             "cumulus_message": {
               "input": "{$.payload}"
             }
