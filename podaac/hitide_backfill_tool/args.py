@@ -17,7 +17,7 @@ def merge_dicts(defaults, config, cli):
 
 
 default_config = {
-    "dmrpp_min_version": "3.21.1-83",     # Important: Update this version when updating the
+    "dmrpp_min_version": "3.21.1-367",     # Important: Update this version when updating the
                                           #            backend dmrpp_generator
     "preview": False,
     "use_data_url": False,
