@@ -67,7 +67,10 @@ resource "aws_sfn_state_machine" "dmrpp" {
             "files_config": "{$.meta.collection.files}",
             "fileStagingDir": "{$.meta.collection.name}",
             "granuleIdExtraction": "{$.meta.collection.granuleIdExtraction}",
-            "collection": "{$.meta.collection}"
+            "collection": "{$.meta.collection}",
+            "dmrpp": {
+              "requester_pay": true
+            }
           }
         }
       },
@@ -95,7 +98,10 @@ resource "aws_sfn_state_machine" "dmrpp" {
             "files_config": "{$.meta.collection.files}",
             "fileStagingDir": "{$.meta.collection.name}",
             "granuleIdExtraction": "{$.meta.collection.granuleIdExtraction}",
-            "collection": "{$.meta.collection}"
+            "collection": "{$.meta.collection}",
+            "dmrpp": {
+              "requester_pay": true
+            }
           }
         }
       },
