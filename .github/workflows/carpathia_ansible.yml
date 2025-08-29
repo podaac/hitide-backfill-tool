@@ -61,3 +61,4 @@ jobs:
           terraform init
           terraform plan -var-file=tfvars/"$TARGET_ENV".tfvars -out=tfplan
           terraform apply -auto-approve tfplan
+

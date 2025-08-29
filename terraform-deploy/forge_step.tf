@@ -163,6 +163,7 @@ resource "aws_sfn_state_machine" "forge" {
           "task_config": {
             "execution_name": "{$.cumulus_meta.execution_name}",
             "collection": "{$.meta.collection}",
+            "requester_pay": true,
             "cumulus_message": {
               "input": "{$.payload}"
             }
@@ -190,6 +191,7 @@ resource "aws_sfn_state_machine" "forge" {
           "task_config": {
             "execution_name": "{$.cumulus_meta.execution_name}",
             "collection": "{$.meta.collection}",
+            "requester_pay": true,
             "cumulus_message": {
               "input": "{$.payload}"
             }

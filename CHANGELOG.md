@@ -14,6 +14,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 
+## [0.12.0]
+
+### Added
+- [issue/73] (https://github.com/podaac/hitide-backfill-tool/issues/73): Setup requester pay for forge, tig, forge-py, dmrpp
+### Deprecated
+### Removed
+### Fixed
+
+
 ## [0.11.0]
 
 ### Added
