@@ -354,6 +354,11 @@ jobs:
         with:
           terraform_version: ${{ env.TERRAFORM_VERSION }}
 
+      - name: Create YAML file with version
+        working-directory: carpathia/ansible/roles/hitide-backfill-tool/tasks/vars
+        run: |
+          echo "hitide_backfill_tool_version: \"${{ needs.build.outputs.new_version }}\"" > hitide.yml
+
       - name: Deploy Ansible
         working-directory: carpathia/terraform/
         env:
