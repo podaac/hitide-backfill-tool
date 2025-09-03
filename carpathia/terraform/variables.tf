@@ -26,7 +26,7 @@ variable "system_bucket" {
 }
 
 variable "protected_bucket_permission" {
-  type = list
+  type = list(string)
   default = []
 }
 

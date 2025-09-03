@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- [issue/59] (https://github.com/podaac/hitide-backfill-tool/issues/72): Setup HiTIDE Tools as a Carpathia tool for running in the cloud
+- [issue/72] (https://github.com/podaac/hitide-backfill-tool/issues/72): Setup HiTIDE Tools as a Carpathia tool for running in the cloud
 ### Deprecated
 ### Removed
 ### Fixed
