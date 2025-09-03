@@ -2,27 +2,37 @@
 
 # pylint: disable=line-too-long
 
-from concurrent.futures import ThreadPoolExecutor
-from multiprocessing import Lock
-import logging
-import sys
-import uuid
+import argparse
 import copy
 import json
-from datetime import datetime, timezone
+import logging
+import os
+import sys
 import traceback
+import uuid
+from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime, timezone
+from importlib.metadata import PackageNotFoundError, version
+from multiprocessing import Lock
+
 import requests
 
-from podaac.hitide_backfill_tool.cmr.search import GranuleSearch
+from podaac.hitide_backfill_tool.args import parse_args
+from podaac.hitide_backfill_tool.cnm_message_writer import CnmMessageWriter
+from podaac.hitide_backfill_tool.config import get_collection_config, get_message_config
 from podaac.hitide_backfill_tool.cmr.cmr_granule import CmrGranule
 from podaac.hitide_backfill_tool.cmr.helpers import cmr_base_url
-from podaac.hitide_backfill_tool.cnm_message_writer import CnmMessageWriter
-from podaac.hitide_backfill_tool.sns_message_sender import SnsMessageSender, FileMessageSender
-from podaac.hitide_backfill_tool.config import get_collection_config, get_message_config
-from podaac.hitide_backfill_tool.args import parse_args
+from podaac.hitide_backfill_tool.cmr.search import GranuleSearch
+from podaac.hitide_backfill_tool.dmrpp_utils import DmrppState, parse_version
 from podaac.hitide_backfill_tool.file_util import make_absolute
-from podaac.hitide_backfill_tool.dmrpp_utils import parse_version, DmrppState
 from podaac.hitide_backfill_tool.s3_reader import S3Reader
+from podaac.hitide_backfill_tool.sns_message_sender import FileMessageSender, SnsMessageSender
+
+
+PACKAGE_NAME = "hitide-backfill-tool"
+
+if "AWS_REGION" not in os.environ and "AWS_DEFAULT_REGION" not in os.environ:
+    os.environ["AWS_DEFAULT_REGION"] = "us-west-2"
 
 
 def logger_from_args(args):
@@ -562,10 +572,20 @@ def verify_inputs(args, granule_options, message_writer, backfiller):
 
 def main(args=None):
     """Main script for backfilling from the cli"""
-
     # Disable pylint broad-except - So that a user friendly message can be displayed. Only used at top level
     # Disable pylint bare-except - So that after ctrl-C, a final status message can be logged. Only used at top level
     # pylint: disable=broad-except,bare-except
+
+    parser = argparse.ArgumentParser(description="HiTIDE Backfill Tool")
+    parser.add_argument('--version', action='store_true', help='Show version and exit')
+    # Parse known args so we can handle --version before calling parse_args
+    known_args, _ = parser.parse_known_args()
+    if known_args.version:
+        try:
+            print(version(PACKAGE_NAME))
+        except PackageNotFoundError:
+            print("unknown")
+        return
 
     # load args
     args = parse_args(args)
