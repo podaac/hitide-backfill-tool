@@ -2,7 +2,6 @@
 
 # pylint: disable=line-too-long
 
-import argparse
 import copy
 import json
 import logging
@@ -12,7 +11,7 @@ import traceback
 import uuid
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
-from importlib.metadata import PackageNotFoundError, version
+from importlib.metadata import version
 from multiprocessing import Lock
 
 import requests
@@ -576,19 +575,15 @@ def main(args=None):
     # Disable pylint bare-except - So that after ctrl-C, a final status message can be logged. Only used at top level
     # pylint: disable=broad-except,bare-except
 
-    parser = argparse.ArgumentParser(description="HiTIDE Backfill Tool")
-    parser.add_argument('--version', action='store_true', help='Show version and exit')
-    # Parse known args so we can handle --version before calling parse_args
-    known_args, _ = parser.parse_known_args()
-    if known_args.version:
+    # load args
+    args = parse_args(args)
+    if getattr(args, 'version', False):
         try:
             print(version(PACKAGE_NAME))
-        except PackageNotFoundError:
+        except Exception:
             print("unknown")
         return
 
-    # load args
-    args = parse_args(args)
     args.cli_execution_id = str(uuid.uuid4())
 
     # setup dependencies

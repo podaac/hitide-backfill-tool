@@ -80,6 +80,8 @@ def create_parser():
     parser.add_argument("--default_message_config", type=str,
                         help="defaut message config to construct messages", default=None)
 
+    parser.add_argument('--version', action='store_true', help='Show version and exit')
+
     return parser
 
 
