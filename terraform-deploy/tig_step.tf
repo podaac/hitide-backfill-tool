@@ -28,15 +28,7 @@ resource "aws_sfn_state_machine" "tig" {
           "Next": "WorkflowFailed"
         }
       ],
-      "Retry": [
-        {
-          "ErrorEquals": [
-            "States.ALL"
-          ],
-          "IntervalSeconds": 2,
-          "MaxAttempts": 3
-        }
-      ],
+      "Retry": ${jsonencode(local.lambda_retry_policy)},
       "Next": "InitializeCounterDelay"
     },
     "InitializeCounterDelay": {
@@ -89,15 +81,7 @@ resource "aws_sfn_state_machine" "tig" {
           "Next": "WorkflowFailed"
         }
       ],
-      "Retry": [
-        {
-          "ErrorEquals": [
-            "States.ALL"
-          ],
-          "IntervalSeconds": 5,
-          "MaxAttempts": 1
-        }
-      ],
+      "Retry": ${jsonencode(local.lambda_retry_policy)},
       "Next": "MetadataAggregator"
     },
     "ECSImageProcess": {
@@ -171,15 +155,7 @@ resource "aws_sfn_state_machine" "tig" {
       },
       "Type": "Task",
       "Resource": "${aws_lambda_function.metadata_aggregator_task.arn}",
-      "Retry": [
-        {
-          "ErrorEquals": [
-            "States.ALL"
-          ],
-          "IntervalSeconds": 5,
-          "MaxAttempts": 3
-        }
-      ],
+      "Retry": ${jsonencode(local.lambda_retry_policy)},
       "Catch": [
         {
           "ErrorEquals": [
@@ -214,15 +190,7 @@ resource "aws_sfn_state_machine" "tig" {
           "Next": "WorkflowFailed"
         }
       ],
-      "Retry": [
-        {
-          "ErrorEquals": [
-            "States.ALL"
-          ],
-          "IntervalSeconds": 2,
-          "MaxAttempts": 3
-        }
-      ],
+      "Retry": ${jsonencode(local.lambda_retry_policy)},
       "Next": "CmrStep"
     },
     "CmrStep": {
@@ -241,16 +209,7 @@ resource "aws_sfn_state_machine" "tig" {
       },
       "Type": "Task",
       "Resource": "${aws_lambda_function.post_to_cmr_task.arn}",
-      "Retry": [
-        {
-          "BackoffRate": 2,
-          "ErrorEquals": [
-            "States.ALL"
-          ],
-          "IntervalSeconds": 2,
-          "MaxAttempts": 4
-        }
-      ],
+      "Retry": ${jsonencode(local.lambda_retry_policy)},
       "Catch": [
         {
           "ErrorEquals": [
