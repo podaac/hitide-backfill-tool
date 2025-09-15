@@ -1,0 +1,20 @@
+- name: Load variables from hitide.yml
+  include_vars: vars/hitide.yml
+
+- name: Install hitide-backfill-tool
+  ansible.builtin.pip:
+    name: "hitide-backfill-tool=={{ hitide_backfill_tool_version }}"
+    executable: /usr/bin/pip3.11
+    extra_args: "--index-url https://test.pypi.org/simple --extra-index-url https://pypi.org/simple"
+
+- name: Ensure cumulus-configurations folder exists
+  ansible.builtin.file:
+    path: /home/ssm-user/hitide-backfill-tool/cumulus-configurations
+    state: directory
+    mode: '0755'
+
+- name: Ensure backfill-configs folder exists
+  ansible.builtin.file:
+    path: /home/ssm-user/hitide-backfill-tool/backfill-configs
+    state: directory
+    mode: '0755'
