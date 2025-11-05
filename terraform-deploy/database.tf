@@ -61,6 +61,7 @@ resource "aws_db_instance" "database" {
   skip_final_snapshot    = true
   tags                   = local.default_tags
   apply_immediately      = true
+  allow_major_version_upgrade = true
 }
 
 
