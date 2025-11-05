@@ -49,12 +49,12 @@ resource "aws_db_instance" "database" {
   allocated_storage      = var.db_storage_size
   storage_type           = "gp2"
   engine                 = "mysql"
-  engine_version         = "5.7"
+  engine_version         = "8.0"
   instance_class         = var.db_instance_class
   db_name                   = "hitidebackfilldb"
   username               = "hitidebackfilldbadmin"
   password               = random_password.db_admin_pass.result
-  parameter_group_name   = "default.mysql5.7"
+  parameter_group_name   = "default.mysql8.0"
   multi_az               = "true"
   vpc_security_group_ids = [aws_security_group.db.id]
   db_subnet_group_name   = aws_db_subnet_group.default.id
