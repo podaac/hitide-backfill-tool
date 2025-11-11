@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "hitide-backfill-tool"
-version = "0.12.1a0"
+version = "0.12.1rc1"
 
 description = "Backfill footprints and images for HiTIDE collections"
 authors = ["PO.DAAC <podaac@jpl.nasa.gov>"]
