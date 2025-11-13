@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 ### Changed
-- [issue-71] (https://github.com/podaac/hitide-backfill-tool/issues/71): Update database mysql 5.7 to myslq 8.0
+- [issue-71] (https://github.com/podaac/hitide-backfill-tool/issues/71): Update database mysql 5.7 to mysql 8.0
 ### Deprecated
 ### Removed
 ### Fixed
