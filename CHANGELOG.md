@@ -9,8 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 ### Changed
-- Update forge-py to 0.7.0
-- Update tig to 0.15.0
+- Updated forge-py to 0.7.0
+- Updated tig to 0.15.0
+- Updated Python to 3.12
 ### Deprecated
 ### Removed
 ### Fixed
