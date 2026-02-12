@@ -8,7 +8,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  PYTHON_VERSION: '3.10'
+  PYTHON_VERSION: '3.12'
   POETRY_VERSION: '1.8.5'
   TERRAFORM_VERSION: '1.5.3'
   CUMULUS_VERSION: 'v20.1.2'
@@ -23,18 +23,18 @@ jobs:
       cumulus_node_version: ${{ steps.get_node_version.outputs.cumulus_node_version }}
     steps:
       - name: Checkout Cumulus Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: nasa/cumulus
           ref: ${{ env.CUMULUS_VERSION }}
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
@@ -112,12 +112,12 @@ jobs:
     steps:
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Install Poetry
-        uses: abatilo/actions-poetry@v3
+        uses: abatilo/actions-poetry@v4
         with:
           poetry-version: ${{ env.POETRY_VERSION }}
 
