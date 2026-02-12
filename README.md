@@ -14,7 +14,7 @@ Some granules have been ingested without creating footprints/thumbnail images. T
 
 ## Prerequisites
 
-- Python > 3.10
+- Python > 3.12
 - poetry
 
 ## failed_workflow.py
