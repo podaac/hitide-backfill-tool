@@ -16,7 +16,7 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.12"
 requests = "^2.27.1"
 boto3 = "^1.35.0"
 pyyaml = "^6.0"
@@ -24,11 +24,11 @@ fuzzywuzzy = "^0.18.0"
 python-Levenshtein = "^0.26.0"
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^8.0.1"
+pytest = "^9.0.0"
 moto = {extras = ["sns"], version = "^5.0.25"}
 flake8 = "^7.0.0"
-pylint = "^3.0.3"
-pytest-cov = "^6"
+pylint = "^4.0.0"
+pytest-cov = "^7"
 
 [tool.poetry.scripts]
 backfill = "podaac.hitide_backfill_tool.cli:main"
