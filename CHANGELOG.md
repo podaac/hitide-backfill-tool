@@ -13,8 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated tig to 0.15.0
 - Updated Python to 3.12
 - Update mysql to 8.4
-- Update cumulus-postworkflow-normalizer 0.5.0
-- Update hitide-backfill-lambdas to 0.6.0
+- Update cumulus-postworkflow-normalizer 0.6.0
+- Update hitide-backfill-lambdas to 0.5.0
 ### Deprecated
 ### Removed
 ### Fixed
