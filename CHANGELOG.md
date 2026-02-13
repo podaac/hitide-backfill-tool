@@ -16,7 +16,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated cumulus-postworkflow-normalizer 0.6.0
 - Updated hitide-backfill-lambdas to 0.5.0
 - Updated poetry to 2.3.2
-- Updated cumulus to 20.2.3
 ### Deprecated
 ### Removed
 ### Fixed
