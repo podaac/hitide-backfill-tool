@@ -15,7 +15,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  PYTHON_VERSION: '3.12'
+  PYTHON_VERSION: '3.11'
   POETRY_VERSION: '2.3.2'
   TERRAFORM_VERSION: '1.5.3'
   CUMULUS_VERSION: 'v20.1.2'
