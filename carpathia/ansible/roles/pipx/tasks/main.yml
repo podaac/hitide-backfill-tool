@@ -1,6 +1,6 @@
-- name: Ensure Python 3.11 is installed
+- name: Ensure Python 3.12 is installed
   ansible.builtin.package:
-    name: python3.11,python3.11-pip
+    name: python3.12,python3.12-pip
 
 - name: Check if pipx is installed
   ansible.builtin.shell:
