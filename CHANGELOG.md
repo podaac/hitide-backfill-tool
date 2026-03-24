@@ -14,6 +14,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 
+## [0.13.0]
+
+### Added
+### Changed
+- Updated forge-py to 0.7.0
+- Updated tig to 0.15.0
+- Updated Python to 3.12
+- Updated mysql to 8.4
+- Updated cumulus-postworkflow-normalizer 0.6.0
+- Updated hitide-backfill-lambdas to 0.5.0
+- Updated poetry to 2.3.2
+### Deprecated
+### Removed
+### Fixed
+
+
 ## [0.12.1]
 
 ### Added

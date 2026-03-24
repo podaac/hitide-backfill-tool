@@ -15,8 +15,8 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  PYTHON_VERSION: '3.10'
-  POETRY_VERSION: '2.1.3'
+  PYTHON_VERSION: '3.12'
+  POETRY_VERSION: '2.3.2'
   TERRAFORM_VERSION: '1.5.3'
   CUMULUS_VERSION: 'v20.1.2'
 
@@ -35,18 +35,18 @@ jobs:
       cumulus_node_version: ${{ steps.get_node_version.outputs.cumulus_node_version }}
     steps:
       - name: Checkout Cumulus Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: nasa/cumulus
           ref: ${{ env.CUMULUS_VERSION }}
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
@@ -131,17 +131,17 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Install Poetry
-        uses: abatilo/actions-poetry@v3
+        uses: abatilo/actions-poetry@v4
         with:
           poetry-version: ${{ env.POETRY_VERSION }}
 
@@ -289,7 +289,7 @@ jobs:
       
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           
@@ -347,7 +347,7 @@ jobs:
     steps:
 
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -373,5 +373,4 @@ jobs:
           terraform init
           terraform plan -var-file=tfvars/"$TARGET_ENV".tfvars -out=tfplan
           terraform apply -auto-approve tfplan
-
 
