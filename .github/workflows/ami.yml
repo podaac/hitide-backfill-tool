@@ -23,7 +23,7 @@ jobs:
       cumulus_node_version: ${{ steps.get_node_version.outputs.cumulus_node_version }}
     steps:
       - name: Checkout Cumulus Code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: nasa/cumulus
           ref: ${{ env.CUMULUS_VERSION }}

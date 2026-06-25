@@ -17,8 +17,8 @@ env:
   IMAGE_NAME: ${{ github.repository }}
   PYTHON_VERSION: '3.12'
   POETRY_VERSION: '2.3.2'
-  TERRAFORM_VERSION: '1.5.3'
-  CUMULUS_VERSION: 'v20.1.2'
+  TERRAFORM_VERSION: '1.12.2'
+  CUMULUS_VERSION: 'v21.3.3'
 
 jobs:
   create-zips:
@@ -35,7 +35,7 @@ jobs:
       cumulus_node_version: ${{ steps.get_node_version.outputs.cumulus_node_version }}
     steps:
       - name: Checkout Cumulus Code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: nasa/cumulus
           ref: ${{ env.CUMULUS_VERSION }}
@@ -131,7 +131,7 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -289,7 +289,7 @@ jobs:
       
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
           
@@ -347,7 +347,7 @@ jobs:
     steps:
 
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
