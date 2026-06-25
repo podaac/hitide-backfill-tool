@@ -6,5 +6,5 @@
    "forge_py_source" : "https://github.com/podaac/forge-py/releases/download/0.8.0a4/forge-py-terraform-0.8.0a4.zip",
    "forge_py_image": "ghcr.io/podaac/forge-py:0.8.0a4",
    "backfill_lambdas_source": "https://github.com/podaac/hitide-backfill-lambdas/releases/download/0.5.0rc2/hitide-backfill-lambdas-0.5.0rc2.zip",
-   "postworkflow_normalizer_source": "https://github.com/podaac/cumulus-postworkflow-normalizer/releases/download/0.7.0a6/postworkflow-normalizer-0.7.0a6.zip"
+   "postworkflow_normalizer_source": "https://github.com/podaac/cumulus-postworkflow-normalizer/releases/download/0.7.0%2B0a1cca8/postworkflow-normalizer-0.7.0+0a1cca8.zip"
 }
