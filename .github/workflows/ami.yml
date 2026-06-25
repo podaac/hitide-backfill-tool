@@ -175,24 +175,33 @@ jobs:
 
           mkdir -p /tmp/cumulus-unzip
           curl -L --fail -o /tmp/terraform-aws-cumulus.zip https://github.com/nasa/cumulus/releases/download/v21.3.4/terraform-aws-cumulus.zip
-          archive_root=$(unzip -Z1 /tmp/terraform-aws-cumulus.zip | head -n 1 | cut -d/ -f1)
+          zip_listing=/tmp/cumulus-unzip/listing.txt
+          unzip -Z1 /tmp/terraform-aws-cumulus.zip > "$zip_listing"
 
           extract_entry() {
-            local entry="$1"
+            local pattern="$1"
             local destination="$2"
             local matched_entry
 
-            matched_entry=$(unzip -Z1 /tmp/terraform-aws-cumulus.zip | grep -m1 -E "(/|^)$entry$")
+            matched_entry=$(grep -m1 -E "$pattern" "$zip_listing" || true)
+            if [[ -z "$matched_entry" ]]; then
+              echo "Expected entry not found in terraform-aws-cumulus.zip: $pattern" >&2
+              exit 1
+            fi
             unzip -p /tmp/terraform-aws-cumulus.zip "$matched_entry" > "$destination"
           }
 
-          extract_entry "${archive_root}/tasks/post-to-cmr/dist/lambda.zip" terraform-deploy/post_to_cmr.zip
-          extract_entry "${archive_root}/tasks/hyrax-metadata-updates/dist/lambda.zip" terraform-deploy/hyrax-metadata-updates.zip
-          extract_entry "${archive_root}/tf-modules/cumulus/ecs_cluster_instance_autoscaling_user_data.tmpl" terraform-deploy/ecs_cluster_instance_autoscaling_user_data.tmpl
-          extract_entry "${archive_root}/tf-modules/cumulus/task-reaper.sh" terraform-deploy/task-reaper.sh
+          extract_entry 'tasks/post-to-cmr/dist/lambda\.zip$' terraform-deploy/post_to_cmr.zip
+          extract_entry 'tasks/hyrax-metadata-updates/dist/lambda\.zip$' terraform-deploy/hyrax-metadata-updates.zip
+          extract_entry 'tf-modules/cumulus/ecs_cluster_instance_autoscaling_user_data\.tmpl$' terraform-deploy/ecs_cluster_instance_autoscaling_user_data.tmpl
+          extract_entry 'tf-modules/cumulus/task-reaper\.sh$' terraform-deploy/task-reaper.sh
 
-          nvmrc_entry=$(unzip -Z1 /tmp/terraform-aws-cumulus.zip | grep -m1 -E "(/|^)\.nvmrc$")
-          version=$(unzip -p /tmp/terraform-aws-cumulus.zip "$nvmrc_entry" | cut -d '.' -f 1)
+          nvmrc_entry=$(grep -m1 -E '(^|/)\.nvmrc$' "$zip_listing" || true)
+          if [[ -z "$nvmrc_entry" ]]; then
+            echo "Expected .nvmrc entry not found in terraform-aws-cumulus.zip" >&2
+            exit 1
+          fi
+          version=$(unzip -p /tmp/terraform-aws-cumulus.zip "$nvmrc_entry" | tr -d '\r\n' | cut -d '.' -f 1)
           echo "cumulus_node_version=nodejs${version}.x" >> "$GITHUB_OUTPUT"
 
       - name: Version Management
