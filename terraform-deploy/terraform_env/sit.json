@@ -1,10 +1,10 @@
 {
-   "tig_source":"https://github.com/podaac/tig/releases/download/0.16.0a6/tig-terraform-0.16.0a6.zip",
-   "tig_image":"ghcr.io/podaac/tig:0.16.0a6",
-   "forge_source":"https://github.com/podaac/forge/releases/download/0.14.0-alpha.10/forge-0.14.0-alpha.10.zip",
-   "forge_image":"ghcr.io/podaac/forge:0.14.0-alpha.10",
-   "forge_py_source" : "https://github.com/podaac/forge-py/releases/download/0.8.0a4/forge-py-terraform-0.8.0a4.zip",
-   "forge_py_image": "ghcr.io/podaac/forge-py:0.8.0a4",
+   "tig_source":"https://github.com/podaac/tig/releases/download/0.16.0rc1/tig-terraform-0.16.0rc1.zip",
+   "tig_image":"ghcr.io/podaac/tig:0.16.0rc1",
+   "forge_source":"https://github.com/podaac/forge/releases/download/0.14.0-rc.1/forge-0.14.0-rc.1.zip",
+   "forge_image":"ghcr.io/podaac/forge:0.14.0-rc.1",
+   "forge_py_source" : "https://github.com/podaac/forge-py/releases/download/0.8.0rc1/forge-py-terraform-0.8.0rc1.zip",
+   "forge_py_image": "ghcr.io/podaac/forge-py:0.8.0rc1",
    "backfill_lambdas_source": "https://github.com/podaac/hitide-backfill-lambdas/releases/download/0.5.0rc2/hitide-backfill-lambdas-0.5.0rc2.zip",
-   "postworkflow_normalizer_source": "https://github.com/podaac/cumulus-postworkflow-normalizer/releases/download/0.7.0%2B0a1cca8/postworkflow-normalizer-0.7.0+0a1cca8.zip"
+   "postworkflow_normalizer_source": "https://github.com/podaac/cumulus-postworkflow-normalizer/releases/download/0.7.0rc1/postworkflow-normalizer-0.7.0rc1.zip"
 }
