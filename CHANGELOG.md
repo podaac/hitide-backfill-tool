@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 ### Changed
+- Updated forge-py to 0.8.0
+- Updated tig to 0.16.0
+- Update forge to 0.8.0
+- Updated cumulus-postworkflow-normalizer 0.7.0
+- Update github actoins cumulus build to just download zip file
 ### Deprecated
 ### Removed
 ### Fixed
