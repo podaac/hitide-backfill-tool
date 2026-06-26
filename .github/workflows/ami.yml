@@ -177,7 +177,7 @@ jobs:
 
           CUMULUS_ZIP_URL="https://github.com/nasa/cumulus/releases/download/${CUMULUS_VERSION}/terraform-aws-cumulus.zip"
           mkdir -p /tmp/cumulus-unzip
-          curl -L --fail -o /tmp/terraform-aws-cumulus.zip "$CUMULUS_ZIP_URL"
+          curl -L --fail --retry 3 --retry-delay 2 -o /tmp/terraform-aws-cumulus.zip "$CUMULUS_ZIP_URL"
           zip_listing=/tmp/cumulus-unzip/listing.txt
           unzip -Z1 /tmp/terraform-aws-cumulus.zip > "$zip_listing"
 
