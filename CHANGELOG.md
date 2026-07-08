@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update dmrpp version to 6.2.5
 - Update to use terraform 1.12.2
 - Update github actoins cumulus build to just download zip file
+- Update cumulus metadata aggergator 8.11.0
 ### Deprecated
 ### Removed
 ### Fixed
