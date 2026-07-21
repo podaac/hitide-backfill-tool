@@ -17,102 +17,11 @@ env:
   IMAGE_NAME: ${{ github.repository }}
   PYTHON_VERSION: '3.12'
   POETRY_VERSION: '2.3.2'
-  TERRAFORM_VERSION: '1.5.3'
-  CUMULUS_VERSION: 'v20.1.2'
+  TERRAFORM_VERSION: '1.12.2'
+  CUMULUS_VERSION: 'v21.3.4'
+  CUMULUS_NODE_VERSION: 'nodejs22.x'
 
 jobs:
-  create-zips:
-    name: Create Cumulus Dependency Zips for Backend
-    if: |
-      github.ref == 'refs/heads/develop' ||
-      github.ref == 'refs/heads/main' ||
-      startsWith(github.ref, 'refs/heads/release') ||
-      github.event.head_commit.message == '/deploy sit' ||
-      github.event.head_commit.message == '/deploy uat'
-    runs-on: ubuntu-latest
-    outputs:
-      cumulus_files_created: ${{ steps.upload-files.outputs.files_uploaded }}
-      cumulus_node_version: ${{ steps.get_node_version.outputs.cumulus_node_version }}
-    steps:
-      - name: Checkout Cumulus Code
-        uses: actions/checkout@v6
-        with:
-          repository: nasa/cumulus
-          ref: ${{ env.CUMULUS_VERSION }}
-
-      - name: Setup Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
-          cache-dependency-path: '**/package.json'
-
-      - name: Read .nvmrc file
-        id: get_node_version
-        run: |
-          VERSION=$(cat .nvmrc | cut -d '.' -f 1)
-          FORMATTED_VERSION="nodejs${VERSION}.x"
-          echo "cumulus_node_version=$FORMATTED_VERSION" >> $GITHUB_OUTPUT
-
-      # Cache the node_modules
-      - name: Cache Node Modules
-        id: cache-node-modules
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules
-            */*/node_modules
-          key: node-modules-${{ env.CUMULUS_VERSION }}-${{ hashFiles('**/package-lock.json') }}
-
-      # Cache the build outputs
-      - name: Cache Build Outputs
-        id: cache-build
-        uses: actions/cache@v4
-        with:
-          path: |
-            tasks/post-to-cmr/dist
-            tasks/hyrax-metadata-updates/dist
-            tf-modules/cumulus
-          key: backfill-tool-cumulus-build-${{ env.CUMULUS_VERSION }}
-
-      - name: Cache npm dependencies
-        uses: actions/cache@v4
-        id: npm-cache
-        with:
-          path: |
-            ${{ steps.npm-cache-dir.outputs.dir }}
-            node_modules
-            */*/node_modules
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package.json') }}
-          restore-keys: |
-            ${{ runner.os }}-npm-
-
-      - name: Install Dependencies and Build
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: |
-          npm install -g lerna
-          npm install
-          npm run bootstrap
-
-      - name: Prepare Files for Upload
-        id: prepare-upload-files
-        run: |
-          mkdir -p temp
-          cp tasks/post-to-cmr/dist/lambda.zip temp/post_to_cmr.zip
-          cp tasks/hyrax-metadata-updates/dist/lambda.zip temp/hyrax-metadata-updates.zip
-          cp tf-modules/cumulus/ecs_cluster_instance_autoscaling_user_data.tmpl temp/
-          cp tf-modules/cumulus/task-reaper.sh temp/
-
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: cumulus-files
-          path: temp/
 
   build:
     if: always()
@@ -131,7 +40,7 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -146,7 +55,7 @@ jobs:
           poetry-version: ${{ env.POETRY_VERSION }}
 
       - name: Cache Poetry Dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.cache/pypoetry
           key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
@@ -273,14 +182,14 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
   terraform-deploy:
-    needs: [create-zips, build]
+    needs: [build]
     if: |
       github.ref == 'refs/heads/develop' ||
       github.ref == 'refs/heads/main' ||
       startsWith(github.ref, 'refs/heads/release') ||
       github.event.head_commit.message == '/deploy sit' ||
       github.event.head_commit.message == '/deploy uat'
-    name: Deploy Backend Infrastructure Terraform
+    name: Deploy Backend Infrastructure Terraform Carpathia
     runs-on: ubuntu-latest
     
     permissions:
@@ -289,18 +198,43 @@ jobs:
       
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
-          
-      - name: Download Cumulus Files
-        uses: actions/download-artifact@v4
-        with:
-          name: cumulus-files
-          path: ./terraform-deploy
-          
+
+      - name: Download and Extract Cumulus Zip
+        id: download_cumulus_zip
+        run: |
+          set -euo pipefail
+
+          CUMULUS_ZIP_URL="https://github.com/nasa/cumulus/releases/download/${CUMULUS_VERSION}/terraform-aws-cumulus.zip"
+          mkdir -p /tmp/cumulus-unzip
+          curl -L --fail --retry 3 --retry-delay 2 -o /tmp/terraform-aws-cumulus.zip "$CUMULUS_ZIP_URL"
+          zip_listing=/tmp/cumulus-unzip/listing.txt
+          unzip -Z1 /tmp/terraform-aws-cumulus.zip > "$zip_listing"
+
+          extract_entry() {
+            local pattern="$1"
+            local destination="$2"
+            local matched_entry
+
+            matched_entry=$(grep -m1 -E "$pattern" "$zip_listing" || true)
+            if [[ -z "$matched_entry" ]]; then
+              echo "Expected entry not found in terraform-aws-cumulus.zip: $pattern" >&2
+              exit 1
+            fi
+            unzip -p /tmp/terraform-aws-cumulus.zip "$matched_entry" > "$destination"
+          }
+
+          extract_entry 'tasks/post-to-cmr/dist/lambda\.zip$' terraform-deploy/post_to_cmr.zip
+          extract_entry 'tasks/hyrax-metadata-updates/dist/lambda\.zip$' terraform-deploy/hyrax-metadata-updates.zip
+          extract_entry 'tf-modules/cumulus/ecs_cluster_instance_autoscaling_user_data\.tmpl$' terraform-deploy/ecs_cluster_instance_autoscaling_user_data.tmpl
+          extract_entry 'tf-modules/cumulus/task-reaper\.sh$' terraform-deploy/task-reaper.sh
+
+          echo "cumulus_node_version=${{ env.CUMULUS_NODE_VERSION }}" >> "$GITHUB_OUTPUT"
+         
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
+        uses: hashicorp/setup-terraform@v4
         with:
           terraform_version: ${{ env.TERRAFORM_VERSION }}
           
@@ -316,13 +250,13 @@ jobs:
           TF_VAR_system_bucket: ${{ secrets[format('SYSTEM_BUCKET_{0}', needs.build.outputs.target_env_uppercase)] }}
           TF_VAR_dmrpp_url: ${{ secrets.DMRPP_URL }}
           TF_VAR_aws_security_group_ids: ${{ secrets[format('SECURITY_GROUP_IDS_{0}', needs.build.outputs.target_env_uppercase)] }}
-          TF_VAR_cumulus_node_version: ${{ needs.create-zips.outputs.cumulus_node_version }}
+          TF_VAR_cumulus_node_version: ${{ steps.download_cumulus_zip.outputs.cumulus_node_version }}
           TARGET_ENV: ${{ needs.build.outputs.target_env_lowercase }}
           COMMIT_URL: "https://github.com/${{ github.repository }}/commit/${{ github.sha }}"
           BRANCH_URL: "https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}"
         run: |
 
-          curl -L -o metadata-aggregator.zip https://github.com/podaac/cumulus-metadata-aggregator/releases/download/v8.10.0/cumulus-metadata-aggregator-8.10.0.zip
+          curl -L -o metadata-aggregator.zip https://github.com/podaac/cumulus-metadata-aggregator/releases/download/v8.11.0/cumulus-metadata-aggregator-8.11.0.zip
           python3 override.py "$TARGET_ENV" "$COMMIT_URL" "$BRANCH_URL" "${{ needs.build.outputs.new_version }}"
           source bin/config.sh "$TARGET_ENV"
 
@@ -331,13 +265,13 @@ jobs:
           terraform apply -auto-approve tfplan
 
   ansible-deploy:
-    needs: [create-zips, build]
+    needs: [build]
     if: |
       github.ref == 'refs/heads/develop' ||
       startsWith(github.ref, 'refs/heads/release') ||
       github.event.head_commit.message == '/deploy sit' ||
       github.event.head_commit.message == '/deploy uat'
-    name: Deploy Backend Infrastructure Terraform
+    name: Deploy Backend Infrastructure Terraform Services
     runs-on: ubuntu-latest
     
     permissions:
@@ -347,10 +281,10 @@ jobs:
     steps:
 
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
+        uses: hashicorp/setup-terraform@v4
         with:
           terraform_version: ${{ env.TERRAFORM_VERSION }}
 
@@ -373,4 +307,3 @@ jobs:
           terraform init
           terraform plan -var-file=tfvars/"$TARGET_ENV".tfvars -out=tfplan
           terraform apply -auto-approve tfplan
-
