@@ -34,7 +34,7 @@ find-swot-global-bounds \
 | `-c`, `--collection` | *(required)* | Collection short name (e.g. `SWOT_L2_HR_Raster_D`) |
 | `-p`, `--provider` | `POCLOUD` | CMR provider ID |
 | `-e`, `--env` | `ops` | CMR environment: `ops`, `uat`, or `sit` |
-| `-t`, `--token` | `None` | EDL Bearer token for authenticated searches |
+| `-t`, `--token` | `EDL_TOKEN` env var | EDL Bearer token. Falls back to `EDL_TOKEN` environment variable if not provided |
 | `-o`, `--output` | stdout | Path to output file |
 | `-w`, `--workers` | `5` | Number of parallel workers |
 | `--page-size` | `2000` | CMR page size per request |
@@ -57,7 +57,16 @@ find-swot-global-bounds \
   --collection MODIS_A-JPL-L2P-v2019.0
 ```
 
-Query a non-production environment with a token:
+Use the `EDL_TOKEN` environment variable to avoid passing the token on every invocation:
+
+```bash
+export EDL_TOKEN="your-edl-token-here"
+find-swot-global-bounds \
+  --collection SWOT_L2_HR_Raster_D \
+  --output problematic_granules.txt
+```
+
+Or pass it explicitly with `--token` (overrides the env var):
 
 ```bash
 find-swot-global-bounds \

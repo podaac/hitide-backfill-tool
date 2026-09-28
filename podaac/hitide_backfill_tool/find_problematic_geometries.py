@@ -18,6 +18,7 @@ Usage:
 
 import argparse
 import json
+import os
 import sys
 import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -174,11 +175,14 @@ def main():
     parser.add_argument("-c", "--collection", required=True, help="Collection short name")
     parser.add_argument("-p", "--provider", default="POCLOUD", help="CMR provider (default: POCLOUD)")
     parser.add_argument("-e", "--env", default="ops", choices=CMR_URLS.keys(), help="CMR environment (default: ops)")
-    parser.add_argument("-t", "--token", default=None, help="EDL Bearer token for authenticated searches")
+    parser.add_argument("-t", "--token", default=None, help="EDL Bearer token (default: reads EDL_TOKEN env var)")
     parser.add_argument("-o", "--output", default=None, help="Output text file path (default: stdout)")
     parser.add_argument("-w", "--workers", type=int, default=5, help="Number of parallel workers (default: 5)")
     parser.add_argument("--page-size", type=int, default=2000, help="CMR page size (default: 2000)")
     args = parser.parse_args()
+
+    if not args.token:
+        args.token = os.environ.get("EDL_TOKEN")
 
     base_url = CMR_URLS[args.env]
     session = create_session()
