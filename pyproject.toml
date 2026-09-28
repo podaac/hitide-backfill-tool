@@ -18,6 +18,7 @@ packages = [
 [tool.poetry.dependencies]
 python = "^3.12"
 requests = "^2.27.1"
+python-dateutil = "^2.8.0"
 boto3 = "^1.35.0"
 pyyaml = "^6.0"
 fuzzywuzzy = "^0.18.0"
@@ -36,6 +37,7 @@ backfill_replay = "podaac.hitide_backfill_tool.replay:main"
 backfill_regression = "podaac.hitide_backfill_tool.regression:main"
 backfill_memory_profiler = "podaac.hitide_backfill_tool.memory_profiler:main"
 "create-backfill-config" = "podaac.hitide_backfill_tool.config_creator:create_config"
+"find-swot-global-bounds" = "podaac.hitide_backfill_tool.find_problematic_geometries:main"
 
 [tool.pytest.ini_options]
 markers = [ "e2e" ]

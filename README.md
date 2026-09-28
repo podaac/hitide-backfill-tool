@@ -43,6 +43,10 @@ Some granules have been ingested without creating footprints/thumbnail images. T
 - Modify script with cloudwatch lambda to profile
 - Modify script to include start time and end time range where cloudwatch events were logged
 
+## find-swot-global-bounds
+- CLI command to find SWOT granules with global bounding boxes and no GPolygons
+- See [FIND_SWOT_GLOBAL_BOUNDS.md](FIND_SWOT_GLOBAL_BOUNDS.md) for full usage documentation
+
 ## ECS facility
 
 - ECS template to start docker : ecs_cluster_instance_autoscaling_cf_template.yml.tmpl
