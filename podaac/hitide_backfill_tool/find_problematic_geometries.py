@@ -17,12 +17,12 @@ Usage:
 """
 
 import argparse
-import json
 import os
 import sys
 import threading
+from collections import namedtuple
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from datetime import datetime, timezone
+from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from requests import Session
 from requests.adapters import HTTPAdapter
@@ -34,14 +34,25 @@ CMR_URLS = {
     "sit": "https://cmr.sit.earthdata.nasa.gov",
 }
 
+# Connection/query parameters shared across CMR requests.
+CmrQuery = namedtuple("CmrQuery", ["base_url", "collection", "provider", "token", "page_size"])
+
+print_lock = threading.Lock()
+
 
 def create_session():
+    """Build a requests Session with connection retries."""
     retry = Retry(connect=5, backoff_factor=0.5)
     adapter = HTTPAdapter(max_retries=retry)
     session = Session()
     session.mount("http://", adapter)
     session.mount("https://", adapter)
     return session
+
+
+def build_headers(token):
+    """Build request headers, adding a Bearer token when provided."""
+    return {"Authorization": f"Bearer {token}"} if token else {}
 
 
 def is_global_bbox(bbox):
@@ -55,7 +66,7 @@ def is_global_bbox(bbox):
 
 
 def is_problematic(item):
-    """Return the concept ID if the granule has a global BoundingRectangle and no GPolygons, else None."""
+    """Return the concept ID if the granule has a global bbox and no GPolygons, else None."""
     geometry = (
         item.get("umm", {})
         .get("SpatialExtent", {})
@@ -82,36 +93,35 @@ def extract_temporal_value(item):
     return temporal["SingleDateTime"]
 
 
-def get_collection_temporal_range(session, base_url, collection, provider, token=None):
+def get_collection_temporal_range(cfg):
     """Get the earliest and latest granule dates for the collection."""
-    headers = {}
-    if token:
-        headers["Authorization"] = f"Bearer {token}"
+    session = create_session()
+    headers = build_headers(cfg.token)
+    base = (
+        f"{cfg.base_url}/search/granules.umm_json"
+        f"?provider={cfg.provider}&short_name={cfg.collection}&page_size=1"
+    )
 
-    base_params = f"?provider={provider}&short_name={collection}&page_size=1"
-
-    first_url = f"{base_url}/search/granules.umm_json{base_params}&sort_key[]=start_date"
-    resp = session.get(first_url, headers=headers)
+    resp = session.get(f"{base}&sort_key[]=start_date", headers=headers)
     resp.raise_for_status()
     body = resp.json()
     total_hits = body.get("hits", 0)
     if total_hits == 0:
         return None, None, 0
-    first_item = body["items"][0]
-    start = extract_temporal_value(first_item)
+    start = extract_temporal_value(body["items"][0])
 
-    last_url = f"{base_url}/search/granules.umm_json{base_params}&sort_key[]=-start_date"
-    resp = session.get(last_url, headers=headers)
+    resp = session.get(f"{base}&sort_key[]=-start_date", headers=headers)
     resp.raise_for_status()
-    last_item = resp.json()["items"][0]
-    end = extract_temporal_value(last_item)
+    end = extract_temporal_value(resp.json()["items"][0])
 
     return start, end, total_hits
 
 
 def generate_monthly_ranges(start_str, end_str):
     """Split a time range into monthly chunks."""
-    start = datetime.fromisoformat(start_str.replace("Z", "+00:00")).replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+    start = datetime.fromisoformat(start_str.replace("Z", "+00:00")).replace(
+        day=1, hour=0, minute=0, second=0, microsecond=0
+    )
     end = datetime.fromisoformat(end_str.replace("Z", "+00:00"))
 
     ranges = []
@@ -126,27 +136,20 @@ def generate_monthly_ranges(start_str, end_str):
     return ranges
 
 
-def search_chunk(base_url, collection, provider, start, end, token=None, page_size=2000):
-    """Search a single temporal chunk and return problematic concept IDs."""
+def iter_granules(cfg, start, end):
+    """Yield all granule items in a temporal chunk, paging via cmr-search-after."""
     session = create_session()
-
     url = (
-        f"{base_url}/search/granules.umm_json"
-        f"?provider={provider}"
-        f"&short_name={collection}"
-        f"&page_size={page_size}"
+        f"{cfg.base_url}/search/granules.umm_json"
+        f"?provider={cfg.provider}"
+        f"&short_name={cfg.collection}"
+        f"&page_size={cfg.page_size}"
         f"&sort_key[]=start_date"
         f"&temporal={start},{end}"
     )
-
-    headers = {}
-    if token:
-        headers["Authorization"] = f"Bearer {token}"
+    headers = build_headers(cfg.token)
 
     search_after = None
-    scanned_ids = []
-    problematic_ids = []
-
     while True:
         req_headers = dict(headers)
         if search_after:
@@ -154,55 +157,113 @@ def search_chunk(base_url, collection, provider, start, end, token=None, page_si
 
         response = session.get(url, headers=req_headers)
         response.raise_for_status()
-        body = response.json()
 
-        items = body.get("items", [])
+        items = response.json().get("items", [])
         if not items:
             break
-
-        for item in items:
-            scanned_ids.append(item.get("meta", {}).get("concept-id"))
-            concept_id = is_problematic(item)
-            if concept_id:
-                problematic_ids.append(concept_id)
+        yield from items
 
         search_after = response.headers.get("cmr-search-after")
         if not search_after:
             break
 
+
+def search_chunk(cfg, start, end):
+    """Search a single temporal chunk and return (scanned IDs, problematic IDs)."""
+    scanned_ids = []
+    problematic_ids = []
+    for item in iter_granules(cfg, start, end):
+        scanned_ids.append(item.get("meta", {}).get("concept-id"))
+        concept_id = is_problematic(item)
+        if concept_id:
+            problematic_ids.append(concept_id)
     return scanned_ids, problematic_ids
 
 
-print_lock = threading.Lock()
+def process_chunks(cfg, monthly_ranges, workers, out_file):
+    """Search all chunks in parallel, writing deduplicated problematic IDs.
+
+    Monthly chunks share boundaries and CMR temporal matches are inclusive, so a
+    granule at (or spanning) a boundary can appear in two chunks. Deduplicate by
+    concept ID before writing and counting.
+    """
+    scanned_ids = set()
+    problematic_written = set()
+    completed = 0
+
+    with ThreadPoolExecutor(max_workers=workers) as executor:
+        futures = {
+            executor.submit(search_chunk, cfg, start, end): start
+            for start, end in monthly_ranges
+        }
+
+        for future in as_completed(futures):
+            start = futures[future]
+            chunk_scanned_ids, chunk_problematic_ids = future.result()
+            scanned_ids.update(chunk_scanned_ids)
+            completed += 1
+
+            new_problematic = 0
+            for cid in chunk_problematic_ids:
+                if cid not in problematic_written:
+                    problematic_written.add(cid)
+                    out_file.write(cid + "\n")
+                    new_problematic += 1
+
+            with print_lock:
+                print(
+                    f"  [{completed}/{len(monthly_ranges)}] {start[:7]}: "
+                    f"{len(chunk_scanned_ids)} scanned, {new_problematic} problematic",
+                    file=sys.stderr,
+                )
+
+    return len(scanned_ids), len(problematic_written)
 
 
-def main():
+def parse_args():
+    """Parse command-line arguments."""
     parser = argparse.ArgumentParser(
         description="Find granules that have BoundingRectangles but no GPolygons"
     )
-    parser.add_argument("-c", "--collection", required=True, help="Collection short name")
-    parser.add_argument("-p", "--provider", default="POCLOUD", help="CMR provider (default: POCLOUD)")
-    parser.add_argument("-e", "--env", default="ops", choices=CMR_URLS.keys(), help="CMR environment (default: ops)")
-    parser.add_argument("-t", "--token", default=None, help="EDL Bearer token (default: reads EDL_TOKEN env var)")
-    parser.add_argument("-o", "--output", default=None, help="Output text file path (default: stdout)")
-    parser.add_argument("-w", "--workers", type=int, default=5, help="Number of parallel workers (default: 5)")
-    parser.add_argument("--page-size", type=int, default=2000, help="CMR page size (default: 2000)")
-    args = parser.parse_args()
-
-    if not args.token:
-        args.token = os.environ.get("EDL_TOKEN")
-
-    base_url = CMR_URLS[args.env]
-    session = create_session()
-
-    print(f"Querying CMR at {base_url}", file=sys.stderr)
-    print(f"Collection: {args.collection}  Provider: {args.provider}", file=sys.stderr)
-    print(f"Detecting temporal range...", file=sys.stderr)
-
-    start_str, end_str, total_hits = get_collection_temporal_range(
-        session, base_url, args.collection, args.provider, args.token
+    parser.add_argument(
+        "-c", "--collection", required=True, help="Collection short name"
     )
+    parser.add_argument(
+        "-p", "--provider", default="POCLOUD", help="CMR provider (default: POCLOUD)"
+    )
+    parser.add_argument(
+        "-e", "--env", default="ops", choices=CMR_URLS.keys(),
+        help="CMR environment (default: ops)",
+    )
+    parser.add_argument(
+        "-t", "--token", default=None,
+        help="EDL Bearer token (default: reads EDL_TOKEN env var)",
+    )
+    parser.add_argument(
+        "-o", "--output", default=None,
+        help="Output text file path (default: stdout)",
+    )
+    parser.add_argument(
+        "-w", "--workers", type=int, default=5,
+        help="Number of parallel workers (default: 5)",
+    )
+    parser.add_argument(
+        "--page-size", type=int, default=2000, help="CMR page size (default: 2000)"
+    )
+    return parser.parse_args()
 
+
+def main():
+    """Entry point: detect the temporal range and scan for problematic granules."""
+    args = parse_args()
+    token = args.token or os.environ.get("EDL_TOKEN")
+    cfg = CmrQuery(CMR_URLS[args.env], args.collection, args.provider, token, args.page_size)
+
+    print(f"Querying CMR at {cfg.base_url}", file=sys.stderr)
+    print(f"Collection: {cfg.collection}  Provider: {cfg.provider}", file=sys.stderr)
+    print("Detecting temporal range...", file=sys.stderr)
+
+    start_str, end_str, total_hits = get_collection_temporal_range(cfg)
     if total_hits == 0:
         print("No granules found in collection.", file=sys.stderr)
         return
@@ -211,57 +272,28 @@ def main():
     print(f"Temporal range: {start_str} to {end_str}", file=sys.stderr)
 
     monthly_ranges = generate_monthly_ranges(start_str, end_str)
-    print(f"Split into {len(monthly_ranges)} monthly chunks, using {args.workers} workers\n", file=sys.stderr)
+    print(
+        f"Split into {len(monthly_ranges)} monthly chunks, using {args.workers} workers\n",
+        file=sys.stderr,
+    )
 
-    out_file = open(args.output, "w") if args.output else sys.stdout
-
-    # Monthly chunks share boundaries and CMR temporal matches are inclusive, so
-    # a granule at (or spanning) a boundary can appear in two chunks. Deduplicate
-    # by concept ID before writing and counting.
-    scanned_ids = set()
-    problematic_written = set()
-    completed_chunks = 0
-
-    try:
-        with ThreadPoolExecutor(max_workers=args.workers) as executor:
-            futures = {
-                executor.submit(
-                    search_chunk, base_url, args.collection, args.provider,
-                    start, end, args.token, args.page_size
-                ): (start, end)
-                for start, end in monthly_ranges
-            }
-
-            for future in as_completed(futures):
-                start, end = futures[future]
-                chunk_scanned_ids, chunk_problematic_ids = future.result()
-                scanned_ids.update(chunk_scanned_ids)
-                completed_chunks += 1
-
-                new_problematic = 0
-                for cid in chunk_problematic_ids:
-                    if cid not in problematic_written:
-                        problematic_written.add(cid)
-                        out_file.write(cid + "\n")
-                        new_problematic += 1
-
-                with print_lock:
-                    month_label = start[:7]
-                    status = f"  [{completed_chunks}/{len(monthly_ranges)}] {month_label}: {len(chunk_scanned_ids)} scanned, {new_problematic} problematic"
-                    print(status, file=sys.stderr)
-    finally:
-        if args.output and out_file:
-            out_file.close()
-
-    total_scanned = len(scanned_ids)
-    total_problematic = len(problematic_written)
+    if args.output:
+        with open(args.output, "w", encoding="utf-8") as out_file:
+            total_scanned, total_problematic = process_chunks(
+                cfg, monthly_ranges, args.workers, out_file
+            )
+    else:
+        total_scanned, total_problematic = process_chunks(
+            cfg, monthly_ranges, args.workers, sys.stdout
+        )
 
     print(f"\n{'='*50}", file=sys.stderr)
-    print(f"SUMMARY", file=sys.stderr)
+    print("SUMMARY", file=sys.stderr)
     print(f"{'='*50}", file=sys.stderr)
     print(f"Total granules scanned:              {total_scanned}", file=sys.stderr)
     print(f"Global bbox without GPolygons:        {total_problematic}", file=sys.stderr)
-    print(f"Clean granules:                      {total_scanned - total_problematic}", file=sys.stderr)
+    clean = total_scanned - total_problematic
+    print(f"Clean granules:                      {clean}", file=sys.stderr)
 
     if args.output:
         print(f"\nResults written to: {args.output}", file=sys.stderr)
