@@ -74,6 +74,14 @@ def is_problematic(item):
     return None
 
 
+def extract_temporal_value(item):
+    """Get a granule's start time, supporting both RangeDateTime and SingleDateTime."""
+    temporal = item["umm"]["TemporalExtent"]
+    if "RangeDateTime" in temporal:
+        return temporal["RangeDateTime"]["BeginningDateTime"]
+    return temporal["SingleDateTime"]
+
+
 def get_collection_temporal_range(session, base_url, collection, provider, token=None):
     """Get the earliest and latest granule dates for the collection."""
     headers = {}
@@ -90,13 +98,13 @@ def get_collection_temporal_range(session, base_url, collection, provider, token
     if total_hits == 0:
         return None, None, 0
     first_item = body["items"][0]
-    start = first_item["umm"]["TemporalExtent"]["RangeDateTime"]["BeginningDateTime"]
+    start = extract_temporal_value(first_item)
 
     last_url = f"{base_url}/search/granules.umm_json{base_params}&sort_key[]=-start_date"
     resp = session.get(last_url, headers=headers)
     resp.raise_for_status()
     last_item = resp.json()["items"][0]
-    end = last_item["umm"]["TemporalExtent"]["RangeDateTime"]["BeginningDateTime"]
+    end = extract_temporal_value(last_item)
 
     return start, end, total_hits
 
@@ -136,8 +144,8 @@ def search_chunk(base_url, collection, provider, start, end, token=None, page_si
         headers["Authorization"] = f"Bearer {token}"
 
     search_after = None
+    scanned_ids = []
     problematic_ids = []
-    scanned = 0
 
     while True:
         req_headers = dict(headers)
@@ -153,7 +161,7 @@ def search_chunk(base_url, collection, provider, start, end, token=None, page_si
             break
 
         for item in items:
-            scanned += 1
+            scanned_ids.append(item.get("meta", {}).get("concept-id"))
             concept_id = is_problematic(item)
             if concept_id:
                 problematic_ids.append(concept_id)
@@ -162,7 +170,7 @@ def search_chunk(base_url, collection, provider, start, end, token=None, page_si
         if not search_after:
             break
 
-    return scanned, problematic_ids
+    return scanned_ids, problematic_ids
 
 
 print_lock = threading.Lock()
@@ -207,8 +215,11 @@ def main():
 
     out_file = open(args.output, "w") if args.output else sys.stdout
 
-    total_scanned = 0
-    total_problematic = 0
+    # Monthly chunks share boundaries and CMR temporal matches are inclusive, so
+    # a granule at (or spanning) a boundary can appear in two chunks. Deduplicate
+    # by concept ID before writing and counting.
+    scanned_ids = set()
+    problematic_written = set()
     completed_chunks = 0
 
     try:
@@ -223,21 +234,27 @@ def main():
 
             for future in as_completed(futures):
                 start, end = futures[future]
-                scanned, problematic_ids = future.result()
-                total_scanned += scanned
-                total_problematic += len(problematic_ids)
+                chunk_scanned_ids, chunk_problematic_ids = future.result()
+                scanned_ids.update(chunk_scanned_ids)
                 completed_chunks += 1
 
-                for cid in problematic_ids:
-                    out_file.write(cid + "\n")
+                new_problematic = 0
+                for cid in chunk_problematic_ids:
+                    if cid not in problematic_written:
+                        problematic_written.add(cid)
+                        out_file.write(cid + "\n")
+                        new_problematic += 1
 
                 with print_lock:
                     month_label = start[:7]
-                    status = f"  [{completed_chunks}/{len(monthly_ranges)}] {month_label}: {scanned} scanned, {len(problematic_ids)} problematic"
+                    status = f"  [{completed_chunks}/{len(monthly_ranges)}] {month_label}: {len(chunk_scanned_ids)} scanned, {new_problematic} problematic"
                     print(status, file=sys.stderr)
     finally:
         if args.output and out_file:
             out_file.close()
+
+    total_scanned = len(scanned_ids)
+    total_problematic = len(problematic_written)
 
     print(f"\n{'='*50}", file=sys.stderr)
     print(f"SUMMARY", file=sys.stderr)
