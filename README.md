@@ -17,6 +17,20 @@ Some granules have been ingested without creating footprints/thumbnail images. T
 - Python >= 3.12
 - poetry
 
+## Forge / forge-py / tig configuration URLs
+
+There are two separate places that fetch the forge-tig collection config, and they do **not** all point at the same URL:
+
+- **Backfill tool** (this repo) fetches the config only to validate a collection before sending messages. It is defined in [podaac/hitide_backfill_tool/cli.py](podaac/hitide_backfill_tool/cli.py) in `get_forge_tig_configuration`:
+    - `https://hitide.podaac.earthdatacloud.nasa.gov/dataset-configs/{collection}.cfg`
+
+- **Cumulus services** fetch the config when they actually run. Each service's `config_url` is set in its Terraform module under [terraform-deploy/](terraform-deploy/):
+    - **forge** — [terraform-deploy/forge.tf](terraform-deploy/forge.tf): `https://hitide.podaac.earthdatacloud.nasa.gov/dataset-configs`
+    - **forge-py** — [terraform-deploy/forge_py.tf](terraform-deploy/forge_py.tf): `https://hitide.podaac.earthdatacloud.nasa.gov/backfill-dataset-configs`
+    - **tig** — [terraform-deploy/tig.tf](terraform-deploy/tig.tf): `https://hitide.podaac.earthdatacloud.nasa.gov/dataset-configs` (plus `palette_url` at `.../palettes`)
+
+Note that **forge-py** points at `backfill-dataset-configs`, while forge, tig, and the backfill tool itself use `dataset-configs`. This is for the swot collections were not using for cumulus productions
+
 ## failed_workflow.py
 
 - Script used to scan failed workflows and get unique errors
