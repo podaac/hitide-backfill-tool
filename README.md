@@ -19,17 +19,17 @@ Some granules have been ingested without creating footprints/thumbnail images. T
 
 ## Forge / forge-py / tig configuration URLs
 
-There are two separate places that fetch the forge-tig collection config, and they do **not** all point at the same URL:
+The forge-tig services fetch a collection's config when they run, and they do **not** all point at the same URL. Each service's `config_url` is set in its Terraform module under [terraform-deploy/](terraform-deploy/) (this is the backfill Cumulus deployment, which is *separate* from production Cumulus):
 
-- **Backfill tool** (this repo) fetches the config only to validate a collection before sending messages. It is defined in [podaac/hitide_backfill_tool/cli.py](podaac/hitide_backfill_tool/cli.py) in `get_forge_tig_configuration`:
-    - `https://hitide.podaac.earthdatacloud.nasa.gov/dataset-configs/{collection}.cfg`
+- **forge** — [terraform-deploy/forge.tf](terraform-deploy/forge.tf): `https://hitide.podaac.earthdatacloud.nasa.gov/dataset-configs`
+- **forge-py** — [terraform-deploy/forge_py.tf](terraform-deploy/forge_py.tf): `https://hitide.podaac.earthdatacloud.nasa.gov/backfill-dataset-configs`
+- **tig** — [terraform-deploy/tig.tf](terraform-deploy/tig.tf): `https://hitide.podaac.earthdatacloud.nasa.gov/dataset-configs` (plus `palette_url` at `.../palettes`)
 
-- **Cumulus services** fetch the config when they actually run. Each service's `config_url` is set in its Terraform module under [terraform-deploy/](terraform-deploy/):
-    - **forge** — [terraform-deploy/forge.tf](terraform-deploy/forge.tf): `https://hitide.podaac.earthdatacloud.nasa.gov/dataset-configs`
-    - **forge-py** — [terraform-deploy/forge_py.tf](terraform-deploy/forge_py.tf): `https://hitide.podaac.earthdatacloud.nasa.gov/backfill-dataset-configs`
-    - **tig** — [terraform-deploy/tig.tf](terraform-deploy/tig.tf): `https://hitide.podaac.earthdatacloud.nasa.gov/dataset-configs` (plus `palette_url` at `.../palettes`)
+### The forge-py `backfill-dataset-configs` path
 
-Note that **forge-py** points at `backfill-dataset-configs`, while forge, tig, and the backfill tool itself use `dataset-configs`. This is for the swot collections were not using for cumulus productions
+The `backfill-dataset-configs` path is used by the forge-py lambda in this repo's backfill deployment ([terraform-deploy/forge_py.tf](terraform-deploy/forge_py.tf)) and is not used by production Cumulus. It exists because forge-py here serves SWOT collections that are not run through production Cumulus, so they use a dedicated backfill config directory instead of the standard `dataset-configs`.
+
+> ⚠️ **Warning:** `backfill-dataset-configs` and `dataset-configs` do not match — `backfill-dataset-configs` has extra SWOT configs. A collection's config can exist in one but not the other.
 
 ## failed_workflow.py
 
