@@ -19,7 +19,7 @@ Some granules have been ingested without creating footprints/thumbnail images. T
 
 ## Forge / forge-py / tig configuration URLs
 
-The forge-tig services fetch a collection's config when they run. Each service's `config_url` is set in its Terraform module under [terraform-deploy/](terraform-deploy/) (this is the backfill Cumulus deployment, which is *separate* from production Cumulus), and they all read from the same `dataset-configs` directory:
+The forge-tig services fetch a collection's config when they run. Each service's `config_url` is set in its Terraform module under [terraform-deploy/](terraform-deploy/)
 
 - **forge** — [terraform-deploy/forge.tf](terraform-deploy/forge.tf): `https://hitide.podaac.earthdatacloud.nasa.gov/dataset-configs`
 - **forge-py** — [terraform-deploy/forge_py.tf](terraform-deploy/forge_py.tf): `https://hitide.podaac.earthdatacloud.nasa.gov/dataset-configs`
