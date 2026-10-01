@@ -19,17 +19,11 @@ Some granules have been ingested without creating footprints/thumbnail images. T
 
 ## Forge / forge-py / tig configuration URLs
 
-The forge-tig services fetch a collection's config when they run, and they do **not** all point at the same URL. Each service's `config_url` is set in its Terraform module under [terraform-deploy/](terraform-deploy/) (this is the backfill Cumulus deployment, which is *separate* from production Cumulus):
+The forge-tig services fetch a collection's config when they run. Each service's `config_url` is set in its Terraform module under [terraform-deploy/](terraform-deploy/) (this is the backfill Cumulus deployment, which is *separate* from production Cumulus), and they all read from the same `dataset-configs` directory:
 
 - **forge** — [terraform-deploy/forge.tf](terraform-deploy/forge.tf): `https://hitide.podaac.earthdatacloud.nasa.gov/dataset-configs`
-- **forge-py** — [terraform-deploy/forge_py.tf](terraform-deploy/forge_py.tf): `https://hitide.podaac.earthdatacloud.nasa.gov/backfill-dataset-configs`
+- **forge-py** — [terraform-deploy/forge_py.tf](terraform-deploy/forge_py.tf): `https://hitide.podaac.earthdatacloud.nasa.gov/dataset-configs`
 - **tig** — [terraform-deploy/tig.tf](terraform-deploy/tig.tf): `https://hitide.podaac.earthdatacloud.nasa.gov/dataset-configs` (plus `palette_url` at `.../palettes`)
-
-### The forge-py `backfill-dataset-configs` path
-
-The `backfill-dataset-configs` path is used by the forge-py lambda in this repo's backfill deployment ([terraform-deploy/forge_py.tf](terraform-deploy/forge_py.tf)) and is not used by production Cumulus. It exists because forge-py here serves SWOT collections that are not run through production Cumulus, so they use a dedicated backfill config directory instead of the standard `dataset-configs`.
-
-> ⚠️ **Warning:** `backfill-dataset-configs` and `dataset-configs` do not match — `backfill-dataset-configs` has extra SWOT configs. A collection's config can exist in one but not the other.
 
 ## failed_workflow.py
 

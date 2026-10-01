@@ -182,10 +182,8 @@ class Backfiller:
         self.dmrpp_newer_version = 0
 
         # forge-tig configuration.
-        # Footprint (forge/forge-py) and image (tig) configs are fetched from
-        # different locations. The backfill forge-py lambda reads footprint
-        # config from "backfill-dataset-configs", while tig reads image config
-        # from "dataset-configs", so validation checks each against its own URL.
+        # Footprint (forge/forge-py) and image (tig) configs are both fetched
+        # from "dataset-configs".
         self.footprint_configuration = None
         self.image_configuration = None
 
@@ -508,13 +506,13 @@ class Backfiller:
     def get_forge_tig_configuration(self):
         """Fetch the footprint and image configurations of a collection.
 
-        Footprint config (forge/forge-py) comes from "backfill-dataset-configs" to
-        match what the backfill forge-py lambda actually uses; image config (tig)
-        comes from "dataset-configs".
+        Footprint config (forge/forge-py) and image config (tig) both come from
+        "dataset-configs", so a single fetch provides both.
         """
         base = "https://hitide.podaac.earthdatacloud.nasa.gov"
-        self.footprint_configuration = self._fetch_configuration(f"{base}/backfill-dataset-configs")
-        self.image_configuration = self._fetch_configuration(f"{base}/dataset-configs")
+        configuration = self._fetch_configuration(f"{base}/dataset-configs")
+        self.footprint_configuration = configuration
+        self.image_configuration = configuration
 
 
 def validate_arg(name, value, allowed_values):
