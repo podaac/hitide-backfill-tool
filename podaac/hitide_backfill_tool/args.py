@@ -23,7 +23,11 @@ default_config = {
     "use_data_url": False,
     "page_size": 2000,
     "geometries": ["GPolygons", "Lines"],
-    "log_level": "INFO"
+    "log_level": "INFO",
+    # Not passing --footprint/--image/--dmrpp means "off" (don't process or validate it).
+    "footprint": "off",
+    "image": "off",
+    "dmrpp": "off"
 }
 
 
