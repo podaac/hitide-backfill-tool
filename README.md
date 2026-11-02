@@ -17,6 +17,14 @@ Some granules have been ingested without creating footprints/thumbnail images. T
 - Python >= 3.12
 - poetry
 
+## Forge / forge-py / tig configuration URLs
+
+The forge-tig services fetch a collection's config when they run. Each service's `config_url` is set in its Terraform module under [terraform-deploy/](terraform-deploy/)
+
+- **forge** — [terraform-deploy/forge.tf](terraform-deploy/forge.tf): `https://hitide.podaac.earthdatacloud.nasa.gov/dataset-configs`
+- **forge-py** — [terraform-deploy/forge_py.tf](terraform-deploy/forge_py.tf): `https://hitide.podaac.earthdatacloud.nasa.gov/dataset-configs`
+- **tig** — [terraform-deploy/tig.tf](terraform-deploy/tig.tf): `https://hitide.podaac.earthdatacloud.nasa.gov/dataset-configs` (plus `palette_url` at `.../palettes`)
+
 ## failed_workflow.py
 
 - Script used to scan failed workflows and get unique errors
@@ -42,6 +50,10 @@ Some granules have been ingested without creating footprints/thumbnail images. T
 - Lambdas need to be modified to include lambda request id in cloudwatch logs
 - Modify script with cloudwatch lambda to profile
 - Modify script to include start time and end time range where cloudwatch events were logged
+
+## find-swot-global-bounds
+- CLI command to find SWOT granules with global bounding boxes and no GPolygons
+- See [FIND_SWOT_GLOBAL_BOUNDS.md](FIND_SWOT_GLOBAL_BOUNDS.md) for full usage documentation
 
 ## ECS facility
 

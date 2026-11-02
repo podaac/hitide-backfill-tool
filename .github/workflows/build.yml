@@ -18,7 +18,7 @@ env:
   PYTHON_VERSION: '3.12'
   POETRY_VERSION: '2.3.2'
   TERRAFORM_VERSION: '1.12.2'
-  CUMULUS_VERSION: 'v21.3.4'
+  CUMULUS_VERSION: 'v22.4.3'
   CUMULUS_NODE_VERSION: 'nodejs22.x'
 
 jobs:
@@ -256,7 +256,7 @@ jobs:
           BRANCH_URL: "https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}"
         run: |
 
-          curl -L -o metadata-aggregator.zip https://github.com/podaac/cumulus-metadata-aggregator/releases/download/v8.11.0/cumulus-metadata-aggregator-8.11.0.zip
+          curl -L -o metadata-aggregator.zip https://github.com/podaac/cumulus-metadata-aggregator/releases/download/v8.12.0/cumulus-metadata-aggregator-8.12.0.zip
           python3 override.py "$TARGET_ENV" "$COMMIT_URL" "$BRANCH_URL" "${{ needs.build.outputs.new_version }}"
           source bin/config.sh "$TARGET_ENV"
 

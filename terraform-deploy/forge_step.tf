@@ -362,9 +362,9 @@ resource "aws_sfn_state_machine" "forge" {
       "Catch": [
         {
           "ErrorEquals": [
-            "Error"
+            "CMRCallFailedError"
           ],
-          "ResultPath": "$.cause",
+          "ResultPath": "$.exception",
           "Next": "CMRErrorPass"
         },
         {
@@ -404,7 +404,7 @@ resource "aws_sfn_state_machine" "forge" {
           "And": [
             {
               "Variable": "$.details.errorMessage",
-              "StringMatches": "Failed to ingest, statusCode: 409, statusMessage: Conflict, CMR error message*"
+              "StringMatches": "*Failed to ingest, statusCode: 409, statusMessage: Conflict, CMR error message*"
             },
             {
               "Variable": "$.details.errorMessage",

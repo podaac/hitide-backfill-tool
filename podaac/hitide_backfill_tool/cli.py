@@ -181,8 +181,11 @@ class Backfiller:
         self.dmrpp_older_version = 0
         self.dmrpp_newer_version = 0
 
-        # forge-tig configuration
-        self.forge_tig_configuration = None
+        # forge-tig configuration.
+        # Footprint (forge/forge-py) and image (tig) configs are both fetched
+        # from "dataset-configs".
+        self.footprint_configuration = None
+        self.image_configuration = None
 
         # destination_message used in logging
         destination_message = []
@@ -489,16 +492,27 @@ class Backfiller:
             return False
         return self.footprint_messages_sent + self.image_messages_sent + self.dmrpp_messages_sent >= self.message_limit
 
-    def get_forge_tig_configuration(self):
-        """Function to get forge tig configuration of a collection"""
+    def _fetch_configuration(self, base_url):
+        """Fetch a collection's forge-tig configuration from the given base URL.
 
-        config_url = "https://hitide.podaac.earthdatacloud.nasa.gov/dataset-configs/"
-        collection_url = f"{config_url}{self.collection}.cfg"
+        Returns the parsed config dict, or None if it does not exist.
+        """
+        collection_url = f"{base_url}/{self.collection}.cfg"
         result = requests.get(collection_url, timeout=120)
         if result.status_code == 200:
-            self.forge_tig_configuration = json.loads(result.content)
-        else:
-            self.forge_tig_configuration = None
+            return json.loads(result.content)
+        return None
+
+    def get_forge_tig_configuration(self):
+        """Fetch the footprint and image configurations of a collection.
+
+        Footprint config (forge/forge-py) and image config (tig) both come from
+        "dataset-configs", so a single fetch provides both.
+        """
+        base = "https://hitide.podaac.earthdatacloud.nasa.gov"
+        configuration = self._fetch_configuration(f"{base}/dataset-configs")
+        self.footprint_configuration = configuration
+        self.image_configuration = configuration
 
 
 def validate_arg(name, value, allowed_values):
@@ -534,16 +548,16 @@ def verify_inputs(args, granule_options, message_writer, backfiller):
     backfiller.get_forge_tig_configuration()
 
     if granule_options['footprint_processing'] != "off":
-        if backfiller.forge_tig_configuration is None:
+        if backfiller.footprint_configuration is None:
             raise Exception("Cannot find forge-tig configuration for this collection")
-        footprint_settings = backfiller.forge_tig_configuration.get('footprint')
+        footprint_settings = backfiller.footprint_configuration.get('footprint')
         if not footprint_settings:
             raise Exception("There is no footprint setting for this collection, please disable footprint for backfilling")
 
     if granule_options['image_processing'] != "off":
-        if backfiller.forge_tig_configuration is None:
+        if backfiller.image_configuration is None:
             raise Exception("Cannot find forge-tig configuration for this collection")
-        image_settings = backfiller.forge_tig_configuration.get('imgVariables')
+        image_settings = backfiller.image_configuration.get('imgVariables')
         if not image_settings:
             raise Exception("There is no image setting for this collection, please disable image for backfilling")
 
