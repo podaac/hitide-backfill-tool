@@ -419,14 +419,11 @@ def parse_args():
     return args
 
 
-def main():
-    """Entry point: detect the temporal range and scan for problematic granules."""
-    args = parse_args()
-    token = resolve_token(args)
-    cfg = CmrQuery(CMR_URLS[args.env], args.collection, args.provider, token, args.page_size)
+def plan_search_ranges(args, cfg):
+    """Return the monthly (start, end) chunks to search, or None if there is nothing to search.
 
-    print(f"Querying CMR at {cfg.base_url}", file=sys.stderr)
-    print(f"Collection: {cfg.collection}  Provider: {cfg.provider}", file=sys.stderr)
+    Exits with an error if the requested start/end dates are invalid.
+    """
     try:
         user_start = normalize_date(args.start_date)
         user_end = normalize_date(args.end_date)
@@ -442,7 +439,7 @@ def main():
     start_str, end_str, total_hits = get_collection_temporal_range(cfg)
     if total_hits == 0:
         print("No granules found in collection.", file=sys.stderr)
-        return
+        return None
 
     print(f"Total granules in collection: {total_hits}", file=sys.stderr)
     print(f"Collection temporal range: {start_str} to {end_str}", file=sys.stderr)
@@ -456,6 +453,21 @@ def main():
         monthly_ranges = clamp_ranges(monthly_ranges, search_start, search_end)
     if not monthly_ranges:
         print("No time range to search.", file=sys.stderr)
+        return None
+
+    return monthly_ranges
+
+
+def main():
+    """Entry point: detect the temporal range and scan for problematic granules."""
+    args = parse_args()
+    token = resolve_token(args)
+    cfg = CmrQuery(CMR_URLS[args.env], args.collection, args.provider, token, args.page_size)
+
+    print(f"Querying CMR at {cfg.base_url}", file=sys.stderr)
+    print(f"Collection: {cfg.collection}  Provider: {cfg.provider}", file=sys.stderr)
+    monthly_ranges = plan_search_ranges(args, cfg)
+    if monthly_ranges is None:
         return
     print(
         f"Split into {len(monthly_ranges)} monthly chunks, using {args.workers} workers\n",
