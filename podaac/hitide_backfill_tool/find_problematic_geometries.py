@@ -15,7 +15,8 @@ Usage:
     --output problematic_granules.txt \
     --workers 10
 
-  # Reuse a backfill .cfg (reads cmr/collection/provider/edl_token/page_size);
+  # Reuse a backfill .cfg (reads cmr/collection/provider/edl_token/page_size/
+  # start_date/end_date);
   # any CLI arg overrides the config value.
   python -m podaac.hitide_backfill_tool.find_problematic_geometries \
     --config backfill_uat.cfg \
@@ -30,7 +31,7 @@ import sys
 import threading
 from collections import namedtuple
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from datetime import datetime
+from datetime import date, datetime, timezone
 from dateutil.relativedelta import relativedelta
 from requests import Session
 from requests.adapters import HTTPAdapter
@@ -139,7 +140,7 @@ def apply_config(args):
 
     Reuses the same config files as the backfill tool. Maps the backfill keys
     `cmr` -> env, `edl_token` -> token, and shares `collection`, `provider`,
-    and `page_size`.
+    `page_size`, `start_date` and `end_date`.
     """
     if not args.config:
         return args
@@ -156,8 +157,37 @@ def apply_config(args):
         args.token = config.get("edl_token")
     if args.page_size is None:
         args.page_size = config.get("page_size")
+    if args.start_date is None:
+        args.start_date = config.get("start_date")
+    if args.end_date is None:
+        args.end_date = config.get("end_date")
 
     return args
+
+
+def normalize_date(value):
+    """Return a str/date/datetime (YAML may parse unquoted dates) as an ISO-8601 UTC string."""
+    if value is None:
+        return None
+    if isinstance(value, datetime):
+        parsed = value
+    elif isinstance(value, date):
+        parsed = datetime(value.year, value.month, value.day)
+    else:
+        parsed = datetime.fromisoformat(str(value).strip().replace("Z", "+00:00"))
+    if parsed.tzinfo is not None:
+        parsed = parsed.astimezone(timezone.utc).replace(tzinfo=None)
+    return parsed.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def clamp_ranges(ranges, start_str, end_str):
+    """Trim monthly ranges so none extends outside [start_str, end_str]."""
+    clamped = []
+    for r_start, r_end in ranges:
+        if r_end <= start_str or r_start >= end_str:
+            continue
+        clamped.append((max(r_start, start_str), min(r_end, end_str)))
+    return clamped
 
 
 def is_global_bbox(bbox):
@@ -350,6 +380,16 @@ def parse_args():
         help="EDL Bearer token (default: EDL_TOKEN env var, then .netrc credentials)",
     )
     parser.add_argument(
+        "-sd", "--start-date", default=None,
+        help="Only search granules starting at/after this ISO-8601 date "
+             "(default: config start_date, then earliest granule in the collection)",
+    )
+    parser.add_argument(
+        "-ed", "--end-date", default=None,
+        help="Only search granules starting before this ISO-8601 date "
+             "(default: config end_date, then latest granule in the collection)",
+    )
+    parser.add_argument(
         "-o", "--output", default=None,
         help="Output text file path (default: stdout)",
     )
@@ -387,6 +427,16 @@ def main():
 
     print(f"Querying CMR at {cfg.base_url}", file=sys.stderr)
     print(f"Collection: {cfg.collection}  Provider: {cfg.provider}", file=sys.stderr)
+    try:
+        user_start = normalize_date(args.start_date)
+        user_end = normalize_date(args.end_date)
+    except ValueError as exc:
+        print(f"Invalid start/end date: {exc}", file=sys.stderr)
+        sys.exit(1)
+    if user_start and user_end and user_start >= user_end:
+        print(f"Start date {user_start} must be before end date {user_end}", file=sys.stderr)
+        sys.exit(1)
+
     print("Detecting temporal range...", file=sys.stderr)
 
     start_str, end_str, total_hits = get_collection_temporal_range(cfg)
@@ -395,9 +445,18 @@ def main():
         return
 
     print(f"Total granules in collection: {total_hits}", file=sys.stderr)
-    print(f"Temporal range: {start_str} to {end_str}", file=sys.stderr)
+    print(f"Collection temporal range: {start_str} to {end_str}", file=sys.stderr)
 
-    monthly_ranges = generate_monthly_ranges(start_str, end_str)
+    search_start = user_start or normalize_date(start_str)
+    search_end = user_end or normalize_date(end_str)
+    print(f"Search range: {search_start} to {search_end}", file=sys.stderr)
+
+    monthly_ranges = generate_monthly_ranges(search_start, search_end)
+    if user_start or user_end:
+        monthly_ranges = clamp_ranges(monthly_ranges, search_start, search_end)
+    if not monthly_ranges:
+        print("No time range to search.", file=sys.stderr)
+        return
     print(
         f"Split into {len(monthly_ranges)} monthly chunks, using {args.workers} workers\n",
         file=sys.stderr,
