@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - [issue/79] (https://github.com/podaac/tva-meta/issues/79): Added `find-swot-global-bounds` CLI and `find_problematic_geometries.py` script to identify SWOT granules with global bounding boxes and no g-polygons (see FIND_SWOT_GLOBAL_BOUNDS.md)
 ### Changed
+- Updated cumulus to v22.4.3
+- Updated metadata aggregator to 8.12.0
+- Updated forge/tig/dmrpp workflow for 409 conflicts
 ### Deprecated
 ### Removed
 ### Fixed
