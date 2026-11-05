@@ -18,7 +18,7 @@ env:
   PYTHON_VERSION: '3.12'
   POETRY_VERSION: '2.3.2'
   TERRAFORM_VERSION: '1.12.2'
-  CUMULUS_VERSION: 'v21.3.4'
+  CUMULUS_VERSION: 'v22.4.3'
   CUMULUS_NODE_VERSION: 'nodejs22.x'
 
 jobs:
@@ -137,11 +137,16 @@ jobs:
           github.ref == 'refs/heads/main' ||
           startsWith(github.ref, 'refs/heads/release')
         run: |
-          if [[ -n "$(git status --porcelain)" ]]; then
+          # Rerun of an already released version: tag exists, nothing to commit
+          if git ls-remote --exit-code --tags origin "refs/tags/${{ env.new_version }}" > /dev/null; then
+            echo "Tag ${{ env.new_version }} already exists, skipping version commit"
+          elif [[ -n "$(git status --porcelain)" ]]; then
             git config user.name "${GITHUB_ACTOR}"
             git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
             git commit -am "/version ${{ env.new_version }}"
             git tag -a "${{ env.new_version }}" -m "Version ${{ env.new_version }}"
+            # branch may have moved since checkout
+            git pull --rebase origin "${GITHUB_REF_NAME}"
             git push --follow-tags
           fi
 
@@ -256,7 +261,7 @@ jobs:
           BRANCH_URL: "https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}"
         run: |
 
-          curl -L -o metadata-aggregator.zip https://github.com/podaac/cumulus-metadata-aggregator/releases/download/v8.11.0/cumulus-metadata-aggregator-8.11.0.zip
+          curl -L -o metadata-aggregator.zip https://github.com/podaac/cumulus-metadata-aggregator/releases/download/v8.12.0/cumulus-metadata-aggregator-8.12.0.zip
           python3 override.py "$TARGET_ENV" "$COMMIT_URL" "$BRANCH_URL" "${{ needs.build.outputs.new_version }}"
           source bin/config.sh "$TARGET_ENV"
 
