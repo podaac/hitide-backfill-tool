@@ -19,6 +19,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - `find-swot-global-bounds` accepts `-sd/--start-date` and `-ed/--end-date` (or `start_date`/`end_date` in the backfill config) to limit the CMR search range; the monthly chunks are trimmed to that range
 ### Changed
+- Update forge 0.15.0
+- Update forge-py 0.9.0
+- Update tig 0.17.0
 ### Deprecated
 ### Removed
 ### Fixed
