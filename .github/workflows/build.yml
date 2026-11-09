@@ -50,9 +50,7 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Install Poetry
-        uses: abatilo/actions-poetry@v4
-        with:
-          poetry-version: ${{ env.POETRY_VERSION }}
+        run: pipx install poetry==$POETRY_VERSION --python "$(which python)"
 
       - name: Cache Poetry Dependencies
         uses: actions/cache@v6
@@ -61,6 +59,8 @@ jobs:
           key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
           restore-keys: |
             ${{ runner.os }}-poetry-
+
+
 
       - name: Version Management
         id: versioning
