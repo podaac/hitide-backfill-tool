@@ -22,6 +22,8 @@ find-swot-global-bounds \
   [--provider POCLOUD] \
   [--env ops|uat|sit] \
   [--token <EDL_BEARER_TOKEN>] \
+  [--start-date <ISO_DATE>] \
+  [--end-date <ISO_DATE>] \
   [--output <OUTPUT_FILE>] \
   [--workers 5] \
   [--page-size 2000]
@@ -35,6 +37,8 @@ find-swot-global-bounds \
 | `-p`, `--provider` | `POCLOUD` | CMR provider ID |
 | `-e`, `--env` | `ops` | CMR environment: `ops`, `uat`, or `sit` |
 | `-t`, `--token` | `EDL_TOKEN` env var | EDL Bearer token. Falls back to `EDL_TOKEN` environment variable if not provided |
+| `-sd`, `--start-date` | config `start_date`, else earliest granule | Only search granules starting at/after this ISO-8601 date |
+| `-ed`, `--end-date` | config `end_date`, else latest granule | Only search granules starting before this ISO-8601 date |
 | `-o`, `--output` | stdout | Path to output file |
 | `-w`, `--workers` | `5` | Number of parallel workers |
 | `--page-size` | `2000` | CMR page size per request |

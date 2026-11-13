@@ -5,7 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+
+## [unreleased]
+
+### Added
+### Changed
+### Deprecated
+### Removed
+### Fixed
+
+## [0.15.1]
+
+### Added
+- `find-swot-global-bounds` accepts `-sd/--start-date` and `-ed/--end-date` (or `start_date`/`end_date` in the backfill config) to limit the CMR search range; the monthly chunks are trimmed to that range
+### Changed
+- Update forge 0.15.0
+- Update forge-py 0.9.0
+- Update tig 0.17.0
+### Deprecated
+### Removed
+### Fixed
+
+
+## [0.15.0]
 
 ### Added
 - [issue/79] (https://github.com/podaac/tva-meta/issues/79): Added `find-swot-global-bounds` CLI and `find_problematic_geometries.py` script to identify SWOT granules with global bounding boxes and no g-polygons (see FIND_SWOT_GLOBAL_BOUNDS.md)

@@ -219,6 +219,7 @@ resource "aws_autoscaling_group" "ecs_cluster_instance" {
   max_size            = var.ecs_cluster_max_size
   min_size            = var.ecs_cluster_min_size
   vpc_zone_identifier = data.aws_subnets.private.ids
+  wait_for_capacity_timeout = "200m"
 
   instance_refresh {
     strategy = "Rolling"
